@@ -1,17 +1,54 @@
+@import '~antd/dist/antd.css';
+
 html,
 body {
-  padding: 0;
-  margin: 0;
-  font-family:
-    -apple-system,
-    BlinkMacSystemFont,
-    Segoe UI,
-    Roboto,
-    Oxygen,
-    Ubuntu,
-    Cantarell,
-    Fira Sans,
-    Droid Sans,
-    Helvetica Neue,
-    sans-serif;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+
+  .fade-enter,
+  .fade-appear {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  .fade-enter-active,
+  .fade-appear-active {
+    opacity: 1;
+    transform: translateX(0);
+    transition: all 0.3s;
+  }
+
+  .fade-enter-done {
+    opacity: 1;
+  }
+
+  .fade-exit {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .fade-exit-active {
+    opacity: 0;
+    transform: translateX(-100%);
+    transition: all 0.3s;
+  }
+
+  .fade-exit-done {
+    opacity: 0;
+  }
+}
+
+body {
+  overflow-x: hidden;
+  cursor: url("../public/cursor.ico"), default;
+
+  &.loading,
+  &.menu-show {
+    overflow: hidden;
+  }
+}
+
+#__next {
+  width: 100%;
+  height: 100%;
 }

@@ -1,0 +1,9 @@
+@mixin example-mixin {
+  font: {
+    family: 'Arial';
+    size: 20px;
+    weight: bold;
+  }
+
+  color: #f00;
+}
