@@ -4,6 +4,10 @@
   "parserOptions": {
     "project": "./tsconfig.json"
   },
-  "extends": ["plugin:@typescript-eslint/recommended", "react-app"],
-  "rules": {}
+  "extends": ["plugin:@typescript-eslint/recommended", "react-app","plugin:prettier/recommended"],
+  "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "no-useless-escape": "off",
+    "semi": ["error", "always"]
+  }
 }

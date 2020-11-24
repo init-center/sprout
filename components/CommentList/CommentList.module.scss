@@ -1,0 +1,33 @@
+@import "../../styles/mixins.scss";
+
+.comment-list-box {
+  width: 100%;
+
+  .count-box {
+    height: 24px;
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 500;
+    border-left: 4px solid #fb7299;
+    padding-left: 8px;
+    user-select: none;
+  }
+
+  .list-box {
+    width: 100%;
+
+    .no-comment {
+      text-align: center;
+      color: #999;
+      margin: 10px 0;
+      user-select: none;
+    }
+  }
+
+  .pagination-box {
+    text-align: center;
+    padding: 10px 0;
+
+    @include reset-pagination-style;
+  }
+}

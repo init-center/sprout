@@ -1,15 +1,21 @@
 import React, { FC, useEffect, useRef } from "react";
 import Parallax from "parallax-js";
+import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
 import combineClassNames from "../../utils/combineClassNames";
+import { PostItem } from "../PostCard/PostCard";
+import { useRouter } from "next/router";
+import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./Banner.module.scss";
 
 interface BannerProps {
+  post: PostItem;
   isMenuShow: boolean;
   toggleIsMenuShow: (isMenuShow: boolean) => void;
 }
 
-const Banner: FC<BannerProps> = ({ isMenuShow, toggleIsMenuShow }) => {
+const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
+  const router = useRouter();
   const imageRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,7 +29,12 @@ const Banner: FC<BannerProps> = ({ isMenuShow, toggleIsMenuShow }) => {
     <div className={styles.banner}>
       <div className={styles["parallax-box"]} ref={imageRef}>
         <div className={styles["image-box"]} data-depth="0.4">
-          <div className={styles.image}></div>
+          <img
+            alt="cover"
+            src={defaultImg}
+            data-src={post.cover}
+            className={styles.image}
+          />
         </div>
       </div>
       <div className={styles.layer}></div>
@@ -39,14 +50,28 @@ const Banner: FC<BannerProps> = ({ isMenuShow, toggleIsMenuShow }) => {
         />
       </svg>
       <div className={styles.post0}>
-        <p className={styles.date}>十一月 24, 2018</p>
-        <h2 className={styles.title}>你走了真好，不然总担心你要走</h2>
-        <p className={styles.preview}>
-          最近一次苏晴产生离婚的想法，是两个月以前，天桥下买煎饼的时候，老公掏零钱，不小心从裤兜里掉落一...
+        <p className={styles.date}>
+          {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
         </p>
+        <h2
+          className={styles.title}
+          onClick={() => {
+            router.push(`/posts/${post.pid}`);
+          }}
+        >
+          {post.title}
+        </h2>
+        <p className={styles.preview}>{post.summary}</p>
       </div>
       <div className={styles.navbar}>
-        <div className={combineClassNames(styles.logo, isMenuShow ? styles.ms : "")}>Sprout</div>
+        <div
+          className={combineClassNames(
+            styles.logo,
+            isMenuShow ? styles.ms : ""
+          )}
+        >
+          Sprout
+        </div>
         <div
           className={styles["menu-show"]}
           onClick={(): void => {

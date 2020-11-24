@@ -1,14 +1,35 @@
 import React, { FC } from "react";
 import { useRouter } from "next/router";
-import {
-  ReadFilled,
-  EyeFilled,
-  HeartFilled,
-  MessageFilled,
-} from "@ant-design/icons";
+import { defaultImg } from "../../utils/lazyLoad/imgUrl";
+import { EyeFilled, HeartFilled, MessageFilled } from "@ant-design/icons";
+import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./PostCard.module.scss";
 
-const PostCard: FC = () => {
+interface Tag {
+  id: number;
+  name: string;
+}
+
+export interface PostItem {
+  uid: string;
+  pid: string;
+  categoryId: number;
+  categoryName: string;
+  tags: Tag[];
+  title: string;
+  cover: string;
+  summary: string;
+  views: number;
+  createTime: string;
+  topTime: string;
+  commentCount: number;
+}
+
+interface PostCardProps {
+  post: PostItem;
+}
+
+const PostCard: FC<PostCardProps> = ({ post }) => {
   const router = useRouter();
 
   const navigateTo = (url: string): void => {
@@ -20,34 +41,31 @@ const PostCard: FC = () => {
       <img
         width="680px"
         height="440px"
-        src="/images/test-img.png"
+        data-src={post.cover}
+        src={defaultImg}
         className={styles.cover}
         alt="pic"
         onClick={(): void => {
-          navigateTo("/post/123");
+          navigateTo(`/posts/${post.pid}`);
         }}
       ></img>
       <div className={styles.info}>
-        <p className={styles.date}>五月 12, 2018</p>
+        <p className={styles.date}>
+          {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
+        </p>
         <h3
           className={styles.title}
           onClick={(): void => {
-            navigateTo("/post/123");
+            navigateTo(`/posts/${post.pid}`);
           }}
         >
-          后来的我们
+          {post.title}
         </h3>
-        <p className={styles.preview}>
-          曾经，我以为自己是一个很幽默的人，比如逗女孩开心，讲的是这样的笑话。一只蚂蚁出门觅食，...
-        </p>
+        <p className={styles.preview}>{post.summary}</p>
         <div className={styles["info-bar"]}>
           <span className={styles.icon}>
-            <ReadFilled />
-            2418
-          </span>
-          <span className={styles.icon}>
             <EyeFilled />
-            114980
+            {post.views}
           </span>
           <span className={styles.icon}>
             <HeartFilled />
@@ -55,7 +73,7 @@ const PostCard: FC = () => {
           </span>
           <span className={styles.icon}>
             <MessageFilled />
-            20
+            {post.commentCount}
           </span>
         </div>
       </div>

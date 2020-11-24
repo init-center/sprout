@@ -3,8 +3,7 @@ import thunk from "redux-thunk";
 import globalReducers, { GlobalStateType } from "./global/reducers";
 import homeReducers, { HomeStateType } from "./home/reducers";
 
-
-export interface StateType extends GlobalStateType, HomeStateType {};
+export interface StateType extends GlobalStateType, HomeStateType {}
 
 const reducers = Object.assign({}, globalReducers, homeReducers);
 
@@ -14,6 +13,12 @@ declare global {
   }
 }
 
-const composeEnhancers = (typeof window !== "undefined" && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const composeEnhancers =
+  (typeof window !== "undefined" &&
+    window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
+  compose;
 
-export default createStore(combineReducers(reducers), composeEnhancers(applyMiddleware(thunk)));
+export default createStore(
+  combineReducers(reducers),
+  composeEnhancers(applyMiddleware(thunk))
+);

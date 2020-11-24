@@ -1,6 +1,9 @@
 import React, { FC, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { StateType } from "../store";
+import { ConfigProvider } from "antd";
+import zhCN from "antd/lib/locale/zh_CN";
+import styles from "./layout.module.scss";
 
 const Layout: FC = ({ children }) => {
   const isLoading = useSelector<StateType, boolean>((state) => state.isLoading);
@@ -18,7 +21,11 @@ const Layout: FC = ({ children }) => {
     }
   }, [isLoading]);
 
-  return <div id="layout">{children}</div>;
+  return (
+    <ConfigProvider locale={zhCN}>
+      <div className={styles.layout}>{children}</div>
+    </ConfigProvider>
+  );
 };
 
 export default Layout;

@@ -10,7 +10,10 @@ const initialState: HomeStateType = {
 };
 
 export default {
-  isMenuShow(state = initialState.isMenuShow, action: Action<boolean>): boolean {
+  isMenuShow(
+    state = initialState.isMenuShow,
+    action: Action<boolean>
+  ): boolean {
     const { type, payload } = action;
     switch (type) {
       case SET_IS_MENU_SHOW:
