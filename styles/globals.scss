@@ -3,6 +3,7 @@
 html,
 body {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  letter-spacing: 0.4px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -18,7 +19,20 @@ body {
     "WenQuanYi Micro Hei",
     sans-serif;
   overflow-x: hidden;
+  scroll-behavior: smooth;
   cursor: url("../public/cursor.ico"), default;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cdcdcd;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f6f6f6;
+  }
 
   &.loading,
   &.menu-show {

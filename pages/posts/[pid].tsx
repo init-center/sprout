@@ -24,6 +24,7 @@ import http, { Response, ResponseData } from "../../utils/http/http";
 import { percent } from "../../utils/percent";
 import throttle from "../../utils/throttle/throttle";
 import dayjs from "../../utils/dayjs/dayjs";
+import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 
 interface PostDetail extends PostItem {
   bgm: string;
@@ -55,6 +56,8 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
   const [isFavorite, setIsFavorite] = useState(false);
   const [playerProgressPercent, setPlayerProgressPercent] = useState(0);
   const [activeTitleId, setActiveTitleId] = useState("");
+
+  useImgLazyLoad();
 
   const handleViewProgress = () => {
     const scrollTop =

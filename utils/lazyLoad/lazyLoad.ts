@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react";
+import { useEffect } from "react";
 import throttle from "../throttle/throttle";
 import { defaultImg, errorImg } from "./imgUrl";
 
@@ -41,13 +41,18 @@ function filterImgToLoad(errorUrl = errorImg) {
   }
 }
 
-export function useImgLazyLoad(errorUrl = errorImg) {
-  const lazyLoad = useCallback(
-    throttle(() => {
-      filterImgToLoad(errorUrl);
-    }),
-    []
-  );
+// Used to manually trigger lazy loading when there is tab switching but no scrolling
+export const lazyLoadTrigger = (): void => {
+  setTimeout(() => {
+    filterImgToLoad();
+  });
+};
+
+export function useImgLazyLoad(errorUrl = errorImg): void {
+  const lazyLoad = throttle(() => {
+    filterImgToLoad(errorUrl);
+  });
+
   useEffect(() => {
     // Load once even if there is no scroll on first entry
     filterImgToLoad(errorUrl);
@@ -62,7 +67,10 @@ export function useImgLazyLoad(errorUrl = errorImg) {
   }, [lazyLoad, errorUrl]);
 }
 
-export function addLazyLoadAttrToMdImg(md: string, placeholder = defaultImg) {
+export function addLazyLoadAttrToMdImg(
+  md: string,
+  placeholder = defaultImg
+): string {
   const imgRegex = /<img\s(.*?)src="(.*?)"(.*?)>/gi;
   return md.replace(imgRegex, function (str, p1, p2) {
     if (/data-src/gi.test(str)) {

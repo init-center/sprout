@@ -67,9 +67,21 @@
     background-color: #f0f2f5;
   }
 
+  .no-post {
+    width: 100%;
+    min-height: 94vh;
+    line-height: 94vh;
+    background-color: #fff;
+    text-align: center;
+  }
+
   .content {
     text-align: center;
     padding-bottom: 50px;
+
+    .posts {
+      width: 100%;
+    }
 
     .more {
       display: inline-block;

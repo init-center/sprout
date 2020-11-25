@@ -86,9 +86,14 @@
     }
 
     .title {
+      display: -webkit-box;
       font-size: 28px;
       margin-top: 15px;
       color: #fff;
+      word-break: break-all;
+      -webkit-line-clamp: 4;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
       cursor: pointer;
     }
 

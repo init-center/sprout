@@ -5,7 +5,6 @@ import { useRouter } from "next/router";
 import Layout from "../layout/Layout";
 import Loading from "../components/Loading/Loading";
 import { Provider } from "react-redux";
-import { useImgLazyLoad } from "../utils/lazyLoad/lazyLoad";
 import combineClassNames from "../utils/combineClassNames";
 import store from "../store";
 import { setIsLoadingAction } from "../store/global/actionCreator";
@@ -17,7 +16,6 @@ import "highlight.js/styles/monokai-sublime.css";
 function MyApp({ Component, pageProps }: AppProps): JSX.Element {
   const router = useRouter();
   const [inTransition, setInTransition] = useState(false);
-  useImgLazyLoad();
 
   useEffect(() => {
     const handleRouteChange = () => {
