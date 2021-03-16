@@ -2,21 +2,13 @@
 @import "./variables.scss";
 
 .md-box {
-  font-family:
-    'Ubuntu',
-    'Source Sans Pro',
-    sans-serif !important;
+  font-family: "Ubuntu", "Source Sans Pro", sans-serif !important;
   font-size: 14px;
   -webkit-font-smoothing: antialiased;
   line-height: 1.6rem;
   letter-spacing: 0;
   padding: 8px;
   max-width: 100%;
-
-  .emoji-img {
-    max-height: 24px;
-    padding: 0 4px;
-  }
 
   p,
   blockquote,
@@ -28,10 +20,7 @@
   }
 
   pre {
-    font-family:
-      'Fira Code',
-      'Roboto Mono',
-      monospace !important;
+    font-family: "Fira Code", "Roboto Mono", monospace !important;
     -webkit-font-smoothing: initial;
     background-color: #1c1e26;
     color: #fff;
@@ -130,6 +119,12 @@
     width: 100% !important;
   }
 
+  .emoji-img {
+    max-height: 24px !important;
+    width: auto !important;
+    padding: 0 4px;
+  }
+
   ul {
     padding-bottom: 10px;
   }
@@ -167,13 +162,27 @@
     color: #333;
     text-decoration: none;
     padding: 2px 2px 4px;
-    background-image: linear-gradient(transparent 0%, transparent calc(50% - 9px), rgba(233, 95, 89, 0.44) calc(50% - 9px), rgba(233, 95, 89, 0.44) 100%);
+    background-image:
+      linear-gradient(
+        transparent 0%,
+        transparent calc(50% - 9px),
+        rgba(233, 95, 89, 0.44) calc(50% - 9px),
+        rgba(233, 95, 89, 0.44) 100%
+      );
     background-size: 100% 200%;
-    transition: background-position 120ms ease-in-out 0s, padding 120ms ease-in-out 0s;
+    transition:
+      background-position 120ms ease-in-out 0s,
+      padding 120ms ease-in-out 0s;
     background-position: 0 0;
 
     &:hover {
-      background-image: linear-gradient(transparent 0%, transparent calc(50% - 9px), rgba(233, 95, 89, 0.55) calc(50% - 9px), rgba(233, 95, 89, 0.55) 100%);
+      background-image:
+        linear-gradient(
+          transparent 0%,
+          transparent calc(50% - 9px),
+          rgba(233, 95, 89, 0.55) calc(50% - 9px),
+          rgba(233, 95, 89, 0.55) 100%
+        );
       background-position: 0 100%;
     }
   }

@@ -72,7 +72,7 @@ function pushChildToChildrenArr(
   if (title.children.length === 0) {
     return [];
   }
-  let titleChildren = [];
+  let titleChildren: string[] = [];
   const id = title.id;
   for (let i = 0; i < title.children.length; i++) {
     titleChildren.push(title.children[i].id);

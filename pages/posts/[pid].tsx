@@ -25,6 +25,7 @@ import { percent } from "../../utils/percent";
 import throttle from "../../utils/throttle/throttle";
 import dayjs from "../../utils/dayjs/dayjs";
 import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
+import Footer from "../../components/Footer/Footer";
 
 interface PostDetail extends PostItem {
   bgm: string;
@@ -142,11 +143,11 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
     };
 
     setTimeout(() => {
+      player.muted = true;
       player.play();
+      setTimeout(() => (player.muted = false));
     });
-    setTimeout(() => {
-      player.muted = false;
-    }, 100);
+
     return () => {
       const player = playerRef.current;
       player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
@@ -272,7 +273,9 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
               {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
             </span>
             <span className={styles["stuff-item"]}>阅读 {post.views}</span>
-            <span className={styles["stuff-item"]}>字数 2900</span>
+            <span className={styles["stuff-item"]}>
+              字数 {post.content.length}
+            </span>
             <span className={styles["stuff-item"]}>
               评论 {post.commentCount}
             </span>
@@ -291,7 +294,9 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
             className={combineClassNames(styles.content, mdStyles["md-box"])}
             dangerouslySetInnerHTML={{ __html: article }}
           ></div>
-          <audio ref={playerRef} src={post.bgm} muted loop></audio>
+          <audio ref={playerRef} loop preload="auto">
+            <source type="audio/mpeg" src={post.bgm}></source>
+          </audio>
         </article>
         <CommentList
           commentsData={parentComments}
@@ -319,6 +324,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
           })}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };
@@ -369,7 +375,13 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
   if (statusCode === 200) {
     try {
       const result = await http.get<ResponseData<ParentComments>>(
-        `/comments/posts/${pid}`
+        `/comments/posts/${pid}`,
+        {
+          params: {
+            limit: 10,
+            page: 1,
+          },
+        }
       );
       statusCode = result.status;
       if (statusCode === 200 && result.data.code === 2000) {

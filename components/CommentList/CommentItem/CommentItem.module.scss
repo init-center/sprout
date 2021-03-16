@@ -39,8 +39,11 @@
         .cancel-reply {
           float: right;
           font-size: 13px;
-          color: #fb7299;
           cursor: pointer;
+
+          &:hover {
+            color: #40a9ff;
+          }
         }
       }
     }

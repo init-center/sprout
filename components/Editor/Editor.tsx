@@ -1,5 +1,6 @@
 import React, {
   useState,
+  useEffect,
   useRef,
   forwardRef,
   useImperativeHandle,
@@ -12,6 +13,8 @@ import { genEmojiRuleName } from "../../utils/emojiExtension";
 import md2html, { Resolve } from "../../utils/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
+import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
+import "highlight.js/styles/monokai-sublime.css";
 import styles from "./Editor.module.scss";
 import mdStyles from "../../styles/mdStyle.module.scss";
 
@@ -20,6 +23,7 @@ interface EditorProps {
   placeholder?: string;
   content?: string;
   submitHandle?: (...args: unknown[]) => unknown;
+  showSubmitButton?: boolean;
 }
 
 export interface EditorRef {
@@ -37,6 +41,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(
       placeholder = "请在此输入...",
       content = "",
       submitHandle,
+      showSubmitButton = true,
     },
     ref
   ) => {
@@ -70,6 +75,10 @@ const Editor = forwardRef<EditorRef, EditorProps>(
 
     const [textAreaContent, setTextAreaContent] = useState(content);
     const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
+    useEffect(() => {
+      setTextAreaContent(content);
+    }, [content]);
 
     const toggleEmojiShow = () => {
       setIsPreviewShow(false);
@@ -109,6 +118,7 @@ const Editor = forwardRef<EditorRef, EditorProps>(
     const selectEmoji = (emojiRuleName: string) => {
       const [selectStart, selectEnd] = getSelect();
       const textArea = textAreaRef.current;
+      if (!textArea) return;
       setTextAreaContent(
         `${getStartPartText(
           textAreaContent,
@@ -123,6 +133,12 @@ const Editor = forwardRef<EditorRef, EditorProps>(
         getInputValue && getInputValue(md2html(textArea.value), textArea.value);
       });
     };
+
+    useImgLazyLoad(
+      typeof window !== "undefined"
+        ? Array.from(document.querySelectorAll(styles["emoji-list"]))
+        : []
+    );
 
     return (
       <div className={styles.wrapper}>
@@ -168,9 +184,11 @@ const Editor = forwardRef<EditorRef, EditorProps>(
               title="Markdown is supported"
             ></IconFont>
           </div>
-          <Button type="default" onClick={submitHandle}>
-            提交
-          </Button>
+          {showSubmitButton && (
+            <Button type="default" onClick={submitHandle}>
+              提交
+            </Button>
+          )}
         </div>
         <div
           className={combineClassNames(

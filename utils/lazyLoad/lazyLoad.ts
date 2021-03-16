@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import throttle from "../throttle/throttle";
 import { defaultImg, errorImg } from "./imgUrl";
 
@@ -16,19 +16,19 @@ function isElementInViewport(el: HTMLImageElement) {
 function loadImage(el: HTMLImageElement, errorUrl = errorImg) {
   const dataSrc = el.getAttribute("data-src");
   el.removeAttribute("data-src");
-  let img = new Image();
+  const img = new Image();
   img.onload = () => {
-    el.src = dataSrc;
+    el.src = dataSrc ?? errorUrl;
   };
   img.onerror = () => {
     el.src = errorUrl;
   };
-  img.src = dataSrc;
+  img.src = dataSrc ?? errorUrl;
   el.onerror = () => {
     el.src = errorUrl;
   };
   el.onload = () => {
-    img = null;
+    img.remove();
   };
 }
 
@@ -48,23 +48,62 @@ export const lazyLoadTrigger = (): void => {
   });
 };
 
-export function useImgLazyLoad(errorUrl = errorImg): void {
+export function useImgLazyLoad(
+  triggerWrapperElements: (Element | Document | null)[] = [],
+  errorUrl = errorImg
+) {
   const lazyLoad = throttle(() => {
     filterImgToLoad(errorUrl);
   });
 
+  if (typeof window !== "undefined" && window?.document) {
+    triggerWrapperElements.push(document);
+  }
+  triggerWrapperElements = Array.from(new Set(triggerWrapperElements));
+
+  const unBindTriggerEvents = useCallback(
+    (triggerWrapperElements: (Element | Document | null)[] = []) => {
+      for (let i = 0; i < triggerWrapperElements.length; i++) {
+        const triggerElement = triggerWrapperElements[i];
+        triggerElement?.addEventListener("scroll", lazyLoad, false);
+        triggerElement?.addEventListener("resize", lazyLoad, false);
+        triggerElement?.addEventListener("orientationChange", lazyLoad, false);
+      }
+    },
+    [lazyLoad]
+  );
+
+  const bindTriggerEvents = useCallback(
+    (triggerWrapperElements) => {
+      filterImgToLoad(errorUrl);
+      // unBind before bind
+      unBindTriggerEvents(triggerWrapperElements);
+      for (let i = 0; i < triggerWrapperElements.length; i++) {
+        const triggerElement = triggerWrapperElements[i];
+        triggerElement?.addEventListener("scroll", lazyLoad, false);
+        triggerElement?.addEventListener("resize", lazyLoad, false);
+        triggerElement?.addEventListener("orientationChange", lazyLoad, false);
+      }
+    },
+    [lazyLoad, unBindTriggerEvents, errorUrl]
+  );
+
   useEffect(() => {
     // Load once even if there is no scroll on first entry
     filterImgToLoad(errorUrl);
-    window.addEventListener("scroll", lazyLoad, false);
-    window.addEventListener("resize", lazyLoad, false);
-    window.addEventListener("orientationChange", lazyLoad, false);
+
+    bindTriggerEvents(triggerWrapperElements);
     return () => {
-      window.removeEventListener("scroll", lazyLoad, false);
-      window.removeEventListener("resize", lazyLoad, false);
-      window.removeEventListener("orientationChange", lazyLoad, false);
+      unBindTriggerEvents(triggerWrapperElements);
     };
-  }, [lazyLoad, errorUrl]);
+  }, [
+    errorUrl,
+    bindTriggerEvents,
+    unBindTriggerEvents,
+    triggerWrapperElements,
+  ]);
+
+  return [bindTriggerEvents, unBindTriggerEvents];
 }
 
 export function addLazyLoadAttrToMdImg(
@@ -72,7 +111,7 @@ export function addLazyLoadAttrToMdImg(
   placeholder = defaultImg
 ): string {
   const imgRegex = /<img\s(.*?)src="(.*?)"(.*?)>/gi;
-  return md.replace(imgRegex, function (str, p1, p2) {
+  return md.replace(imgRegex, function (str, _p1, p2) {
     if (/data-src/gi.test(str)) {
       return str;
     }

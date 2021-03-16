@@ -6,10 +6,7 @@ const emojiExtension = (content: string): string => {
   content = content.replace(
     emojiRegex,
     (substring: string, emojiClass: string, emojiName: string): string => {
-      const emojiUrl =
-        emojiMap[emojiClass] &&
-        emojiMap[emojiClass].data &&
-        emojiMap[emojiClass].data[emojiName];
+      const emojiUrl = emojiMap[emojiClass]?.data[emojiName];
       return emojiUrl
         ? `<img  class="${mdStyles["emoji-img"]}" src="${emojiUrl}" alt="${emojiName}" title="${emojiName}"/>`
         : substring;

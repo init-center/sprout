@@ -37,7 +37,7 @@
     "dayjs": "^1.9.4",
     "highlight.js": "^10.1.2",
     "marked": "^1.1.1",
-    "next": "9.5.2",
+    "next": "9.5.4",
     "normalize.css": "^8.0.1",
     "parallax-js": "^3.1.0",
     "react": "16.13.1",

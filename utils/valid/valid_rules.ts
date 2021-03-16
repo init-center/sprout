@@ -1,4 +1,13 @@
-export const validIdAndEmail = (rule, value) => {
+import { RuleObject, StoreValue } from "rc-field-form/lib/interface";
+export type { Rule } from "rc-field-form/lib/interface";
+
+export type Validator = (
+  rule: RuleObject,
+  value: StoreValue,
+  callback: (error?: string) => void
+) => Promise<void | unknown> | void;
+
+export const validIdAndEmail: Validator = (_rule, value) => {
   try {
     const vLength = value.length;
     if (vLength === 0) {
@@ -18,7 +27,7 @@ export const validIdAndEmail = (rule, value) => {
   }
 };
 
-export const validId = (rule, value) => {
+export const validId: Validator = (_rule, value) => {
   try {
     const vLength = value.length;
     if (vLength === 0) {
@@ -40,7 +49,7 @@ export const validId = (rule, value) => {
   }
 };
 
-export const validEmail = (rule, value) => {
+export const validEmail: Validator = (_rule, value) => {
   try {
     if (value.length === 0) {
       return Promise.reject("");
@@ -57,7 +66,7 @@ export const validEmail = (rule, value) => {
   }
 };
 
-export const validPassword = (rule, value) => {
+export const validPassword: Validator = (_rule, value) => {
   try {
     const vLength = value.length;
     if (vLength === 0) {
@@ -87,7 +96,7 @@ export const validPassword = (rule, value) => {
   }
 };
 
-export const validName = (rule, value) => {
+export const validName: Validator = (_rule, value) => {
   try {
     const vLength = value.length;
     if (vLength === 0) {
@@ -100,8 +109,6 @@ export const validName = (rule, value) => {
     if (!nameRegex.test(value)) {
       return Promise.reject("请输入符合规范的用户名！");
     } else {
-      console.log(value);
-      console.log(nameRegex.test(value));
       return Promise.resolve();
     }
   } catch (err) {

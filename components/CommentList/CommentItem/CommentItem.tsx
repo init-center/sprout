@@ -186,7 +186,7 @@ const CommentItem: FC<CommentItemProps> = ({
         >
           <div className={styles["cancel-reply-bar"]}>
             <span className={styles["cancel-reply"]} onClick={cancelReply}>
-              收起回复
+              收起
             </span>
           </div>
           <Editor
