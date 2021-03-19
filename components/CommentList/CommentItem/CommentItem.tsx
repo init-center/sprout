@@ -1,28 +1,23 @@
 import React, { FC, useState, useRef } from "react";
-import Comment, {
-  ParentComment,
-  ChildComment,
-  ReplyTargetInfo,
-  PostCommentParams,
-  Page,
-} from "./Comment/Comment";
 import { useRouter } from "next/router";
 import { message, Pagination } from "antd";
 import Editor, { EditorRef } from "../../Editor/Editor";
+import Comment from "./Comment/Comment";
 import combineClassNames from "../../../utils/combineClassNames";
 import http, { ResponseData } from "../../../utils/http/http";
 import styles from "./CommentItem.module.scss";
+import {
+  CommentChildren,
+  ParentComment,
+  PostCommentParams,
+  ReplyTargetInfo,
+} from "../../../types/comment";
 
 interface CommentItemProps {
   comment: ParentComment;
   editorShowCid: string;
   postUid: string;
   setEditorShowCid: (editorShowCid: string) => void;
-}
-
-interface CommentChildren {
-  page: Page;
-  list: ChildComment[];
 }
 
 const CommentItem: FC<CommentItemProps> = ({

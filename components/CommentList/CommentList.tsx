@@ -2,11 +2,10 @@ import React, { FC, useState, useRef, useCallback, memo } from "react";
 import { Empty, message, Pagination } from "antd";
 import Editor, { EditorRef } from "../Editor/Editor";
 import CommentItem from "./CommentItem/CommentItem";
-import { PostCommentParams } from "./CommentItem/Comment/Comment";
-import { ParentComments } from "./CommentItem/Comment/Comment";
 import http, { ResponseData } from "../../utils/http/http";
 import { useRouter } from "next/router";
 import styles from "./CommentList.module.scss";
+import { ParentComments, PostCommentParams } from "../../types/comment";
 
 export interface CommentListType {
   commentsData: ParentComments;

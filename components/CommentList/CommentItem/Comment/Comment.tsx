@@ -4,57 +4,11 @@ import combineClassNames from "../../../../utils/combineClassNames";
 import dayjs from "../../../../utils/dayjs/dayjs";
 import styles from "./Comment.module.scss";
 import mdStyles from "../../../../styles/mdStyle.module.scss";
-
-interface BaseComment {
-  pid: number;
-  cid: string;
-  uid: string;
-  userName: string;
-  avatar: string;
-  createTime: string;
-  updateTime: string;
-  deleteTime: string;
-  content: string;
-}
-
-export interface ChildComment extends BaseComment {
-  parentCid: string;
-  parentUid: string;
-  targetCid: string;
-  targetUid: string;
-  targetName: string;
-}
-
-export interface ParentComment extends BaseComment {
-  page: Page;
-  children: ChildComment[];
-}
-
-export interface Page {
-  count: number;
-  currentPage: number;
-  size: number;
-}
-
-export interface ParentComments {
-  page: Page;
-  list: ParentComment[];
-}
-
-export interface ReplyTargetInfo {
-  pid: number;
-  parentCid: string;
-  targetCid: string;
-  targetName: string;
-}
-
-export interface PostCommentParams {
-  targetCid?: string;
-  targetUid?: string;
-  parentCid?: string;
-  parentUid?: string;
-  content: string;
-}
+import {
+  ChildComment,
+  ParentComment,
+  ReplyTargetInfo,
+} from "../../../../types/comment";
 
 interface CommentProps {
   comment: ChildComment | ParentComment;
@@ -85,7 +39,7 @@ const Comment: FC<CommentProps> = ({ comment, replyCallback, postUid }) => {
           </span>
           {"targetUid" in comment && "targetName" in comment ? (
             <span className={styles["reply-target"]}>
-              回复&nbsp;
+              {` -> `}
               <span
                 className={combineClassNames(
                   styles.name,

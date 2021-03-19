@@ -1,5 +1,8 @@
+@import "../../styles/variables.scss";
+
 .footer {
   width: 100%;
+  height: $footer-height;
   text-align: center;
   color: #999;
   font-size: 14px;

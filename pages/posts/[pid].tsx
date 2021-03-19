@@ -10,14 +10,12 @@ import {
 } from "@ant-design/icons";
 import { message } from "antd";
 import CommentList from "../../components/CommentList/CommentList";
-import { ParentComments } from "../../components/CommentList/CommentItem/Comment/Comment";
 import MenuItem from "../../components/MenuItem/MenuItem";
 import { useRouter } from "next/router";
 import md2html, { Title, TitleChildrenIdMap } from "../../utils/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import styles from "./post.module.scss";
 import mdStyles from "../../styles/mdStyle.module.scss";
-import { PostItem } from "../../components/PostCard/PostCard";
 import { GetServerSideProps, NextPage } from "next";
 import ErrorPage from "next/error";
 import http, { Response, ResponseData } from "../../utils/http/http";
@@ -26,13 +24,10 @@ import throttle from "../../utils/throttle/throttle";
 import dayjs from "../../utils/dayjs/dayjs";
 import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import Footer from "../../components/Footer/Footer";
-
-interface PostDetail extends PostItem {
-  bgm: string;
-  content: string;
-  commentOpen: number;
-  updateTime: string;
-}
+import { PostDetail } from "../../types/post";
+import { ParentComments } from "../../types/comment";
+import Head from "next/head";
+import { config } from "../../config/config";
 
 interface PostProps {
   post: PostDetail;
@@ -206,11 +201,16 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
 
   return (
     <div className={styles["post-wrapper"]}>
+      <Head>
+        <title>
+          {post.title} - {config.name}
+        </title>
+      </Head>
       <div className={styles["top-bar"]}>
         <div className={styles["icon-box"]}>
           <div
             className={styles.icon}
-            onClick={(): void => {
+            onClick={() => {
               router.push("/");
             }}
           >

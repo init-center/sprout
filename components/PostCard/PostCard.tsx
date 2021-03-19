@@ -4,26 +4,7 @@ import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { EyeFilled, HeartFilled, MessageFilled } from "@ant-design/icons";
 import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./PostCard.module.scss";
-
-interface Tag {
-  id: number;
-  name: string;
-}
-
-export interface PostItem {
-  uid: string;
-  pid: string;
-  categoryId: number;
-  categoryName: string;
-  tags: Tag[];
-  title: string;
-  cover: string;
-  summary: string;
-  views: number;
-  createTime: string;
-  topTime: string;
-  commentCount: number;
-}
+import { PostItem } from "../../types/post";
 
 interface PostCardProps {
   post: PostItem;

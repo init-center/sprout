@@ -3,10 +3,11 @@ import Parallax from "parallax-js";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
 import combineClassNames from "../../utils/combineClassNames";
-import { PostItem } from "../PostCard/PostCard";
 import { useRouter } from "next/router";
 import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./Banner.module.scss";
+import { PostItem } from "../../types/post";
+import { config } from "../../config/config";
 
 interface BannerProps {
   post: PostItem;
@@ -69,8 +70,11 @@ const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
             styles.logo,
             isMenuShow ? styles.ms : ""
           )}
+          onClick={() => {
+            router.pathname !== "/" && router.push("/");
+          }}
         >
-          Sprout
+          {config.name}
         </div>
         <div
           className={styles["menu-show"]}
