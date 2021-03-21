@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
-import type { AppProps } from "next/app";
+import React, { useState, useEffect, useLayoutEffect } from "react";
+import App from "next/app";
+import type { AppProps, AppContext } from "next/app";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useRouter } from "next/router";
 import Layout from "../layout/Layout";
@@ -7,13 +8,23 @@ import Loading from "../components/Loading/Loading";
 import { Provider } from "react-redux";
 import combineClassNames from "../utils/combineClassNames";
 import store from "../store";
-import { setIsLoadingAction } from "../store/global/actionCreator";
+import {
+  setConfigsAction,
+  setIsLoadingAction,
+  setShouldFetchConfigsAction,
+} from "../store/global/actionCreator";
 
 import "normalize.css";
 import "../styles/globals.scss";
 import "highlight.js/styles/monokai-sublime.css";
+import { ConfigList, Configs } from "../types/config";
+import http, { ResponseData } from "../utils/http/http";
 
-function MyApp({ Component, pageProps }: AppProps): JSX.Element {
+interface MyAppProps extends AppProps {
+  // use the __NEXT_DATA carried by next.js to bring the configs data to the client
+  configs: Configs;
+}
+function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
   const router = useRouter();
   const [inTransition, setInTransition] = useState(false);
 
@@ -81,5 +92,43 @@ function MyApp({ Component, pageProps }: AppProps): JSX.Element {
     </Provider>
   );
 }
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await App.getInitialProps(appContext);
+  let configList: ConfigList = {
+    page: {
+      currentPage: 0,
+      size: 5,
+      count: 0,
+    },
+    list: [],
+  };
+  const state = store.getState();
+  const configs: Configs = state.configs;
+  const shouldFetchConfigs = state.shouldFetchConfigs;
+
+  const newConfigs = { ...configs };
+
+  // if first render should to fetch the configs and dispatch to server redux store
+  if (shouldFetchConfigs) {
+    try {
+      const result = await http.get<ResponseData<ConfigList>>("/configs");
+      if (result.status === 200 && result.data.code === 2000) {
+        configList = result.data.data;
+
+        for (const config of configList.list) {
+          newConfigs[config.key] = config;
+        }
+        store.dispatch(setConfigsAction(newConfigs));
+        store.dispatch(setShouldFetchConfigsAction(false));
+      }
+    } catch (err) {}
+  }
+
+  return {
+    ...appProps,
+    configs: newConfigs,
+  };
+};
 
 export default MyApp;

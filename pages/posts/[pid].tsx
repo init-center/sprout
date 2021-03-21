@@ -26,8 +26,7 @@ import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import Footer from "../../components/Footer/Footer";
 import { PostDetail } from "../../types/post";
 import { ParentComments } from "../../types/comment";
-import Head from "next/head";
-import { config } from "../../config/config";
+import { SEO } from "../../components/SEO/SEO";
 
 interface PostProps {
   post: PostDetail;
@@ -201,11 +200,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
 
   return (
     <div className={styles["post-wrapper"]}>
-      <Head>
-        <title>
-          {post.title} - {config.name}
-        </title>
-      </Head>
+      <SEO title={post.title} />
       <div className={styles["top-bar"]}>
         <div className={styles["icon-box"]}>
           <div

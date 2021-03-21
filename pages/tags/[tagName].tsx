@@ -1,11 +1,10 @@
-import Head from "next/head";
 import React, { useMemo } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import http, { ResponseData } from "../../utils/http/http";
 import ErrorPage from "next/error";
 import { PostListType } from "../../types/post";
-import { config } from "../../config/config";
 import PostList from "../../components/PostList/PostList";
+import { SEO } from "../../components/SEO/SEO";
 
 interface TagPageProps {
   statusCode: number;
@@ -24,12 +23,7 @@ const TagPage: NextPage<TagPageProps> = ({ postList, statusCode, tagName }) => {
 
   return (
     <>
-      <Head>
-        <title>
-          标签:{tagName} - {config.name}
-        </title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO title={`标签:${tagName}`} />
 
       <PostList postList={postList} queryFields={queryFields} />
     </>

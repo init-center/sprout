@@ -7,7 +7,11 @@ import { useRouter } from "next/router";
 import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./Banner.module.scss";
 import { PostItem } from "../../types/post";
-import { config } from "../../config/config";
+import { StateType } from "../../store";
+import { useSelector } from "react-redux";
+import { WEBSITE_NAME_KEY } from "../../constants/configKey";
+import { ConfigItem } from "../../types/config";
+import { DEFAULT_WEBSITE_NAME } from "../../constants/defaultConfig";
 
 interface BannerProps {
   post: PostItem;
@@ -18,6 +22,9 @@ interface BannerProps {
 const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
   const router = useRouter();
   const imageRef = useRef<HTMLDivElement>(null);
+  const websiteName = useSelector<StateType, ConfigItem>(
+    (state) => state.configs[WEBSITE_NAME_KEY]
+  );
 
   useEffect(() => {
     if (imageRef.current) {
@@ -74,7 +81,7 @@ const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
             router.pathname !== "/" && router.push("/");
           }}
         >
-          {config.name}
+          {websiteName?.value ?? DEFAULT_WEBSITE_NAME}
         </div>
         <div
           className={styles["menu-show"]}

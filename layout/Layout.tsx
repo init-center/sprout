@@ -9,6 +9,15 @@ const Layout: FC = ({ children }) => {
   const isLoading = useSelector<StateType, boolean>((state) => state.isLoading);
 
   useEffect(() => {
+    console.log(
+      "%c Github %c",
+      "background:#24272A; color:#ffffff",
+      "",
+      "https://github.com/init-center/sprout"
+    );
+  }, []);
+
+  useEffect(() => {
     if (typeof window !== "undefined") {
       const body = document.body;
       isLoading

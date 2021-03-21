@@ -1,15 +1,12 @@
-import Head from "next/head";
 import React from "react";
-import Footer from "../../components/Footer/Footer";
 import { GetServerSideProps, NextPage } from "next";
 import http, { ResponseData } from "../../utils/http/http";
 import ErrorPage from "next/error";
-import styles from "../../styles/Tags.module.scss";
 import { TagListType } from "../../types/tag";
-import { config } from "../../config/config";
-import { BackBar } from "../../components/BackBar/BackBar";
 import { CustomDivider } from "../../components/CustomDivider/CustomDivider";
 import TagList from "../../components/TagList/TagList";
+import { DefaultWrapper } from "../../layout/DefaultWrapper/DefaultWrapper";
+import { SEO } from "../../components/SEO/SEO";
 
 interface TagsProps {
   statusCode: number;
@@ -23,21 +20,12 @@ const Tags: NextPage<TagsProps> = ({ tagList, statusCode }) => {
 
   return (
     <>
-      <Head>
-        <title>标签 - {config.name}</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <SEO title="标签" />
 
-      <div className={styles.container}>
-        <BackBar />
-        <main className={styles.main}>
-          <CustomDivider>标签</CustomDivider>
-          <TagList list={tagList.list} />
-        </main>
-        <footer className={styles.footer}>
-          <Footer />
-        </footer>
-      </div>
+      <DefaultWrapper>
+        <CustomDivider>标签</CustomDivider>
+        <TagList list={tagList.list} />
+      </DefaultWrapper>
     </>
   );
 };
