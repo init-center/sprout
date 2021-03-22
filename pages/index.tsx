@@ -39,7 +39,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   let statusCode = 404;
   try {
     const result = await http.get<ResponseData<PostListType>>(
-      "/posts?page=1&limit=5"
+      "/posts?page=1&limit=5&firstPageGetTop=1"
     );
     if (result.status === 200 && result.data.code === 2000) {
       postList = result.data.data;

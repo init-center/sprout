@@ -18,7 +18,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({
   categoryName,
 }) => {
   const queryFields = useMemo(() => {
-    return { categoryName };
+    return { categoryName, firstPageGetTop: 1 };
   }, [categoryName]);
 
   if (statusCode >= 400) {

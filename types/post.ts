@@ -36,4 +36,5 @@ export interface PostListQueryFields {
   category?: number;
   categoryName?: string;
   keyword?: string;
+  firstPageGetTop?: number;
 }

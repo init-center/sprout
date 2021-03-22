@@ -76,6 +76,7 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
           setIsFetching(false);
           const msg = err?.response?.data?.message;
           if (message && msg) {
+            message.destroy();
             message.error(msg);
           }
         }

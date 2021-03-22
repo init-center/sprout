@@ -14,7 +14,7 @@ interface TagPageProps {
 
 const TagPage: NextPage<TagPageProps> = ({ postList, statusCode, tagName }) => {
   const queryFields = useMemo(() => {
-    return { tagName };
+    return { tagName, firstPageGetTop: 1 };
   }, [tagName]);
 
   if (statusCode >= 400) {
@@ -46,7 +46,7 @@ export const getServerSideProps: GetServerSideProps<TagPageProps> = async (
   let statusCode = 404;
   try {
     const result = await http.get<ResponseData<PostListType>>("/posts", {
-      params: { page: 1, limit: 5, tagName },
+      params: { page: 1, limit: 5, tagName, firstPageGetTop: 1 },
     });
     if (result.status === 200 && result.data.code === 2000) {
       postList = result.data.data;
