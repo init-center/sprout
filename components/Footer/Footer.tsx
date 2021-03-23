@@ -7,6 +7,7 @@ import {
 } from "../../constants/defaultConfig";
 import { StateType } from "../../store";
 import { ConfigItem } from "../../types/config";
+import Social from "../Social/Social";
 
 import styles from "./Footer.module.scss";
 
@@ -21,6 +22,7 @@ const Footer: FC = () => {
 
   return (
     <div className={styles.footer}>
+      <Social />
       {`© ${new Date().getFullYear()} ${
         websiteName?.value ?? DEFAULT_WEBSITE_NAME
       }. Made by ${adminName?.value ?? DEFAULT_ADMIN_NAME}.`}

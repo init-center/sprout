@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { StateType } from "../store";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
+import BackTop from "../components/BackTop/BackTop";
+
 import styles from "./layout.module.scss";
 
 const Layout: FC = ({ children }) => {
@@ -32,7 +34,10 @@ const Layout: FC = ({ children }) => {
 
   return (
     <ConfigProvider locale={zhCN}>
-      <div className={styles.layout}>{children}</div>
+      <div className={styles.layout}>
+        {children}
+        <BackTop />
+      </div>
     </ConfigProvider>
   );
 };

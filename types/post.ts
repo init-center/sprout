@@ -21,6 +21,7 @@ export interface PostDetail extends PostItem {
   content: string;
   commentOpen: number;
   updateTime: string;
+  favorites: number;
 }
 
 export type PostListType = {

@@ -157,12 +157,14 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
         result = await http.post<ResponseData>(`/favorites/posts/${post.pid}`);
         if (result.status === 201) {
           setIsFavorite(true);
+          message.destroy();
           message.success("喜欢了这篇文章！");
         }
       } else {
         result = await http.delete<ResponseData>(`favorites/posts/${post.pid}`);
         if (result.status === 200) {
           setIsFavorite(false);
+          message.destroy();
           message.success("已取消喜欢！");
         }
       }
@@ -170,6 +172,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
       const msg = error?.response?.data?.message;
       const statusCode = error?.response?.status;
       if (msg) {
+        message.destroy();
         message.error(msg);
       }
       if (statusCode === 401) {
@@ -274,17 +277,19 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
             <span className={styles["stuff-item"]}>
               评论 {post.commentCount}
             </span>
-            <span className={styles["stuff-item"]}>喜欢 1025</span>
+            <span className={styles["stuff-item"]}>喜欢 {post.favorites}</span>
           </div>
-          <ul className={styles["tag-list"]}>
-            {post.tags.map((tag) => {
-              return (
-                <li className={styles["tag-item"]} key={tag.id}>
-                  {tag.name}
-                </li>
-              );
-            })}
-          </ul>
+          <div className={styles["category-bar"]}>
+            分类于{" "}
+            <span
+              className={styles.category}
+              onClick={() => {
+                router.push(`/categories/${post.categoryName}`);
+              }}
+            >
+              {post.categoryName}
+            </span>
+          </div>
           <div
             className={combineClassNames(styles.content, mdStyles["md-box"])}
             dangerouslySetInnerHTML={{ __html: article }}
@@ -293,6 +298,21 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
             <source type="audio/mpeg" src={post.bgm}></source>
           </audio>
         </article>
+        <ul className={styles["tag-list"]}>
+          {post.tags.map((tag) => {
+            return (
+              <li
+                className={styles["tag-item"]}
+                key={tag.id}
+                onClick={() => {
+                  router.push(`/tags/${tag.name}`);
+                }}
+              >
+                #{tag.name}
+              </li>
+            );
+          })}
+        </ul>
         <CommentList
           commentsData={parentComments}
           commentCount={post.commentCount}

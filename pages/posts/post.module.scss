@@ -68,9 +68,9 @@
   .title-menu {
     position: fixed;
     top: $post-top-bar-height;
-    right: -250px;
+    right: -200px;
     height: calc(100vh - #{$post-top-bar-height});
-    width: 250px;
+    width: 200px;
     background-color: #fff;
     opacity: 0;
     border-left: 1px solid #f0f0f0;
@@ -93,7 +93,7 @@
 
     .article {
       width: 100%;
-      padding: 50px 0;
+      padding: 50px 0 10px;
 
       @media screen and (max-width: 780px) {
         padding: 30px 0;
@@ -121,24 +121,17 @@
         }
       }
 
-      .tag-list {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        list-style: none;
-        padding: 0;
+      .category-bar {
         margin-top: 10px;
-
-        .tag-item {
-          margin-right: 10px;
-          background: rgba(102, 128, 153, 0.075);
-          color: rgba(44, 63, 81, 0.5);
-          border-radius: 6px;
-          padding: 2px 5px;
+        .category {
+          background: rgba(102, 128, 153, 0.1);
+          color: #666;
+          border-radius: 15px;
+          padding: 4px 12px;
           cursor: pointer;
 
           &:hover {
-            color: #333;
+            color: #fb7299;
           }
         }
       }
@@ -157,6 +150,30 @@
           background: #eee;
           display: block;
           margin: 10px auto;
+        }
+      }
+    }
+
+    .tag-list {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 20px 0;
+
+      .tag-item {
+        font-size: 14px;
+        color: #666;
+        padding: 2px 5px;
+        margin-right: 10px;
+        border-bottom: 1px solid #666;
+        cursor: pointer;
+
+        &:hover {
+          color: #fb7299;
+          border-bottom: 1px solid #fb7299;
         }
       }
     }
