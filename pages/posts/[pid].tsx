@@ -54,7 +54,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
 
   useImgLazyLoad();
 
-  const handleViewProgress = () => {
+  const handleViewProgress = useCallback(() => {
     const scrollTop =
       document.documentElement.scrollTop ||
       document.body.scrollTop ||
@@ -68,9 +68,9 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
     const progressPercent = `${(scrollTop / finalScrollHeight) * 100}%`;
     const progressBar = viewProgressRef.current;
     progressBar && (progressBar.style.width = progressPercent);
-  };
+  }, []);
 
-  const handleSubTitleShow = () => {
+  const handleSubTitleShow = useCallback(() => {
     const title = titleRef.current;
     const titleTop = title.getBoundingClientRect().top;
     if (titleTop <= 50) {
@@ -78,7 +78,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
     } else {
       setIsSubTitleShow(false);
     }
-  };
+  }, []);
 
   const handleActiveTitle = useCallback(() => {
     let activeTitleId = "";
@@ -98,7 +98,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
     handleViewProgress();
     handleSubTitleShow();
     handleActiveTitle();
-  }, [handleActiveTitle]);
+  }, [handleActiveTitle, handleSubTitleShow, handleViewProgress]);
 
   useEffect(() => {
     const scrollHandler = throttle(handleScroll);
@@ -150,7 +150,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
   }, []);
 
   // toggle favorite
-  const toggleFavorite = async () => {
+  const toggleFavorite = useCallback(async () => {
     let result: Response<ResponseData>;
     try {
       if (!isFavorite) {
@@ -179,17 +179,17 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
         router.push("/login");
       }
     }
-  };
+  }, [isFavorite, post.pid, router]);
 
   const checkFavorite = useCallback(async () => {
     try {
-      await http.get<ResponseData>(`/favorites/posts/${post.pid}`);
-    } catch (error) {
-      const statusCode = error?.response?.status;
-      if (statusCode === 404) {
+      const result = await http.get<ResponseData>(
+        `/favorites/posts/${post.pid}`
+      );
+      if (result.status === 204) {
         setIsFavorite(true);
       }
-    }
+    } catch (error) {}
   }, [post.pid]);
 
   // check is favorite post
@@ -319,25 +319,27 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
           pid={post.pid}
           postUid={post.uid}
         />
-        <div
-          className={combineClassNames(
-            styles["title-menu"],
-            isTitleMenuShow ? styles["title-menu-show"] : ""
-          )}
-        >
-          {titles.map((item, idx) => {
-            return (
-              <MenuItem
-                index={`${idx + 1}.`}
-                title={item}
-                depth={1}
-                key={item.id}
-                activeTitleId={activeTitleId}
-                titleChildrenIdMap={titleChildrenIdMap}
-              />
-            );
-          })}
-        </div>
+        {isTitleMenuShow && (
+          <div
+            className={combineClassNames(
+              styles["title-menu"],
+              isTitleMenuShow ? styles["title-menu-show"] : ""
+            )}
+          >
+            {titles.map((item, idx) => {
+              return (
+                <MenuItem
+                  index={`${idx + 1}.`}
+                  title={item}
+                  depth={1}
+                  key={item.id}
+                  activeTitleId={activeTitleId}
+                  titleChildrenIdMap={titleChildrenIdMap}
+                />
+              );
+            })}
+          </div>
+        )}
       </div>
       <Footer />
     </div>
@@ -366,6 +368,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
     content: "",
     commentOpen: 0,
     updateTime: "",
+    favorites: 0,
   };
   let parentComments: ParentComments = {
     page: {
@@ -383,7 +386,6 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
       post = result.data.data;
     }
   } catch (error) {
-    context.res.statusCode = 404;
     statusCode = error?.response?.status ?? 404;
   }
 

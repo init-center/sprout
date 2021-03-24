@@ -5,7 +5,7 @@ export type Validator = (
   rule: RuleObject,
   value: StoreValue,
   callback: (error?: string) => void
-) => Promise<void | unknown> | void;
+) => Promise<void> | void;
 
 export const validIdAndEmail: Validator = (_rule, value) => {
   try {

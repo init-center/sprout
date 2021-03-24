@@ -18,6 +18,7 @@ const CommentList: FC<CommentListType> = memo(
   ({ commentsData, commentCount, pid, postUid }) => {
     const router = useRouter();
     const editorRef = useRef<EditorRef>(null);
+    const commentBoxRef = useRef<HTMLDivElement>(null);
     const [comments, setComments] = useState(commentsData);
     const [editorShowCid, setEditorShowCid] = useState("");
 
@@ -64,9 +65,15 @@ const CommentList: FC<CommentListType> = memo(
           const statusCode = result.status;
           if (statusCode === 200 && result.data.code === 2000) {
             setComments(result.data.data);
+            const commentBox = commentBoxRef.current;
+            commentBox &&
+              commentBox.scrollIntoView({
+                behavior: "smooth",
+              });
           }
         } catch (error) {
           if (error?.response.message) {
+            message.destroy();
             message.error(error.response.message);
           }
         }
@@ -75,7 +82,7 @@ const CommentList: FC<CommentListType> = memo(
     );
 
     return (
-      <div className={styles["comment-list-box"]}>
+      <div className={styles["comment-list-box"]} ref={commentBoxRef}>
         <Editor ref={editorRef} submitHandle={submitHandle} />
         <div className={styles["count-box"]}>{commentCount} 评论</div>
         <div className={styles["list-box"]}>

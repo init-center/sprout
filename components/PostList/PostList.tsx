@@ -121,6 +121,14 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
               <li
                 className={styles["nav-item"]}
                 onClick={() => {
+                  router.push("/users");
+                }}
+              >
+                个人中心
+              </li>
+              <li
+                className={styles["nav-item"]}
+                onClick={() => {
                   router.push("/tags");
                 }}
               >

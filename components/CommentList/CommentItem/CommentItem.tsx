@@ -28,6 +28,7 @@ const CommentItem: FC<CommentItemProps> = ({
 }) => {
   const router = useRouter();
   const editorRef = useRef<EditorRef>(null);
+  const commentRef = useRef<HTMLDivElement>(null);
   const [parentComment, setParentComment] = useState(comment);
   const [placeholder, setPlaceholder] = useState(`@${comment.userName}`);
   const [replyTargetInfo, setReplyTargetInfo] = useState<ReplyTargetInfo>(null);
@@ -101,6 +102,12 @@ const CommentItem: FC<CommentItemProps> = ({
         comment.page = result.data.data.page;
         comment.children = result.data.data.list;
         setParentComment(comment);
+        const commentItem = commentRef.current;
+        if (commentItem) {
+          commentItem.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
       }
     } catch (error) {
       if (error?.response.message) {
@@ -120,6 +127,12 @@ const CommentItem: FC<CommentItemProps> = ({
         comment.page = result.data.data.page;
         comment.children = result.data.data.list;
         setParentComment(comment);
+        const commentItem = commentRef.current;
+        if (commentItem) {
+          commentItem.scrollIntoView({
+            behavior: "smooth",
+          });
+        }
       }
     } catch (error) {
       if (error?.response.message) {
@@ -129,7 +142,7 @@ const CommentItem: FC<CommentItemProps> = ({
   };
 
   return (
-    <div className={styles["comment-item"]}>
+    <div className={styles["comment-item"]} ref={commentRef}>
       <div className={styles["main-comment"]}>
         <Comment
           comment={parentComment}
