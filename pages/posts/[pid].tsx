@@ -31,10 +31,16 @@ import { SEO } from "../../components/SEO/SEO";
 interface PostProps {
   post: PostDetail;
   parentComments: ParentComments;
+  willReplyCid: string;
   statusCode: number;
 }
 
-const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
+const Post: NextPage<PostProps> = ({
+  post,
+  parentComments,
+  willReplyCid,
+  statusCode,
+}) => {
   const router = useRouter();
   const [article, setArticle] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
@@ -197,7 +203,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
     checkFavorite();
   }, [checkFavorite]);
 
-  if (statusCode === 404) {
+  if (statusCode >= 400) {
     return <ErrorPage statusCode={statusCode} />;
   }
 
@@ -318,6 +324,7 @@ const Post: NextPage<PostProps> = ({ post, parentComments, statusCode }) => {
           commentCount={post.commentCount}
           pid={post.pid}
           postUid={post.uid}
+          willReplyCid={willReplyCid}
         />
         {isTitleMenuShow && (
           <div
@@ -351,6 +358,8 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
   context
 ) => {
   const pid = context.query.pid;
+  let willReplyCid = context.query.replyCid as string;
+  willReplyCid = willReplyCid ?? null;
   let post: PostDetail = {
     uid: "",
     pid: "",
@@ -395,6 +404,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
         `/comments/posts/${pid}`,
         {
           params: {
+            cid: willReplyCid,
             limit: 10,
             page: 1,
           },
@@ -412,6 +422,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
       post,
       statusCode,
       parentComments,
+      willReplyCid,
     },
   };
 };

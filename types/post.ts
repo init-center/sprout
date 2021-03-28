@@ -16,6 +16,10 @@ export interface PostItem {
   commentCount: number;
 }
 
+export interface FavoritePost extends PostItem {
+  favoriteTime: string;
+}
+
 export interface PostDetail extends PostItem {
   bgm: string;
   content: string;
@@ -27,6 +31,11 @@ export interface PostDetail extends PostItem {
 export type PostListType = {
   page: Page;
   list: PostItem[];
+};
+
+export type FavoritePostList = {
+  page: Page;
+  list: FavoritePost[];
 };
 
 export interface PostListQueryFields {

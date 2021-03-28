@@ -19,7 +19,11 @@ interface CommentProps {
 const Comment: FC<CommentProps> = memo(
   ({ comment, replyCallback, postUid }) => {
     return (
-      <div className={styles["comment"]}>
+      <div
+        className={styles["comment"]}
+        id={comment.cid}
+        data-cid={comment.cid}
+      >
         <img
           className={styles["comment-avatar"]}
           src={comment.avatar}

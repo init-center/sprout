@@ -5,7 +5,7 @@ import styles from "./BackTop.module.scss";
 
 const BackTop = () => {
   return (
-    <BT>
+    <BT style={{ right: "20px", bottom: "20px" }}>
       <div className={styles.bt}>
         <UpOutlined />
       </div>

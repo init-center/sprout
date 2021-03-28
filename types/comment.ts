@@ -18,6 +18,8 @@ export interface ChildComment extends BaseComment {
   targetCid: string;
   targetUid: string;
   targetName: string;
+  postTitle?: string;
+  reviewStatus?: 0 | 1 | 2;
 }
 
 export interface ParentComment extends BaseComment {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useEffect } from "react";
 import App from "next/app";
 import type { AppProps, AppContext } from "next/app";
 import { CSSTransition, TransitionGroup } from "react-transition-group";

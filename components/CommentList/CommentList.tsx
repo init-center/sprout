@@ -12,10 +12,11 @@ export interface CommentListType {
   commentCount: number;
   pid: string;
   postUid: string;
+  willReplyCid: string;
 }
 
 const CommentList: FC<CommentListType> = memo(
-  ({ commentsData, commentCount, pid, postUid }) => {
+  ({ commentsData, commentCount, pid, postUid, willReplyCid }) => {
     const router = useRouter();
     const editorRef = useRef<EditorRef>(null);
     const commentBoxRef = useRef<HTMLDivElement>(null);
@@ -95,6 +96,7 @@ const CommentList: FC<CommentListType> = memo(
                   postUid={postUid}
                   editorShowCid={editorShowCid}
                   setEditorShowCid={setEditorShowCid}
+                  willReplyCid={willReplyCid}
                 />
               );
             })
