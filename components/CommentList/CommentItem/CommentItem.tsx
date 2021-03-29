@@ -19,6 +19,7 @@ import {
   PostCommentParams,
   ReplyTargetInfo,
 } from "../../../types/comment";
+import { scrollToElement } from "../../../utils/scrollToElement";
 
 interface CommentItemProps {
   comment: ParentComment;
@@ -68,18 +69,29 @@ const CommentItem: FC<CommentItemProps> = memo(
     );
 
     useEffect(() => {
+      let replyTargetInfo: ReplyTargetInfo = null;
+      if (willReplyCid === parentComment.cid) {
+        replyTargetInfo = {
+          pid: parentComment.pid,
+          parentCid: null,
+          targetCid: parentComment.cid,
+          targetName: parentComment.userName,
+        };
+      }
       const replyTarget = isWillReplyParentComment(parentComment);
       if (replyTarget) {
-        setPlaceholder(`@${replyTarget.targetName}`);
-        const replyTargetInfo = {
+        replyTargetInfo = {
           pid: replyTarget.pid,
           parentCid: replyTarget.parentCid,
           targetCid: replyTarget.cid,
           targetName: replyTarget.userName,
         };
+      }
+      if (replyTargetInfo) {
+        setPlaceholder(`@${replyTargetInfo.targetName}`);
         setReplyTargetInfo(replyTargetInfo);
         setEditorShowCid(parentComment.cid);
-        setTimeout(() => editorRef.current?.focusHandle(), 2000);
+        setTimeout(() => editorRef.current?.focusHandle(), 100);
       }
 
       // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,6 +118,7 @@ const CommentItem: FC<CommentItemProps> = memo(
             editorRef.current && editorRef.current.clearValue();
             setEditorShowCid("");
           } else {
+            message.destroy();
             res.data.message && message.warning(res.data.message);
           }
         })
@@ -114,6 +127,7 @@ const CommentItem: FC<CommentItemProps> = memo(
             router.push("/login");
           }
           if (err.response.message) {
+            message.destroy();
             message.error(err.response.message);
           }
         });
@@ -141,13 +155,12 @@ const CommentItem: FC<CommentItemProps> = memo(
           setParentComment(comment);
           const commentItem = commentRef.current;
           if (commentItem) {
-            commentItem.scrollIntoView({
-              behavior: "smooth",
-            });
+            scrollToElement(commentItem);
           }
         }
       } catch (error) {
         if (error?.response.message) {
+          message.destroy();
           message.error(error.response.message);
         }
       }

@@ -3,13 +3,17 @@ import { Action } from "../storeTypes";
 import {
   SET_IS_LOADING,
   SET_CONFIGS,
+  SET_IS_MENU_SHOW,
   SET_SHOULD_FETCH_CONFIGS,
+  SET_IS_DARK_MODE,
 } from "./actionTypes";
 
 export interface GlobalStateType {
   // shouldFetchConfigs  is a variable that only has effect on the server
   shouldFetchConfigs: boolean;
   isLoading: boolean;
+  isMenuShow: boolean;
+  isDarkMode: boolean;
   configs: Configs;
 }
 
@@ -26,6 +30,8 @@ declare global {
 const initialState: GlobalStateType = {
   shouldFetchConfigs: typeof window !== "undefined" ? false : true,
   isLoading: false,
+  isMenuShow: false,
+  isDarkMode: new Date().getHours() > 20 || new Date().getHours() < 8,
   configs:
     typeof window !== "undefined" && window?.__NEXT_DATA__?.props?.configs
       ? window.__NEXT_DATA__.props.configs
@@ -37,6 +43,28 @@ export default {
     const { type, payload } = action;
     switch (type) {
       case SET_IS_LOADING:
+        return payload;
+    }
+    return state;
+  },
+  isMenuShow(
+    state = initialState.isMenuShow,
+    action: Action<boolean>
+  ): boolean {
+    const { type, payload } = action;
+    switch (type) {
+      case SET_IS_MENU_SHOW:
+        return payload;
+    }
+    return state;
+  },
+  isDarkMode(
+    state = initialState.isDarkMode,
+    action: Action<boolean>
+  ): boolean {
+    const { type, payload } = action;
+    switch (type) {
+      case SET_IS_DARK_MODE:
         return payload;
     }
     return state;

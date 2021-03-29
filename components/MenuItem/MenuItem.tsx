@@ -2,6 +2,7 @@ import React, { FC, memo } from "react";
 import { Title, TitleChildrenIdMap } from "../../utils/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import styles from "./MenuItem.module.scss";
+import { scrollToElement } from "../../utils/scrollToElement";
 
 interface MenuItemProps {
   index: string;
@@ -48,10 +49,7 @@ const MenuItem: FC<MenuItemProps> = memo(
           onClick={(e) => {
             e.preventDefault();
             const elem = document.getElementById(title.id);
-            elem &&
-              elem.scrollIntoView({
-                behavior: "smooth",
-              });
+            scrollToElement(elem);
           }}
         >
           <span className={styles.index}>{index}</span>

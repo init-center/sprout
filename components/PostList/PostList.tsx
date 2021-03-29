@@ -1,26 +1,14 @@
-import React, {
-  useMemo,
-  useEffect,
-  FC,
-  useCallback,
-  useState,
-  memo,
-} from "react";
+import React, { FC, useCallback, useState, memo } from "react";
 import Banner from "../Banner/Banner";
 import Footer from "../Footer/Footer";
 import PostCard from "../PostCard/PostCard";
-import { bindActionCreators } from "redux";
-import { useSelector, useDispatch } from "react-redux";
-import { StateType } from "../../store";
-import { setIsMenuShowAction } from "../../store/home/actionCreator";
-import combineClassNames from "../../utils/combineClassNames";
-import { useRouter } from "next/router";
 import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import styles from "./PostList.module.scss";
 import { PostListQueryFields, PostListType } from "../../types/post";
 import http, { ResponseData } from "../../utils/http/http";
 import { Empty, message } from "antd";
 import { BackBar } from "../BackBar/BackBar";
+import { scrollToElement } from "../../utils/scrollToElement";
 
 interface PostListProps {
   postList: PostListType;
@@ -28,11 +16,6 @@ interface PostListProps {
 }
 
 const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const isMenuShow = useSelector<StateType, boolean>(
-    (state) => state.isMenuShow
-  );
   const [isFetching, setIsFetching] = useState(false);
   const [posts, setPosts] = useState(postList);
 
@@ -61,15 +44,7 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
               const newFirst = document.querySelector(
                 `.${styles.posts} div:nth-child(${currentLastIndex + 1})`
               );
-              if (newFirst) {
-                const newFirstTop = newFirst.getBoundingClientRect().top;
-                const scrollTop = document.documentElement.scrollTop;
-                window.scrollTo({
-                  left: 0,
-                  top: newFirstTop + scrollTop,
-                  behavior: "smooth",
-                });
-              }
+              scrollToElement(newFirst);
             });
           }
         } catch (err) {
@@ -87,88 +62,12 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
 
   useImgLazyLoad();
 
-  useEffect(() => {
-    dispatch(setIsMenuShowAction(false));
-  }, [dispatch]);
-
-  useEffect(() => {
-    const bodyClassList = document.body.classList;
-    isMenuShow
-      ? bodyClassList.add("menu-show")
-      : bodyClassList.remove("menu-show");
-  }, [isMenuShow]);
-
-  const bannerCbs = useMemo(() => {
-    return bindActionCreators(
-      {
-        toggleIsMenuShow: setIsMenuShowAction,
-      },
-      dispatch
-    );
-  }, [dispatch]);
-
   return (
     <div className={styles.container}>
       {posts.list.length > 0 ? (
         <div>
-          <div
-            className={combineClassNames(
-              styles.menu,
-              isMenuShow ? styles.show : ""
-            )}
-          >
-            <ul className={styles.navigator}>
-              <li
-                className={styles["nav-item"]}
-                onClick={() => {
-                  router.push("/users");
-                }}
-              >
-                个人中心
-              </li>
-              <li
-                className={styles["nav-item"]}
-                onClick={() => {
-                  router.push("/tags");
-                }}
-              >
-                标签
-              </li>
-              <li
-                className={styles["nav-item"]}
-                onClick={() => {
-                  router.push("/categories");
-                }}
-              >
-                分类
-              </li>
-              <li
-                className={styles["nav-item"]}
-                onClick={() => {
-                  router.push("/archive");
-                }}
-              >
-                归档
-              </li>
-              <li
-                className={styles["nav-item"]}
-                onClick={() => {
-                  router.push("/about");
-                }}
-              >
-                关于
-              </li>
-            </ul>
-            <div className={styles.copyright}>
-              <Footer />
-            </div>
-          </div>
           <header className={styles.header}>
-            <Banner
-              post={posts.list[0]}
-              isMenuShow={isMenuShow}
-              {...bannerCbs}
-            />
+            <Banner post={posts.list[0]} />
           </header>
           <main className={styles.content}>
             <div className={styles.posts}>

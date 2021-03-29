@@ -6,9 +6,17 @@ import zhCN from "antd/lib/locale/zh_CN";
 import BackTop from "../components/BackTop/BackTop";
 
 import styles from "./layout.module.scss";
+import GlobalMenu from "../components/GlobalMenu/GlobalMenu";
 
 const Layout: FC = ({ children }) => {
   const isLoading = useSelector<StateType, boolean>((state) => state.isLoading);
+  const isMenuShow = useSelector<StateType, boolean>(
+    (state) => state.isMenuShow
+  );
+
+  const isDarkMode = useSelector<StateType, boolean>(
+    (state) => state.isDarkMode
+  );
 
   useEffect(() => {
     console.log(
@@ -32,11 +40,30 @@ const Layout: FC = ({ children }) => {
     }
   }, [isLoading]);
 
+  useEffect(() => {
+    const bodyClassList = document.body.classList;
+    isMenuShow
+      ? bodyClassList.add("menu-show")
+      : bodyClassList.remove("menu-show");
+    return (): void => {
+      bodyClassList.remove("menu-show");
+    };
+  }, [isMenuShow]);
+
+  useEffect(() => {
+    const bodyClassList = document.body.classList;
+    isDarkMode ? bodyClassList.add("dark") : bodyClassList.remove("dark");
+    return (): void => {
+      bodyClassList.remove("dark");
+    };
+  }, [isDarkMode]);
+
   return (
     <ConfigProvider locale={zhCN}>
       <div className={styles.layout}>
         {children}
         <BackTop />
+        <GlobalMenu />
       </div>
     </ConfigProvider>
   );

@@ -1,37 +1,35 @@
-import React, { FC, useEffect, useRef } from "react";
+import React, { FC, useEffect, useMemo, useRef } from "react";
 import Parallax from "parallax-js";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
-import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
-import combineClassNames from "../../utils/combineClassNames";
 import { useRouter } from "next/router";
 import dayjs from "../../utils/dayjs/dayjs";
 import styles from "./Banner.module.scss";
 import { PostItem } from "../../types/post";
-import { StateType } from "../../store";
-import { useSelector } from "react-redux";
-import { WEBSITE_NAME_KEY } from "../../constants/configKey";
-import { ConfigItem } from "../../types/config";
-import { DEFAULT_WEBSITE_NAME } from "../../constants/defaultConfig";
+import NavBar from "../NavBar/NavBar";
 
 interface BannerProps {
   post: PostItem;
-  isMenuShow: boolean;
-  toggleIsMenuShow: (isMenuShow: boolean) => void;
 }
 
-const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
+const Banner: FC<BannerProps> = ({ post }) => {
   const router = useRouter();
   const imageRef = useRef<HTMLDivElement>(null);
-  const websiteName = useSelector<StateType, ConfigItem>(
-    (state) => state.configs[WEBSITE_NAME_KEY]
-  );
-
   useEffect(() => {
     if (imageRef.current) {
       const scene = imageRef.current;
       new Parallax(scene);
     }
   }, []);
+
+  const customLogoStyles = useMemo(
+    () => ({ color: "var(--banner-font-color)" }),
+    []
+  );
+
+  const customControlItemStyles = useMemo(
+    () => ({ backgroundColor: "var(--banner-font-color)" }),
+    []
+  );
 
   return (
     <div className={styles.banner}>
@@ -59,7 +57,7 @@ const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
       </svg>
       <div className={styles.post0}>
         <p className={styles.date}>
-          {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
+          {dayjs(post.createTime).format("MMMM DD, YYYY")}
         </p>
         <h2
           className={styles.title}
@@ -71,27 +69,10 @@ const Banner: FC<BannerProps> = ({ post, isMenuShow, toggleIsMenuShow }) => {
         </h2>
         <p className={styles.preview}>{post.summary}</p>
       </div>
-      <div className={styles.navbar}>
-        <div
-          className={combineClassNames(
-            styles.logo,
-            isMenuShow ? styles.ms : ""
-          )}
-          onClick={() => {
-            router.pathname !== "/" && router.push("/");
-          }}
-        >
-          {websiteName?.value ?? DEFAULT_WEBSITE_NAME}
-        </div>
-        <div
-          className={styles["menu-show"]}
-          onClick={(): void => {
-            toggleIsMenuShow(!isMenuShow);
-          }}
-        >
-          {isMenuShow ? <CloseOutlined /> : <BarsOutlined />}
-        </div>
-      </div>
+      <NavBar
+        logoStyles={customLogoStyles}
+        controlItemStyles={customControlItemStyles}
+      />
     </div>
   );
 };

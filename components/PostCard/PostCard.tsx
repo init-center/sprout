@@ -32,7 +32,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
       ></img>
       <div className={styles.info}>
         <p className={styles.date}>
-          {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
+          {dayjs(post.createTime).format("MMMM DD, YYYY")}
         </p>
         <h3
           className={styles.title}

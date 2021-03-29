@@ -61,7 +61,7 @@ const Comment: FC<CommentProps> = memo(
           </div>
           <div className={styles["comment-meta"]}>
             <span className={styles.time}>
-              {dayjs.tz(comment.createTime).format("YYYY/MM/DD HH:mm")}
+              {dayjs(comment.createTime).format("YYYY/MM/DD HH:mm")}
             </span>
             <span
               className={styles.reply}

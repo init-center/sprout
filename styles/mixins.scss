@@ -3,10 +3,6 @@
   margin-top: -$fixed-height + 16px;
 }
 
-@mixin default-box-shadow {
-  box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
-}
-
 @mixin text-overflow-ellipsis {
   white-space: nowrap;
   overflow: hidden;
@@ -39,8 +35,8 @@
   }
 
   :global(.ant-pagination-item-active) {
-    background-color: #fb7299;
-    border-color: #fb7299;
+    background-color: var(--theme-color);
+    border-color: var(--theme-color);
 
     a {
       color: #fff;
@@ -49,17 +45,17 @@
 
   :global(.ant-pagination-item):not(:global(.ant-pagination-item-active)) {
     &:hover {
-      border-color: #fb7299;
+      border-color: var(--theme-color);
 
       a {
-        color: #fb7299;
+        color: var(--theme-color);
       }
     }
   }
 
   :global(.ant-pagination-item-container) {
     :global(.ant-pagination-item-link-icon) {
-      color: #fb7299;
+      color: var(--theme-color);
     }
   }
 
@@ -69,8 +65,8 @@
     :global(.ant-pagination-next):not(:global(.ant-pagination-disabled)) {
       :global(.ant-pagination-item-link) {
         &:hover {
-          border-color: #fb7299;
-          color: #fb7299;
+          border-color: var(--theme-color);
+          color: var(--theme-color);
         }
       }
     }
@@ -82,18 +78,18 @@
     :global(.ant-pagination-next):not(:global(.ant-pagination-disabled)) {
       :global(.ant-pagination-item-link) {
         &:hover {
-          color: #fb7299;
+          color: var(--theme-color);
         }
       }
     }
   }
 
   :global(.ant-pagination-options-quick-jumper) input:focus {
-    border-color: #fb7299;
+    border-color: var(--theme-color);
     box-shadow: 0 0 0 2px rgba(251, 114, 153, 0.2);
   }
 
   :global(.ant-pagination-options-quick-jumper) input:hover {
-    border-color: #fb7299;
+    border-color: var(--theme-color);
   }
 }

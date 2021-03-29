@@ -142,12 +142,6 @@ const Post: NextPage<PostProps> = ({
       setIsPlaying(false);
     };
 
-    setTimeout(() => {
-      player.muted = true;
-      player.play();
-      setTimeout(() => (player.muted = false));
-    });
-
     return () => {
       const player = playerRef.current;
       player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
@@ -326,27 +320,26 @@ const Post: NextPage<PostProps> = ({
           postUid={post.uid}
           willReplyCid={willReplyCid}
         />
-        {isTitleMenuShow && (
-          <div
-            className={combineClassNames(
-              styles["title-menu"],
-              isTitleMenuShow ? styles["title-menu-show"] : ""
-            )}
-          >
-            {titles.map((item, idx) => {
-              return (
-                <MenuItem
-                  index={`${idx + 1}.`}
-                  title={item}
-                  depth={1}
-                  key={item.id}
-                  activeTitleId={activeTitleId}
-                  titleChildrenIdMap={titleChildrenIdMap}
-                />
-              );
-            })}
-          </div>
-        )}
+
+        <div
+          className={combineClassNames(
+            styles["title-menu"],
+            isTitleMenuShow ? styles["title-menu-show"] : ""
+          )}
+        >
+          {titles.map((item, idx) => {
+            return (
+              <MenuItem
+                index={`${idx + 1}.`}
+                title={item}
+                depth={1}
+                key={item.id}
+                activeTitleId={activeTitleId}
+                titleChildrenIdMap={titleChildrenIdMap}
+              />
+            );
+          })}
+        </div>
       </div>
       <Footer />
     </div>

@@ -13,11 +13,11 @@
     cursor: pointer;
 
     a {
-      color: #999;
+      color: var(--font-color-second);
     }
 
     &:hover a {
-      color: #fb7299;
+      color: var(--theme-color);
     }
   }
 }

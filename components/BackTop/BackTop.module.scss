@@ -5,14 +5,13 @@
   align-items: center;
   width: 35px;
   height: 35px;
-  color: #fff;
-  background-color: rgba(0, 0, 0, 0.45);
+  color: var(--background-color);
+  background-color: var(--font-color);
   border-radius: 4px;
   box-shadow: 0 0 10px rgb(0 0 0 / 7%);
   transition: all ease 0.3s;
 
   &:hover {
-    background-color: #000;
-    color: #fff;
+    background-color: rgba(251, 114, 153, 0.8);
   }
 }

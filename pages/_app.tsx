@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import App from "next/app";
 import type { AppProps, AppContext } from "next/app";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
@@ -6,7 +6,6 @@ import { useRouter } from "next/router";
 import Layout from "../layout/Layout";
 import Loading from "../components/Loading/Loading";
 import { Provider } from "react-redux";
-import combineClassNames from "../utils/combineClassNames";
 import store from "../store";
 import {
   setConfigsAction,
@@ -16,6 +15,7 @@ import {
 
 import "normalize.css";
 import "../styles/globals.scss";
+import "../styles/cssVariables.scss";
 import "highlight.js/styles/monokai-sublime.css";
 import { ConfigList, Configs } from "../types/config";
 import http, { ResponseData } from "../utils/http/http";
@@ -26,7 +26,6 @@ interface MyAppProps extends AppProps {
 }
 function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
   const router = useRouter();
-  const [inTransition, setInTransition] = useState(false);
 
   useEffect(() => {
     const handleRouteChange = () => {
@@ -55,35 +54,12 @@ function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
     <Provider store={store}>
       <Layout>
         <Loading />
-        <TransitionGroup
-          className={combineClassNames(
-            "page-transition-group",
-            inTransition ? "in-transition" : ""
-          )}
-        >
+        <TransitionGroup className="page-transition-group">
           <CSSTransition
             classNames="fade"
-            timeout={600}
+            timeout={500}
             key={router.pathname}
             appear={true}
-            onEnter={() => {
-              setInTransition(true);
-            }}
-            onEntered={() => {
-              setTimeout(() => {
-                setInTransition(false);
-              });
-            }}
-            onExit={() => {
-              setInTransition(true);
-            }}
-            onExited={() => {
-              setTimeout(() => {
-                setInTransition(false);
-              });
-            }}
-            unmountOnExit={true}
-            mountOnEnter={true}
           >
             <Component {...pageProps} />
           </CSSTransition>

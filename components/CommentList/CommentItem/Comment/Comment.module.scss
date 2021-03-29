@@ -32,12 +32,12 @@
       cursor: pointer;
 
       &:hover {
-        color: #fb7299;
+        color: var(--theme-color);
       }
     }
 
     .is-blogger {
-      color: #fb7299;
+      color: var(--theme-color);
     }
 
     .comment-meta {
@@ -49,7 +49,7 @@
 
       .reply {
         font-size: 13px;
-        color: #fb7299;
+        color: var(--theme-color);
         float: right;
         margin-right: 4px;
         cursor: pointer;

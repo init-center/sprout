@@ -19,9 +19,9 @@
   @media screen and (max-width: 900px) {
     width: 100%;
     margin-top: 60px;
-    background: #fff;
+    background: var(--post-card-background);
     padding-bottom: 30px;
-    border-bottom: 1px solid #eaeaea;
+    border-bottom: var(--default-border);
   }
 
   .cover {
@@ -31,7 +31,7 @@
     width: 680px;
     height: 440px;
     overflow: hidden;
-    background-color: #fff;
+    background-color: var(--post-card-background);
     z-index: 2;
     cursor: pointer;
 
@@ -50,12 +50,12 @@
 
   .info {
     position: absolute;
-    background: #fff;
+    background-color: var(--post-card-background);
     width: 498px;
     height: 398px;
     text-align: left;
     top: 20px;
-    border: 1px solid #eaeaea;
+    border: var(--default-border);
 
     @media screen and (max-width: 1200px) {
       top: 10px;
@@ -75,7 +75,7 @@
     }
 
     .date {
-      color: #999;
+      color: var(--font-color-second);
       font-size: 12px;
       margin: 80px 0 0 80px;
 
@@ -90,6 +90,7 @@
 
     .title {
       display: -webkit-box;
+      color: var(--font-color);
       font-size: 30px;
       line-height: 1.1;
       margin: 10px 100px 0 80px;
@@ -112,7 +113,7 @@
     .preview {
       display: -webkit-box;
       font-size: 14px;
-      color: #555;
+      color: var(--font-color-second);
       line-height: 1.8;
       margin: 10px 100px 0 80px;
       word-break: break-all;
@@ -133,7 +134,7 @@
       position: absolute;
       left: 80px;
       bottom: 20px;
-      color: #999;
+      color: var(--font-color-second);
       font-size: 14px;
 
       @media screen and (max-width: 1200px) {

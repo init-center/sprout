@@ -22,7 +22,7 @@
       .image {
         width: 100%;
         height: 100%;
-        background-color: #fff;
+        background-color: var(--background-color);
         object-fit: cover;
         object-position: center;
         //background: url("../../public/images/test-img.png") no-repeat center/cover;
@@ -81,7 +81,7 @@
     }
 
     .date {
-      color: #fff;
+      color: var(--banner-font-color);
       font-size: 12px;
     }
 
@@ -89,7 +89,7 @@
       display: -webkit-box;
       font-size: 28px;
       margin-top: 15px;
-      color: #fff;
+      color: var(--banner-font-color);
       word-break: break-all;
       -webkit-line-clamp: 4;
       -webkit-box-orient: vertical;
@@ -98,50 +98,9 @@
     }
 
     .preview {
-      color: #fff;
+      color: var(--banner-font-color);
       font-size: 14px;
       margin-top: 30px;
-    }
-  }
-
-  .navbar {
-    position: absolute;
-    display: flex;
-    top: 70px;
-    padding: 0 5%;
-    width: 100%;
-    justify-content: space-between;
-    align-items: center;
-
-    @media screen and (max-width: 780px) {
-      top: 40px;
-    }
-
-    .logo {
-      color: #fff;
-      font-size: 28px;
-      font-weight: 700;
-      cursor: pointer;
-      z-index: 3;
-      transition: color 0.3s;
-      user-select: none;
-
-      &.ms {
-        color: #333;
-      }
-    }
-
-    .menu-show {
-      font-size: 20px;
-      padding: 0 5px;
-      width: 32px;
-      height: 32px;
-      box-sizing: border-box;
-      color: rgb(251, 114, 153);
-      border-radius: 2px;
-      cursor: pointer;
-      background: rgba(255, 255, 255, 0.9);
-      z-index: 3;
     }
   }
 }

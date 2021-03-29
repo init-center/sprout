@@ -1,5 +1,9 @@
 export const SET_IS_LOADING = "SET_IS_LOADING";
 
+export const SET_IS_MENU_SHOW = "SET_IS_MENU_SHOW";
+
+export const SET_IS_DARK_MODE = "SET_IS_DARK_MODE";
+
 export const SET_CONFIGS = "SET_CONFIGS";
 
 export const SET_SHOULD_FETCH_CONFIGS = "SET_SHOULD_FETCH_CONFIGS";
