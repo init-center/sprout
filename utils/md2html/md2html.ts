@@ -1,7 +1,9 @@
 import marked, { Renderer } from "marked";
-import emojiExtension from "./emojiExtension";
-import { addLazyLoadAttrToMdImg } from "./lazyLoad/lazyLoad";
+import emojiExtension from "./extensions/emojiExtension/emojiExtension";
+import { addLazyLoadAttrToMdImg } from "../lazyLoad/lazyLoad";
 import { highlightAuto } from "highlight.js";
+import striptags from "striptags";
+import katexExtension from "./extensions/katexExtension/katexExtension";
 
 type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type Title = {
@@ -107,13 +109,14 @@ export default function md2html(
   if (getTitle) {
     let index = 0;
     renderer.heading = function (text, level): string {
-      const id = `${level}_${text}_${index}`;
+      const stripTagsHeader = striptags(text);
+      const id = `${level}_${stripTagsHeader}_${index}`;
       //使用上面定义的分析标题函数
-      pushTitle(level, text, index, id, titleArr);
+      pushTitle(level, stripTagsHeader, index, id, titleArr);
       titleIds.push(id);
 
       //返回标题格式
-      return `<h${level} id="${level}_${text}_${index++}">${text}</h${level}>`;
+      return `<h${level} id="${level}_${stripTagsHeader}_${index++}">${text}</h${level}>`;
     };
   }
 
@@ -132,9 +135,13 @@ export default function md2html(
   return {
     htmlContent: lazyLoad
       ? addLazyLoadAttrToMdImg(
-          emojiExtension(marked(mdString, { renderer: renderer }))
+          katexExtension(
+            emojiExtension(marked(mdString, { renderer: renderer }))
+          )
         )
-      : emojiExtension(marked(mdString, { renderer: renderer })),
+      : katexExtension(
+          emojiExtension(marked(mdString, { renderer: renderer }))
+        ),
     titles: titleArr,
     titleIds: Array.from(new Set(titleIds)),
     titleChildrenIdMap: getTitle ? genTitleChildrenIdMap(titleArr) : {},

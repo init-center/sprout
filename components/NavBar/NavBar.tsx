@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { CSSProperties, FC, useCallback } from "react";
+import React, { CSSProperties, FC, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
 import { WEBSITE_NAME_KEY } from "../../constants/configKey";
@@ -18,7 +18,7 @@ interface NavBarProps {
   controlItemStyles?: CSSProperties;
 }
 
-const NavBar: FC<NavBarProps> = ({ logoStyles, controlItemStyles }) => {
+const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
   const router = useRouter();
   const dispatch = useDispatch();
   const isMenuShow = useSelector<StateType, boolean>(
@@ -81,6 +81,6 @@ const NavBar: FC<NavBarProps> = ({ logoStyles, controlItemStyles }) => {
       </div>
     </div>
   );
-};
+});
 
 export default NavBar;

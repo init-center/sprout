@@ -1,6 +1,6 @@
 import emojiMap from "./emojiMap";
-import mdStyles from "../styles/mdStyle.module.scss";
-const emojiRegex = /\[::([A-Za-z0-9\p{sc=Han}]+)_([A-Za-z0-9\p{sc=Han}]+)::\]/giu;
+import mdStyles from "../../../../styles/mdStyle.module.scss";
+const emojiRegex = /\[::([A-Za-z0-9\p{sc=Han}]+)_([A-Za-z0-9\p{sc=Han}]+?)::\]/giu;
 
 const emojiExtension = (content: string): string => {
   content = content.replace(

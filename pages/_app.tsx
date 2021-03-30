@@ -17,6 +17,7 @@ import "normalize.css";
 import "../styles/globals.scss";
 import "../styles/cssVariables.scss";
 import "highlight.js/styles/monokai-sublime.css";
+import "katex/dist/katex.min.css";
 import { ConfigList, Configs } from "../types/config";
 import http, { ResponseData } from "../utils/http/http";
 
@@ -38,6 +39,11 @@ function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
 
     const handleRouteChangeComplete = () => {
       store.dispatch(setIsLoadingAction(false));
+      window.scrollTo({
+        left: 0,
+        top: 0,
+        behavior: "auto",
+      });
     };
 
     router.events.on("routeChangeStart", handleRouteChange);

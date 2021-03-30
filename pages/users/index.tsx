@@ -12,7 +12,7 @@ const UsersIndex = () => {
       code = result.status;
       if (code === 200 && result.data.code === 2000) {
         const uid = result.data.data.uid;
-        router.push(`/users/${uid}`);
+        router.replace(`/users/${uid}`);
       }
     } catch (error) {
       code = error?.response?.status ?? 401;

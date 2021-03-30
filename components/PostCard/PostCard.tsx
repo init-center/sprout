@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo, useCallback } from "react";
 import { useRouter } from "next/router";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { EyeFilled, HeartFilled, MessageFilled } from "@ant-design/icons";
@@ -10,12 +10,15 @@ interface PostCardProps {
   post: PostItem;
 }
 
-const PostCard: FC<PostCardProps> = ({ post }) => {
+const PostCard: FC<PostCardProps> = memo(({ post }) => {
   const router = useRouter();
 
-  const navigateTo = (url: string): void => {
-    router.push(url);
-  };
+  const navigateTo = useCallback(
+    (url: string): void => {
+      router.push(url);
+    },
+    [router]
+  );
 
   return (
     <div className={styles["post-card"]}>
@@ -50,7 +53,7 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
           </span>
           <span className={styles.icon}>
             <HeartFilled />
-            407
+            {post.favorites}
           </span>
           <span className={styles.icon}>
             <MessageFilled />
@@ -60,6 +63,6 @@ const PostCard: FC<PostCardProps> = ({ post }) => {
       </div>
     </div>
   );
-};
+});
 
 export default PostCard;

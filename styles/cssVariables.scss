@@ -1,9 +1,10 @@
 body {
   --theme-color: #fb7299;
+  --theme-color-rgb: 251, 114, 153;
   --background-color: #fff;
   --background-color-second: #f7f9fa;
-  --background-hover-color: rgba(0, 0, 0, 0.03);
-  --background-hover-theme-color: rgba(251, 114, 153, 0.1);
+  --background-hover-color: rgba(0, 0, 0, 0.1);
+  --background-hover-theme-color: rgba(var(--theme-color-rgb), 0.2);
   --font-color: #0f1419;
   --font-color-second: #5b7083;
   --border-color: #dadada;
@@ -17,8 +18,8 @@ body {
 body.dark {
   --background-color: #000;
   --background-color-second: #15181c;
-  --background-hover-color: rgba(255, 255, 255, 0.03);
-  --font-color: #d9d9d9;
+  --background-hover-color: rgba(255, 255, 255, 0.2);
+  --font-color: #bbb;
   --font-color-second: #6e767d;
   --border-color: #2f3336;
   --post-card-background: var(--background-color-second);

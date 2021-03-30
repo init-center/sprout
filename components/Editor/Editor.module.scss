@@ -1,14 +1,14 @@
 .wrapper {
   display: flex;
   flex-direction: column;
-  border: 1px solid #f0f0f0;
+  border: var(--default-border);
   overflow: hidden;
 
   .input {
     width: 100%;
     min-height: 120px;
     font-size: 14px;
-    color: #555;
+    color: var(--font-color);
     background: transparent;
     resize: vertical;
     transition: all 0.25s ease;
@@ -32,14 +32,14 @@
   }
 
   .tool-active {
-    color: #66b1ff !important;
+    color: var(--theme-color) !important;
   }
 
   .icon {
     width: 22px;
     height: 34px;
     font-size: 22px;
-    color: #666;
+    color: var(--font-color-second);
     margin: 0 5px;
     cursor: pointer;
   }
@@ -51,6 +51,16 @@
     height: 32px;
     margin: 10px 0;
     padding: 0 4px;
+
+    .submit {
+      background-color: var(--background-color-second);
+      color: var(--font-color);
+      border: var(--default-border);
+      &:hover {
+        border-color: var(--theme-color);
+        color: var(--theme-color);
+      }
+    }
   }
 
   .emoji-box {
@@ -60,7 +70,7 @@
       width: 100%;
       height: 16px;
       font-size: 12px;
-      color: #757575;
+      color: var(--font-color-second);
       line-height: 16px;
       padding-left: 8px;
     }
@@ -71,6 +81,18 @@
       overflow-x: hidden;
       overflow-y: auto;
 
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: #cdcdcd;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: #f6f6f6;
+      }
+
       .emoji-item {
         height: 32px;
         margin: 2px;
@@ -78,7 +100,7 @@
         cursor: pointer;
 
         &:hover {
-          background-color: #ddd;
+          background-color: var(--background-hover-color);
         }
       }
     }
@@ -89,7 +111,7 @@
       height: 36px;
       overflow-x: auto;
       overflow-y: hidden;
-      background-color: #f4f4f4;
+      background-color: var(--background-color-second);
       border-radius: 0 0 4px 4px;
 
       .emoji-tab-item {
@@ -102,11 +124,11 @@
         cursor: pointer;
 
         &.emoji-tab-active {
-          background-color: #fff;
+          background-color: var(--background-hover-theme-color);
         }
 
         &:hover {
-          background: #e7e7e7;
+          background: var(--background-hover-color);
         }
 
         .emoji-tab-item-cover {

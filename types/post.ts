@@ -14,6 +14,7 @@ export interface PostItem {
   createTime: string;
   topTime: string;
   commentCount: number;
+  favorites: number;
 }
 
 export interface FavoritePost extends PostItem {
@@ -25,7 +26,6 @@ export interface PostDetail extends PostItem {
   content: string;
   commentOpen: number;
   updateTime: string;
-  favorites: number;
 }
 
 export type PostListType = {

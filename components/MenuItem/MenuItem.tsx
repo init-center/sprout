@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import { Title, TitleChildrenIdMap } from "../../utils/md2html";
+import { Title, TitleChildrenIdMap } from "../../utils/md2html/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import styles from "./MenuItem.module.scss";
 import { scrollToElement } from "../../utils/scrollToElement";

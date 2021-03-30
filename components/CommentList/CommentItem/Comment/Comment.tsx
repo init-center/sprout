@@ -1,5 +1,5 @@
 import React, { FC, memo } from "react";
-import md2html from "../../../../utils/md2html";
+import md2html from "../../../../utils/md2html/md2html";
 import combineClassNames from "../../../../utils/combineClassNames";
 import dayjs from "../../../../utils/dayjs/dayjs";
 import styles from "./Comment.module.scss";
@@ -9,6 +9,7 @@ import {
   ParentComment,
   ReplyTargetInfo,
 } from "../../../../types/comment";
+import { useRouter } from "next/router";
 
 interface CommentProps {
   comment: ChildComment | ParentComment;
@@ -18,6 +19,8 @@ interface CommentProps {
 
 const Comment: FC<CommentProps> = memo(
   ({ comment, replyCallback, postUid }) => {
+    const router = useRouter();
+
     return (
       <div
         className={styles["comment"]}
@@ -28,6 +31,9 @@ const Comment: FC<CommentProps> = memo(
           className={styles["comment-avatar"]}
           src={comment.avatar}
           alt="avatar"
+          onClick={() => {
+            router.push(`/users/${comment.uid}`);
+          }}
         />
         <div className={styles["comment-info"]}>
           <div className={styles["comment-header"]}>
@@ -39,6 +45,9 @@ const Comment: FC<CommentProps> = memo(
               title={`${comment.userName}${
                 comment.uid === postUid ? " (博主)" : ""
               }`}
+              onClick={() => {
+                router.push(`/users/${comment.uid}`);
+              }}
             >
               {comment.userName}
             </span>
@@ -53,6 +62,9 @@ const Comment: FC<CommentProps> = memo(
                   title={`${comment.targetName}${
                     comment.targetUid === postUid ? " (博主)" : ""
                   }`}
+                  onClick={() => {
+                    router.push(`/users/${comment.targetUid}`);
+                  }}
                 >
                   {comment.targetName}
                 </span>

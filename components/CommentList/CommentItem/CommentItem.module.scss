@@ -38,11 +38,12 @@
 
         .cancel-reply {
           float: right;
+          color: var(--font-color-second);
           font-size: 13px;
           cursor: pointer;
 
           &:hover {
-            color: #40a9ff;
+            color: var(--theme-color);
           }
         }
       }

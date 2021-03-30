@@ -12,7 +12,7 @@ import { FavoritePostList } from "../../types/post";
 import { CommentChildren } from "../../types/comment";
 import dayjs from "dayjs";
 import throttle from "../../utils/throttle/throttle";
-import md2html from "../../utils/md2html";
+import md2html from "../../utils/md2html/md2html";
 import striptags from "striptags";
 import { SEO } from "../../components/SEO/SEO";
 

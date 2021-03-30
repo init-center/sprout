@@ -27,11 +27,13 @@ declare global {
   }
 }
 
+const nowHours = new Date().getHours();
+
 const initialState: GlobalStateType = {
   shouldFetchConfigs: typeof window !== "undefined" ? false : true,
   isLoading: false,
   isMenuShow: false,
-  isDarkMode: new Date().getHours() > 20 || new Date().getHours() < 8,
+  isDarkMode: nowHours > 19 || nowHours < 8,
   configs:
     typeof window !== "undefined" && window?.__NEXT_DATA__?.props?.configs
       ? window.__NEXT_DATA__.props.configs

@@ -10,9 +10,9 @@ import React, {
 import { Button } from "antd";
 import { SmileOutlined, FileSearchOutlined } from "@ant-design/icons";
 import IconFont from "../IconFont/IconFont";
-import emojiMap from "../../utils/emojiMap";
-import { genEmojiRuleName } from "../../utils/emojiExtension";
-import md2html, { Resolve } from "../../utils/md2html";
+import emojiMap from "../../utils/md2html/extensions/emojiExtension/emojiMap";
+import { genEmojiRuleName } from "../../utils/md2html/extensions/emojiExtension/emojiExtension";
+import md2html, { Resolve } from "../../utils/md2html/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
@@ -213,7 +213,11 @@ const Editor = memo(
               ></IconFont>
             </div>
             {showSubmitButton && (
-              <Button type="default" onClick={submitHandle}>
+              <Button
+                type="default"
+                className={styles.submit}
+                onClick={submitHandle}
+              >
                 提交
               </Button>
             )}

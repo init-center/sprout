@@ -7,12 +7,16 @@ import {
   HeartTwoTone,
   MenuFoldOutlined,
   MenuUnfoldOutlined,
+  MenuOutlined,
 } from "@ant-design/icons";
 import { message } from "antd";
 import CommentList from "../../components/CommentList/CommentList";
 import MenuItem from "../../components/MenuItem/MenuItem";
 import { useRouter } from "next/router";
-import md2html, { Title, TitleChildrenIdMap } from "../../utils/md2html";
+import md2html, {
+  Title,
+  TitleChildrenIdMap,
+} from "../../utils/md2html/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import styles from "./post.module.scss";
 import mdStyles from "../../styles/mdStyle.module.scss";
@@ -27,6 +31,9 @@ import Footer from "../../components/Footer/Footer";
 import { PostDetail } from "../../types/post";
 import { ParentComments } from "../../types/comment";
 import { SEO } from "../../components/SEO/SEO";
+import { useDispatch, useSelector } from "react-redux";
+import { setIsMenuShowAction } from "../../store/global/actionCreator";
+import { StateType } from "../../store";
 
 interface PostProps {
   post: PostDetail;
@@ -42,6 +49,7 @@ const Post: NextPage<PostProps> = ({
   statusCode,
 }) => {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [article, setArticle] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
   const [allTitlesId, setAllTitlesId] = useState<string[]>([]);
@@ -57,6 +65,9 @@ const Post: NextPage<PostProps> = ({
   const [isFavorite, setIsFavorite] = useState(false);
   const [playerProgressPercent, setPlayerProgressPercent] = useState(0);
   const [activeTitleId, setActiveTitleId] = useState("");
+  const isMenuShow = useSelector<StateType, boolean>(
+    (state) => state.isMenuShow
+  );
 
   useImgLazyLoad();
 
@@ -181,6 +192,14 @@ const Post: NextPage<PostProps> = ({
     }
   }, [isFavorite, post.pid, router]);
 
+  const toggleTitleMenuShow = useCallback(() => {
+    setIsTitleMenuShow(!isTitleMenuShow);
+  }, [isTitleMenuShow]);
+
+  const toggleMenuShow = useCallback(() => {
+    dispatch(setIsMenuShowAction(!isMenuShow));
+  }, [dispatch, isMenuShow]);
+
   const checkFavorite = useCallback(async () => {
     try {
       const result = await http.get<ResponseData>(
@@ -234,24 +253,17 @@ const Post: NextPage<PostProps> = ({
           {post.title}
         </h3>
         <div className={styles["icon-box"]}>
-          <div
-            className={styles.icon}
-            onClick={() => {
-              toggleFavorite();
-            }}
-          >
+          <div className={styles.icon} onClick={toggleFavorite}>
             {isFavorite ? (
               <HeartTwoTone twoToneColor=" #f62459" />
             ) : (
               <HeartOutlined />
             )}
           </div>
-          <div
-            className={styles.icon}
-            onClick={() => {
-              setIsTitleMenuShow(!isTitleMenuShow);
-            }}
-          >
+          <div className={styles.icon} onClick={toggleMenuShow}>
+            <MenuOutlined />
+          </div>
+          <div className={styles.icon} onClick={toggleTitleMenuShow}>
             {isTitleMenuShow ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
           </div>
         </div>
