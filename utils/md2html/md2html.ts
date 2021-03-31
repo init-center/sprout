@@ -4,6 +4,10 @@ import { addLazyLoadAttrToMdImg } from "../lazyLoad/lazyLoad";
 import { highlightAuto } from "highlight.js";
 import striptags from "striptags";
 import katexExtension from "./extensions/katexExtension/katexExtension";
+<<<<<<< HEAD
+=======
+import mdStyles from "../../styles/mdStyle.module.scss";
+>>>>>>> main
 
 type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type Title = {
@@ -119,6 +123,16 @@ export default function md2html(
       return `<h${level} id="${level}_${stripTagsHeader}_${index++}">${text}</h${level}>`;
     };
   }
+
+  renderer.code = function (code, language) {
+    if (language === "mermaid") {
+      return `<div class="mermaid ${mdStyles.mermaid}">${code}</div>`;
+    } else {
+      return `<pre><code class="hljs-${language}">${
+        highlightAuto ? highlightAuto(code).value : code
+      }</code></pre>`;
+    }
+  };
 
   marked.setOptions({
     highlight: function (code) {

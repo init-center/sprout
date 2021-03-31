@@ -13,6 +13,7 @@ body {
   --error-color: #ff4c4c;
   --post-card-background: #fff;
   --banner-font-color: #fff;
+  --mermaid-background-color: #fff;
 }
 
 body.dark {
@@ -24,4 +25,5 @@ body.dark {
   --border-color: #2f3336;
   --post-card-background: var(--background-color-second);
   --banner-font-color: var(--font-color);
+  --mermaid-background-color: #d9d9d9;
 }

@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import App from "next/app";
 import type { AppProps, AppContext } from "next/app";
-import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { useRouter } from "next/router";
 import Layout from "../layout/Layout";
 import Loading from "../components/Loading/Loading";
@@ -60,16 +59,7 @@ function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
     <Provider store={store}>
       <Layout>
         <Loading />
-        <TransitionGroup className="page-transition-group">
-          <CSSTransition
-            classNames="fade"
-            timeout={500}
-            key={router.pathname}
-            appear={true}
-          >
-            <Component {...pageProps} />
-          </CSSTransition>
-        </TransitionGroup>
+        <Component {...pageProps} />
       </Layout>
     </Provider>
   );
