@@ -4,10 +4,7 @@ import { addLazyLoadAttrToMdImg } from "../lazyLoad/lazyLoad";
 import { highlightAuto } from "highlight.js";
 import striptags from "striptags";
 import katexExtension from "./extensions/katexExtension/katexExtension";
-<<<<<<< HEAD
-=======
 import mdStyles from "../../styles/mdStyle.module.scss";
->>>>>>> main
 
 type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
 export type Title = {
