@@ -1,0 +1,74 @@
+@import "./styles/variables.scss";
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: calc(100vh - #{$post-top-bar-height} - #{$footer-height});
+}
+
+.container {
+  width: 100%;
+  padding: 0 20px;
+  overflow-x: hidden;
+  .archive-item {
+    .year {
+      font-size: 26px;
+      line-height: 1.8;
+      color: #333;
+      margin: 28px 0 20px 0;
+    }
+
+    .list {
+      list-style: none;
+      margin: 10px 0;
+      padding: 0;
+
+      .post-item {
+        font-size: 17px;
+        line-height: 1.8;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        margin-top: 8px;
+
+        .date {
+          font-size: 16px;
+          color: #999;
+          margin-right: 12px;
+        }
+
+        .title {
+          display: inline;
+          cursor: pointer;
+
+          &:hover {
+            color: var(--theme-color);
+          }
+        }
+      }
+    }
+  }
+
+  .turn-bar {
+    width: 100%;
+    margin: 30px 0 50px 0;
+    padding: 0 20px;
+
+    .turn {
+      font-size: 16px;
+      cursor: pointer;
+      &:hover {
+        color: var(--theme-color);
+      }
+    }
+
+    .turn-left {
+      float: left;
+    }
+
+    .turn-right {
+      float: right;
+    }
+  }
+}

@@ -1,0 +1,24 @@
+@import "../../styles/variables.scss";
+
+.back-bar {
+  position: fixed;
+  top: 0;
+  align-items: center;
+  height: $post-top-bar-height;
+  width: 100%;
+  text-align: center;
+  border-bottom: var(--default-border);
+  background: var(--background-color);
+  z-index: 2;
+
+  .icon {
+    width: 20px;
+    height: $post-top-bar-height;
+    color: var(--font-color-second);
+    font-size: 20px;
+    line-height: $post-top-bar-height;
+    margin: 0 10px;
+    cursor: pointer;
+    float: left;
+  }
+}

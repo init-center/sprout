@@ -1,0 +1,69 @@
+@import "../../../../styles/mixins.scss";
+
+.comment {
+  display: flex;
+  padding-top: 20px;
+
+  .comment-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    border: var(--default-border);
+    margin-right: 5px;
+
+    &:hover {
+      @include avatar-rotate;
+    }
+  }
+
+  .comment-info {
+    flex: 1;
+
+    .comment-header {
+      font-size: 16px;
+      line-height: 16px;
+      text-align: left;
+
+      .reply-target {
+        font-size: 14px;
+        color: #999;
+      }
+    }
+
+    .name {
+      font-size: 14px;
+      font-weight: 700;
+      color: #1abc9c;
+      padding-right: 4px;
+      cursor: pointer;
+
+      &:hover {
+        color: var(--theme-color);
+      }
+    }
+
+    .is-blogger {
+      color: var(--theme-color);
+    }
+
+    .comment-meta {
+      .time {
+        font-size: 12px;
+        color: #999;
+        margin-right: 10px;
+      }
+
+      .reply {
+        font-size: 13px;
+        color: var(--theme-color);
+        float: right;
+        margin-right: 4px;
+        cursor: pointer;
+      }
+    }
+
+    .comment-content {
+      padding: 10px 0;
+    }
+  }
+}

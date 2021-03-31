@@ -1,0 +1,87 @@
+@import '~antd/dist/antd.css';
+
+html,
+body {
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  letter-spacing: 0.4px;
+  -webkit-font-smoothing: antialiased;
+}
+
+body * {
+  user-select: none;
+}
+
+body {
+  font-family:
+    "Hiragino Sans GB",
+    "Hiragino Sans GB W3",
+    "Microsoft YaHei",
+    "WenQuanYi Micro Hei",
+    sans-serif;
+  background-color: var(--background-color);
+  color: var(--font-color);
+  overflow-y: auto;
+  overflow-y: overlay;
+  overflow-x: hidden;
+  transition: all 0.3s;
+  cursor: url("../public/cursor.ico"), default;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cdcdcd;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #f6f6f6;
+  }
+
+  &.loading,
+  &.menu-show {
+    overflow: hidden;
+  }
+}
+
+#__next {
+  width: 100%;
+  height: 100%;
+}
+
+.page-transition-group {
+  width: 100%;
+  height: 100%;
+
+  &.in-transition {
+    overflow: hidden;
+  }
+
+  .fade-enter,
+  .fade-appear {
+    opacity: 0;
+  }
+
+  .fade-enter-active,
+  .fade-appear-active {
+    opacity: 1;
+    transition: all 500ms;
+  }
+
+  .fade-enter-done {
+    opacity: 1;
+  }
+
+  .fade-exit {
+    opacity: 1;
+  }
+
+  .fade-exit-active {
+    opacity: 0;
+    transition: all 500ms;
+  }
+
+  .fade-exit-done {
+    opacity: 0;
+  }
+}

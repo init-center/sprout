@@ -1,0 +1,9 @@
+@import "../../styles/variables.scss";
+
+.footer {
+  width: 100%;
+  height: $footer-height;
+  text-align: center;
+  color: var(--font-color-second);
+  font-size: 14px;
+}

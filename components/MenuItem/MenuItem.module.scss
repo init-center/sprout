@@ -1,0 +1,32 @@
+.menu-item {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  .item-parent {
+    font-size: 14px;
+
+    .index {
+      color: #999;
+      font-weight: 700;
+      padding-right: 5px;
+    }
+
+    .title {
+      color: var(--font-color-second);
+    }
+
+    &.active .title {
+      color: var(--theme-color);
+    }
+  }
+
+  .item-children {
+    padding-left: 10px;
+
+    &.children-hidden {
+      display: none;
+    }
+  }
+}
