@@ -1,6 +1,18 @@
 .custom-divider {
+  color: var(--font-color);
   :global(.ant-divider-inner-text) {
     font-size: 24px;
     font-weight: bold;
+  }
+
+  :global(.ant-divider-with-text) {
+    &::before,
+    &::after {
+      border-top-color: transparent;
+    }
+  }
+
+  :global(.ant-divider) {
+    color: var(--font-color);
   }
 }

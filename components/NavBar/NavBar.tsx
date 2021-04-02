@@ -42,6 +42,11 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
   const toggleIsDarkMode = useCallback(
     (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
       e.stopPropagation();
+      if (isDarkMode) {
+        sessionStorage.setItem("isDark", "false");
+      } else {
+        sessionStorage.setItem("isDark", "true");
+      }
       dispatch(setIsDarkModeAction(!isDarkMode));
     },
     [dispatch, isDarkMode]

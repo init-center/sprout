@@ -1,14 +1,18 @@
-import React, { FC, useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { FC, useCallback, useEffect, useLayoutEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { StateType } from "../store";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import BackTop from "../components/BackTop/BackTop";
-
 import styles from "./layout.module.scss";
 import GlobalMenu from "../components/GlobalMenu/GlobalMenu";
+import http, { ResponseData } from "../utils/http/http";
+import { SET_IS_DARK_MODE } from "../store/global/actionTypes";
+import { setIsDarkModeAction } from "../store/global/actionCreator";
+import { CursorSpecialEffects } from "../utils/clickEffect/clickEffect";
 
 const Layout: FC = ({ children }) => {
+  const dispatch = useDispatch();
   const isLoading = useSelector<StateType, boolean>((state) => state.isLoading);
   const isMenuShow = useSelector<StateType, boolean>(
     (state) => state.isMenuShow
@@ -25,6 +29,11 @@ const Layout: FC = ({ children }) => {
       "",
       "https://github.com/init-center/sprout"
     );
+  }, []);
+
+  useLayoutEffect(() => {
+    const cursorSpecialEffects = new CursorSpecialEffects();
+    cursorSpecialEffects.init();
   }, []);
 
   useEffect(() => {
@@ -51,12 +60,36 @@ const Layout: FC = ({ children }) => {
   }, [isMenuShow]);
 
   useEffect(() => {
+    const dark = sessionStorage.getItem("isDark");
+    if (!dark) {
+      return;
+    }
+    if (dark === "true") {
+      dispatch(setIsDarkModeAction(true));
+    } else {
+      dispatch(setIsDarkModeAction(false));
+    }
+  }, [dispatch]);
+
+  useEffect(() => {
     const bodyClassList = document.body.classList;
     isDarkMode ? bodyClassList.add("dark") : bodyClassList.remove("dark");
     return (): void => {
       bodyClassList.remove("dark");
     };
   }, [isDarkMode]);
+
+  const createView = useCallback(async () => {
+    try {
+      await http.post<ResponseData>("/views", {
+        url: window.location.href,
+      });
+    } catch {}
+  }, []);
+
+  useEffect(() => {
+    createView();
+  }, [createView]);
 
   return (
     <ConfigProvider locale={zhCN}>

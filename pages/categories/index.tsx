@@ -1,4 +1,3 @@
-import Head from "next/head";
 import React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import http, { ResponseData } from "../../utils/http/http";

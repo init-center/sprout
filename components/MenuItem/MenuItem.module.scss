@@ -6,6 +6,8 @@
 
   .item-parent {
     font-size: 14px;
+    border-left: 2px solid transparent;
+    padding-left: 4px;
 
     .index {
       color: #999;
@@ -15,6 +17,10 @@
 
     .title {
       color: var(--font-color-second);
+    }
+
+    &.active {
+      border-left: 2px solid var(--theme-color);
     }
 
     &.active .title {

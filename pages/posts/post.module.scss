@@ -34,12 +34,15 @@
     }
 
     .subtitle {
-      max-width: calc(100% - (40px * 4));
+      max-width: calc(100% - (50px * 5));
       color: var(--font-color-second);
       font-size: 14px;
       margin: 0;
       padding: 0;
       transition: all 0.5s ease;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .hidden {
@@ -75,7 +78,8 @@
     background-color: var(--background-color);
     opacity: 0;
     border-left: var(--default-border);
-    padding: 4px;
+    padding: 8px;
+    padding-left: 0;
     transition: all 0.5s ease;
     overflow-x: hidden;
     overflow-y: auto;

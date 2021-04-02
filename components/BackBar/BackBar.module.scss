@@ -2,8 +2,10 @@
 
 .back-bar {
   position: fixed;
+  display: flex;
   top: 0;
   align-items: center;
+  justify-content: space-between;
   height: $post-top-bar-height;
   width: 100%;
   text-align: center;
@@ -19,6 +21,5 @@
     line-height: $post-top-bar-height;
     margin: 0 10px;
     cursor: pointer;
-    float: left;
   }
 }

@@ -26,6 +26,10 @@ const navList = [
     path: "/archive",
   },
   {
+    name: "友链",
+    path: "/friends",
+  },
+  {
     name: "关于",
     path: "/about",
   },

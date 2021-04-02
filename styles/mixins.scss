@@ -1,6 +1,6 @@
 @mixin anchor-with-fixed($fixed-height) {
   padding-top: $fixed-height;
-  margin-top: -$fixed-height + 16px;
+  margin-top: -$fixed-height;
 }
 
 @mixin text-overflow-ellipsis {

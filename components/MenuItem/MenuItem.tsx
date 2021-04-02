@@ -46,6 +46,7 @@ const MenuItem: FC<MenuItemProps> = memo(
               : ""
           )}
           href={`#${title.id}`}
+          title={title.text}
           onClick={(e) => {
             e.preventDefault();
             const elem = document.getElementById(title.id);

@@ -131,6 +131,44 @@ export default function md2html(
     }
   };
 
+  const supportFootnote = (mdString: string) => {
+    const footnoteRefReg = /\[\^ *?([^\[^\]^\n^\s]{1}[^\[^\]^\n]*?)\]/gi;
+
+    const footnoteReg = /^\[\^ *?([^\[^\]^\n^\s]{1}[^\[^\]^\n]*?)\]: *?(.+)$/gim;
+
+    interface Footnote {
+      index: number;
+      name: string;
+    }
+    const footnotes: Footnote[] = [];
+    let footnoteIndex = 1;
+    mdString = mdString.replace(footnoteReg, (_substring, p1, p2) => {
+      const index = footnoteIndex++;
+      if (!footnotes.includes(p1)) {
+        footnotes.push({
+          index,
+          name: p1,
+        });
+      }
+      return `<p id="fn${index}" class="${mdStyles["footnote-item"]}">
+    <span class="${mdStyles["footnote-index"]}">[${index}]</span>${p2}<a class="${mdStyles["fn-ref"]}" href="#fnref${index}">↩︎</a>
+    </p>`;
+    });
+
+    mdString = mdString.replace(footnoteRefReg, (substring, p1) => {
+      const footnote = footnotes.find((f) => f.name === p1);
+      if (footnote) {
+        return `<sup id="fnref${footnote.index}" class="${mdStyles.sup}"><a href="#fn${footnote.index}">[${footnote.index}]</a></sup>`;
+      } else {
+        return substring;
+      }
+    });
+
+    return mdString;
+  };
+
+  mdString = supportFootnote(mdString);
+
   marked.setOptions({
     highlight: function (code) {
       return highlightAuto ? highlightAuto(code).value : code;

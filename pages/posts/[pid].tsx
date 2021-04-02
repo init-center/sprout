@@ -54,9 +54,10 @@ const Post: NextPage<PostProps> = ({
   const [article, setArticle] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
   const [allTitlesId, setAllTitlesId] = useState<string[]>([]);
-  const [titleChildrenIdMap, setTitleChildrenIdMap] = useState<
-    TitleChildrenIdMap
-  >({});
+  const [
+    titleChildrenIdMap,
+    setTitleChildrenIdMap,
+  ] = useState<TitleChildrenIdMap>({});
   const [isTitleMenuShow, setIsTitleMenuShow] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [isSubTitleShow, setIsSubTitleShow] = useState(false);
@@ -160,7 +161,9 @@ const Post: NextPage<PostProps> = ({
 
     return () => {
       const player = playerRef.current;
-      player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
+      if (player) {
+        player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
+      }
       playerRef.current = null;
     };
   }, []);
@@ -285,7 +288,7 @@ const Post: NextPage<PostProps> = ({
           </h1>
           <div className={styles.stuff}>
             <span className={styles["stuff-item"]}>
-              {dayjs.tz(post.createTime).format("MMMM DD, YYYY")}
+              {dayjs(new Date(post.createTime)).format("MMMM DD, YYYY")}
             </span>
             <span className={styles["stuff-item"]}>阅读 {post.views}</span>
             <span className={styles["stuff-item"]}>

@@ -6,17 +6,17 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: #fff;
+  background-color: var(--background-color);
   user-select: none;
 
   .sign-up-box {
     display: flex;
     flex-direction: column;
     width: 520px;
-    background-color: #fff;
+    background-color: var(--background-color-second);
     padding: 24px;
-    outline: 1px solid #eaeaea;
-    box-shadow: 0 0 10px #eaeaea;
+    outline: var(--default-border);
+    box-shadow: 0 0 10px var(--border-color);
 
     @media screen and (max-width: 540px) {
       width: 100%;
@@ -30,11 +30,12 @@
     .title {
       width: 100%;
       font-size: 24px;
+      color: var(--font-color);
       font-weight: bold;
     }
 
     .intro {
-      color: #999;
+      color: var(--font-color-second);
       font-size: 20px;
       font-weight: bold;
     }
@@ -43,7 +44,7 @@
       margin: 20px 0;
 
       .tips {
-        color: #999;
+        color: var(--font-color-second);
       }
 
       .code-input :global(.ant-input-group-addon) {
@@ -53,6 +54,9 @@
 
       .send-code-btn {
         width: 112px;
+        color: #eee;
+        background-color: var(--theme-color);
+        border-color: var(--theme-color);
       }
 
       .sign-up-button {
@@ -62,6 +66,9 @@
         border-width: 2px;
         font-size: 18px;
         line-height: 18px;
+        color: #eee;
+        background-color: var(--theme-color);
+        border-color: var(--theme-color);
       }
     }
 
@@ -69,7 +76,7 @@
       font-size: 14px;
 
       .go-to-login {
-        color: #1890ff;
+        color: var(--theme-color);
         cursor: pointer;
       }
     }
