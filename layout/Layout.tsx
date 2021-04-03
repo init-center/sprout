@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useEffect, useLayoutEffect } from "react";
+import React, { FC, useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StateType } from "../store";
 import { ConfigProvider } from "antd";
@@ -31,7 +31,7 @@ const Layout: FC = ({ children }) => {
     );
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const cursorSpecialEffects = new CursorSpecialEffects();
     cursorSpecialEffects.init();
   }, []);

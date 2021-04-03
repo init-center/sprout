@@ -6,6 +6,8 @@ import { CustomDivider } from "../components/CustomDivider/CustomDivider";
 import { DefaultWrapper } from "../layout/DefaultWrapper/DefaultWrapper";
 import { SEO } from "../components/SEO/SEO";
 import { FriendListType } from "../types/friends";
+import styles from "../styles/Friends.module.scss";
+import { Empty, Image } from "antd";
 
 interface FriendsProps {
   statusCode: number;
@@ -23,6 +25,29 @@ const Friends: NextPage<FriendsProps> = ({ friendList, statusCode }) => {
 
       <DefaultWrapper>
         <CustomDivider>友链</CustomDivider>
+        <div className={styles.wrapper}>
+          {friendList.list.length > 0 ? (
+            <ul className={styles["friend-list"]}>
+              {friendList.list.map((friend) => (
+                <li className={styles["friend-item"]} key={friend.id}>
+                  <a
+                    href={friend.url}
+                    target="__blank"
+                    className={styles["friend-item-link"]}
+                  >
+                    <Image className={styles.avatar} src={friend.avatar} />
+                    <div className={styles.info}>
+                      <div className={styles.name}>{friend.name}</div>
+                      <div className={styles.intro}>{friend.intro}</div>
+                    </div>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <Empty className={styles.empty} description="暂无友链" />
+          )}
+        </div>
       </DefaultWrapper>
     </>
   );
@@ -53,7 +78,7 @@ export const getServerSideProps: GetServerSideProps<FriendsProps> = async (
   return {
     props: {
       friendList,
-      statusCode: 200,
+      statusCode,
     },
   };
 };
