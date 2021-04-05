@@ -1,0 +1,53 @@
+.profile {
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+    border-bottom: var(--default-border);
+    padding: 10px 0;
+  }
+
+  .sub-title {
+    font-size: 16px;
+    font-weight: 700;
+  }
+
+  .info,
+  .update-pass {
+    .avatar-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 0;
+    }
+
+    .code-input :global(.ant-input-group-addon) {
+      padding: 0;
+      border: 0;
+    }
+
+    .send-code-btn {
+      width: 112px;
+      color: #eee;
+      background-color: var(--theme-color);
+      border-color: var(--theme-color);
+    }
+
+    .submit-bar {
+      .submit-button {
+        width: 100%;
+        margin-top: 10px;
+        color: #eee;
+        background-color: var(--theme-color);
+        border-color: var(--theme-color);
+      }
+    }
+  }
+
+  .update-pass {
+    margin-top: 20px;
+  }
+}

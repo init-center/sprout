@@ -2,7 +2,7 @@ import { GetServerSideProps, NextPage } from "next";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { BanStatus, Group, UidInfo, UserPublicInfo } from "../../types/users";
-import { Empty, Image, message } from "antd";
+import { Button, Empty, Image, message } from "antd";
 import ErrorPage from "next/error";
 import http, { ResponseData } from "../../utils/http/http";
 import styles from "./users.module.scss";
@@ -46,7 +46,24 @@ const Users: NextPage<UsersProps> = ({
   const [favorites, setFavorites] = useState(favoritePosts);
   const [isFetchingFavorites, setIsFetchingFavorites] = useState(false);
   const [comments, setComments] = useState(commentList);
+  const [loginUid, setLoginUid] = useState<string>(null);
   const [isFetchingComments, setIsFetchingComments] = useState(false);
+
+  const getLoginUid = useCallback(async () => {
+    let code = 401;
+    try {
+      const result = await http.get<ResponseData<UidInfo>>(`/session`);
+      code = result.status;
+      if (code === 200 && result.data.code === 2000) {
+        const uid = result.data.data.uid;
+        setLoginUid(uid);
+      }
+    } catch (error) {}
+  }, []);
+
+  useEffect(() => {
+    getLoginUid();
+  }, [getLoginUid]);
 
   const fetchMoreFavorites = useCallback(async () => {
     if (
@@ -186,6 +203,17 @@ const Users: NextPage<UsersProps> = ({
             <h4 className={styles.intro}>
               {userPublicInfo.intro || "这个人很懒，还没有填写简介！"}
             </h4>
+            {loginUid === router.query.uid && (
+              <div className={styles["edit-bar"]}>
+                <Button
+                  size="small"
+                  className={styles.edit}
+                  onClick={() => router.push("/settings/profile")}
+                >
+                  修改资料
+                </Button>
+              </div>
+            )}
           </div>
           <ul className={styles["list-nav"]}>
             {tabs.map((tab) => (

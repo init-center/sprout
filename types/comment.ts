@@ -9,6 +9,9 @@ export interface BaseComment {
   createTime: string;
   updateTime: string;
   deleteTime: string;
+  browser: string;
+  engine: string;
+  os: string;
   content: string;
 }
 

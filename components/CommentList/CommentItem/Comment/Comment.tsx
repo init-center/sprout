@@ -73,7 +73,7 @@ const Comment: FC<CommentProps> = memo(
           </div>
           <div className={styles["comment-meta"]}>
             <span className={styles.time}>
-              {dayjs(comment.createTime).format("YYYY/MM/DD HH:mm")}
+              {dayjs(new Date(comment.createTime)).format("YYYY/MM/DD HH:mm")}
             </span>
             <span
               className={styles.reply}
@@ -110,6 +110,11 @@ const Comment: FC<CommentProps> = memo(
               __html: md2html(comment.content, false).htmlContent,
             }}
           ></div>
+          <div className={styles["ua-info"]}>
+            {`${comment.browser ? comment.browser : "未知浏览器"} ${
+              comment.os ? `| ${comment.os}` : ""
+            }`}
+          </div>
         </div>
       </div>
     );
