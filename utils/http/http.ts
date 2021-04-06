@@ -1,4 +1,5 @@
 import axios, { AxiosResponse } from "axios";
+import { TOKEN_KEY } from "../../constants";
 
 export type Response<T> = AxiosResponse<T>;
 
@@ -19,7 +20,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.request.use(
   (config) => {
     if (typeof window !== "undefined") {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem(TOKEN_KEY);
       config.headers.Authorization = token;
     }
     return config;

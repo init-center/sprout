@@ -13,12 +13,54 @@
   }
 
   .navigator {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     text-align: center;
-    margin-top: 200px;
+    width: 80%;
+    margin: 140px auto 0;
+    padding: 0;
 
-    @media screen {
-      width: 80%;
-      margin: 160px auto 0;
+    .avatar-round {
+      height: 45px;
+      width: 45px;
+      display: flex;
+      box-sizing: border-box;
+      justify-content: center;
+      background-color: var(--background-color);
+      border-radius: 50%;
+      align-items: center;
+      margin: 0 20px 20px 0;
+      cursor: pointer;
+
+      @media screen and (max-width: 780px) {
+        height: 40px;
+        width: 40px;
+      }
+
+      .avatar {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        img {
+          width: 100%;
+          height: 100%;
+        }
+
+        .login {
+          font-size: 20px;
+          color: var(--font-color-second);
+
+          @media screen and (max-width: 780px) {
+            font-size: 16px;
+          }
+        }
+      }
     }
 
     .nav-item {
@@ -30,6 +72,10 @@
       margin: 0 20px 20px 0;
       cursor: pointer;
 
+      &:hover {
+        color: var(--theme-color);
+      }
+
       @media screen and (max-width: 780px) {
         font-size: 16px;
       }
@@ -40,5 +86,19 @@
     position: absolute;
     width: 100%;
     bottom: 10px;
+  }
+}
+
+.dropdown-menu {
+  background: var(--background-color-second) !important;
+
+  .dropdown-item {
+    text-align: center;
+    color: var(--font-color-second);
+    border-color: var(--border-color);
+
+    &:hover {
+      background-color: var(--background-hover-color);
+    }
   }
 }

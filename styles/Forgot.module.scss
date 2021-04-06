@@ -1,0 +1,65 @@
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-color);
+  user-select: none;
+
+  .forgot-box {
+    display: flex;
+    flex-direction: column;
+    width: 520px;
+    background-color: var(--background-color-second);
+    padding: 24px;
+    outline: var(--default-border);
+    box-shadow: 0 0 10px var(--border-color);
+
+    @media screen and (max-width: 540px) {
+      width: 100%;
+      height: 100%;
+    }
+
+    .title {
+      width: 100%;
+      font-size: 24px;
+      color: var(--font-color);
+      font-weight: bold;
+    }
+
+    .intro {
+      color: var(--font-color-second);
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .form-box {
+      margin: 20px 0;
+
+      .code-input :global(.ant-input-group-addon) {
+        padding: 0;
+        border: 0;
+      }
+
+      .send-code-btn {
+        width: 112px;
+        color: #eee;
+        background-color: var(--theme-color);
+        border-color: var(--theme-color);
+      }
+
+      .submit-button {
+        width: 100%;
+        margin-top: 10px;
+        font-weight: 700;
+        border-width: 2px;
+        font-size: 18px;
+        line-height: 18px;
+        color: #eee;
+        background: var(--theme-color);
+        border-color: var(--theme-color);
+      }
+    }
+  }
+}

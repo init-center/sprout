@@ -6,6 +6,7 @@ import styles from "../styles/Login.module.scss";
 import { useRouter } from "next/router";
 import http from "../utils/http/http";
 import backToPrevPage from "../utils/backToPrevPage";
+import { TOKEN_KEY } from "../constants";
 
 const Login: FC = () => {
   const router = useRouter();
@@ -15,7 +16,7 @@ const Login: FC = () => {
       const result = await http.post("/session", { ...values });
       if (result.status === 201 && result.data.code === 2001) {
         const token = result.data.data.token;
-        localStorage.setItem("token", `Bearer ${token}`);
+        localStorage.setItem(TOKEN_KEY, `Bearer ${token}`);
         message.success("登录成功！");
         backToPrevPage();
       }

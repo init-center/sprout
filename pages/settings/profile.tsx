@@ -78,7 +78,6 @@ const SettingProfile: FC = () => {
 
   const onFinish = useCallback(
     async (fields: UpdateUserInfo | UpdatePassword) => {
-      console.log(fields);
       try {
         const result = await http.put<ResponseData>("/users", {
           ...fields,
@@ -109,36 +108,39 @@ const SettingProfile: FC = () => {
         }
       }
     },
-    [fetchUserInfo, router]
+    [fetchUserInfo, passwordForm, router]
   );
 
-  const sendCode = useCallback(async (): Promise<void> => {
-    if (isSendingCode) return;
-    try {
-      const validResult = await form.validateFields(["email"]);
-      const email = validResult.email;
-      await http.post("/vcode/ecode", {
-        email,
-        type: 2,
-      });
-      let time = 120;
-      setIsSendingCode(true);
-      const sendCodeBtn = sendCodeBtnRef.current;
-      const span = sendCodeBtn && sendCodeBtn.querySelector("span");
-      timerRef.current = setInterval(() => {
-        if (time <= 0) {
-          clearInterval(timerRef.current);
-          span.innerText = "发送验证码";
-          setIsSendingCode(false);
-        } else {
-          time -= 1;
-          span.innerText = String(time);
-        }
-      }, 1000);
-    } catch (error) {
-      return;
-    }
-  }, [form, isSendingCode]);
+  const sendCode = useCallback(
+    async (codeType: number): Promise<void> => {
+      if (isSendingCode) return;
+      try {
+        const validResult = await form.validateFields(["email"]);
+        const email = validResult.email;
+        await http.post("/vcode/ecode", {
+          email,
+          type: codeType,
+        });
+        let time = 120;
+        setIsSendingCode(true);
+        const sendCodeBtn = sendCodeBtnRef.current;
+        const span = sendCodeBtn && sendCodeBtn.querySelector("span");
+        timerRef.current = setInterval(() => {
+          if (time <= 0) {
+            clearInterval(timerRef.current);
+            span.innerText = "发送验证码";
+            setIsSendingCode(false);
+          } else {
+            time -= 1;
+            span.innerText = String(time);
+          }
+        }, 1000);
+      } catch (error) {
+        return;
+      }
+    },
+    [form, isSendingCode]
+  );
 
   useEffect(() => {
     fetchUserInfo();
@@ -284,7 +286,7 @@ const SettingProfile: FC = () => {
                   ref={sendCodeBtnRef}
                   className={styles["send-code-btn"]}
                   onClick={() => {
-                    sendCode();
+                    sendCode(2);
                   }}
                 >
                   发送验证码
@@ -390,7 +392,7 @@ const SettingProfile: FC = () => {
                   ref={sendCodeBtnRef}
                   className={styles["send-code-btn"]}
                   onClick={() => {
-                    sendCode();
+                    sendCode(3);
                   }}
                 >
                   发送验证码
