@@ -1,8 +1,8 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useState } from "react";
 import { GetServerSideProps, NextPage } from "next";
 import { DefaultWrapper } from "../layout/DefaultWrapper/DefaultWrapper";
 import { SEO } from "../components/SEO/SEO";
-import ErrorPage from "next/error";
+import { default as ErrorPage } from "./_error";
 import { Empty, message } from "antd";
 import http, { ResponseData } from "../utils/http/http";
 import { PostListType } from "../types/post";
@@ -148,7 +148,7 @@ export const getServerSideProps: GetServerSideProps<ArchiveProps> = async (
   let statusCode = 404;
   try {
     const result = await http.get<ResponseData<PostListType>>(
-      "/posts?page=1&limit=10"
+      "/posts?page=1&limit=15"
     );
     if (result.status === 200 && result.data.code === 2000) {
       postList = result.data.data;

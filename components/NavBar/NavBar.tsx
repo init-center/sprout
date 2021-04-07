@@ -60,6 +60,7 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
         onClick={(e) => {
           e.stopPropagation();
           router.pathname !== "/" && router.push("/");
+          dispatch(setIsMenuShowAction(false));
         }}
       >
         {websiteName?.value ?? DEFAULT_WEBSITE_NAME}

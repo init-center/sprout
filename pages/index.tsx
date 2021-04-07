@@ -1,7 +1,7 @@
 import React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import http, { ResponseData } from "../utils/http/http";
-import ErrorPage from "next/error";
+import { default as ErrorPage } from "./_error";
 import { PostListType } from "../types/post";
 import PostList from "../components/PostList/PostList";
 import { SEO } from "../components/SEO/SEO";

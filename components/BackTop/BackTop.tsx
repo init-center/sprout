@@ -1,9 +1,9 @@
-import React from "react";
+import React, { memo } from "react";
 import { BackTop as BT } from "antd";
 import { UpOutlined } from "@ant-design/icons";
 import styles from "./BackTop.module.scss";
 
-const BackTop = () => {
+const BackTop = memo(() => {
   return (
     <BT style={{ right: "20px", bottom: "20px" }}>
       <div className={styles.bt}>
@@ -11,6 +11,6 @@ const BackTop = () => {
       </div>
     </BT>
   );
-};
+});
 
 export default BackTop;

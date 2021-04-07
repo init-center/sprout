@@ -1,7 +1,7 @@
 import React from "react";
 import { GetServerSideProps, NextPage } from "next";
 import http, { ResponseData } from "../utils/http/http";
-import ErrorPage from "next/error";
+import { default as ErrorPage } from "./_error";
 import { CustomDivider } from "../components/CustomDivider/CustomDivider";
 import { DefaultWrapper } from "../layout/DefaultWrapper/DefaultWrapper";
 import { SEO } from "../components/SEO/SEO";

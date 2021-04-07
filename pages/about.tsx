@@ -16,7 +16,7 @@ const About: NextPage = () => {
   );
   return (
     <>
-      <SEO title="标签" />
+      <SEO title="关于" />
 
       <DefaultWrapper>
         <div

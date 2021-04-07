@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useState } from "react";
 import { BanStatus, Group, UidInfo, UserPublicInfo } from "../../types/users";
 import { Button, Empty, Image, message } from "antd";
-import ErrorPage from "next/error";
+import { default as ErrorPage } from "../_error";
 import http, { ResponseData } from "../../utils/http/http";
 import styles from "./users.module.scss";
 import { DefaultWrapper } from "../../layout/DefaultWrapper/DefaultWrapper";

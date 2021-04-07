@@ -47,6 +47,7 @@ export interface UpdateUserInfo {
 }
 
 export interface UpdatePassword {
+  email?: string;
   password: string;
   rePassword: string;
   eCode: string;

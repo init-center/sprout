@@ -1,4 +1,4 @@
-import React, { FC, useState, useRef, useCallback, memo } from "react";
+import React, { FC, useState, useRef, useCallback, memo, useMemo } from "react";
 import { Empty, message, Pagination } from "antd";
 import Editor, { EditorRef } from "../Editor/Editor";
 import CommentItem from "./CommentItem/CommentItem";
@@ -6,6 +6,7 @@ import http, { ResponseData } from "../../utils/http/http";
 import { useRouter } from "next/router";
 import styles from "./CommentList.module.scss";
 import { ParentComments, PostCommentParams } from "../../types/comment";
+import { debounce } from "../../utils/debounce/debounce";
 
 export interface CommentListType {
   commentsData: ParentComments;
@@ -23,39 +24,43 @@ const CommentList: FC<CommentListType> = memo(
     const [comments, setComments] = useState(commentsData);
     const [editorShowCid, setEditorShowCid] = useState("");
 
-    const submitHandle = useCallback(() => {
-      const content = editorRef.current.getContent()[1];
-      if (!content) {
-        message.warning("内容为空！");
-        return;
-      }
-      if (content.length < 1 || content.length > 1024) {
-        message.warning("内容必须在1 ~ 1024个字符之间！");
-        return;
-      }
-      const commentData: PostCommentParams = {
-        content: editorRef.current.getContent()[1],
-      };
-      const result = http.post(`/comments/posts/${pid}`, commentData);
-      result
-        .then((res) => {
-          if (res.status === 201 && res.data.code === 2001) {
-            message.success("评论成功，等待管理员审核！");
-            editorRef.current && editorRef.current.clearValue();
-            setEditorShowCid("");
-          } else {
-            res.data.message && message.warning(res.data.message);
+    const submitHandle = useMemo(
+      () =>
+        debounce(() => {
+          const content = editorRef.current.getContent()[1];
+          if (!content) {
+            message.warning("内容为空！");
+            return;
           }
-        })
-        .catch((err) => {
-          if (err?.request?.status === 401) {
-            router.push("/login");
+          if (content.length < 1 || content.length > 1024) {
+            message.warning("内容必须在1 ~ 1024个字符之间！");
+            return;
           }
-          if (err?.response.message) {
-            message.error(err.response.message);
-          }
-        });
-    }, [pid, router]);
+          const commentData: PostCommentParams = {
+            content: editorRef.current.getContent()[1],
+          };
+          const result = http.post(`/comments/posts/${pid}`, commentData);
+          result
+            .then((res) => {
+              if (res.status === 201 && res.data.code === 2001) {
+                message.success("评论成功，等待管理员审核！");
+                editorRef.current && editorRef.current.clearValue();
+                setEditorShowCid("");
+              } else {
+                res.data.message && message.warning(res.data.message);
+              }
+            })
+            .catch((err) => {
+              if (err?.request?.status === 401) {
+                router.push("/login");
+              }
+              if (err?.response.message) {
+                message.error(err.response.message);
+              }
+            });
+        }),
+      [pid, router]
+    );
 
     const pageChangeHandle = useCallback(
       async (page: number, pageSize: number) => {

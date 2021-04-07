@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import {
   WeiboOutlined,
   TwitterOutlined,
@@ -7,7 +7,7 @@ import {
 } from "@ant-design/icons";
 import styles from "./Social.module.scss";
 
-const Social = () => {
+const Social = memo(() => {
   return (
     <ul className={styles["social-bar"]}>
       <li className={styles["social-item"]}>
@@ -44,6 +44,6 @@ const Social = () => {
       </li>
     </ul>
   );
-};
+});
 
 export default Social;

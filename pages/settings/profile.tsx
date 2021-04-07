@@ -1,7 +1,14 @@
 import { Form, Input, message, Image, Button, Select, DatePicker } from "antd";
 import { KeyOutlined } from "@ant-design/icons";
 import { useRouter } from "next/router";
-import React, { FC, useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  FC,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { DefaultWrapper } from "../../layout/DefaultWrapper/DefaultWrapper";
 import {
   BanStatus,
@@ -20,6 +27,8 @@ import {
   validPassword,
 } from "../../utils/valid/valid_rules";
 import moment from "moment";
+import { debounce } from "../../utils/debounce/debounce";
+import { SEO } from "../../components/SEO/SEO";
 
 const { Option } = Select;
 
@@ -76,69 +85,79 @@ const SettingProfile: FC = () => {
     }
   }, [form, router]);
 
-  const onFinish = useCallback(
-    async (fields: UpdateUserInfo | UpdatePassword) => {
-      try {
-        const result = await http.put<ResponseData>("/users", {
-          ...fields,
-          birthday:
-            "birthday" in fields
-              ? moment(fields.birthday).format("YYYY-MM-DD")
-              : null,
-        });
-        if (result.status === 200 && result.data.code === 2000) {
-          message.destroy();
-          message.success("修改成功！");
-          fetchUserInfo();
-          passwordForm.setFieldsValue({
-            password: "",
-            rePassword: "",
-            eCode: "",
+  const onFinish = useMemo(
+    () =>
+      debounce(async (fields: UpdateUserInfo | UpdatePassword) => {
+        try {
+          const result = await http.put<ResponseData>("/users", {
+            ...fields,
+            birthday:
+              "birthday" in fields
+                ? moment(fields.birthday).format("YYYY-MM-DD")
+                : null,
           });
-        }
-      } catch (error) {
-        const msg = error?.response?.data?.message;
-        if (msg) {
-          message.destroy();
-          message.error(msg);
-        }
+          if (result.status === 200 && result.data.code === 2000) {
+            message.destroy();
+            message.success("修改成功！");
+            fetchUserInfo();
+            passwordForm.setFieldsValue({
+              password: "",
+              rePassword: "",
+              eCode: "",
+            });
+          }
+        } catch (error) {
+          const msg = error?.response?.data?.message;
+          if (msg) {
+            message.destroy();
+            message.error(msg);
+          }
 
-        if (error?.response?.status === 401) {
-          router.push("/login");
+          if (error?.response?.status === 401) {
+            router.push("/login");
+          }
         }
-      }
-    },
+      }),
     [fetchUserInfo, passwordForm, router]
   );
 
-  const sendCode = useCallback(
-    async (codeType: number): Promise<void> => {
-      if (isSendingCode) return;
-      try {
-        const validResult = await form.validateFields(["email"]);
-        const email = validResult.email;
-        await http.post("/vcode/ecode", {
-          email,
-          type: codeType,
-        });
-        let time = 120;
-        setIsSendingCode(true);
-        const sendCodeBtn = sendCodeBtnRef.current;
-        const span = sendCodeBtn && sendCodeBtn.querySelector("span");
-        timerRef.current = setInterval(() => {
-          if (time <= 0) {
-            clearInterval(timerRef.current);
-            span.innerText = "发送验证码";
-            setIsSendingCode(false);
-          } else {
-            time -= 1;
+  const sendCode = useMemo(
+    () =>
+      debounce(async (codeType: number) => {
+        if (isSendingCode) return;
+        try {
+          const validResult = await form.validateFields(["email"]);
+          const email = validResult.email;
+          const result = await http.post<ResponseData>("/vcode/ecode", {
+            email,
+            type: codeType,
+          });
+          if (result.status === 200) {
+            let time = 120;
+            setIsSendingCode(true);
+            const sendCodeBtn = sendCodeBtnRef.current;
+            const span = sendCodeBtn && sendCodeBtn.querySelector("span");
             span.innerText = String(time);
+            timerRef.current = setInterval(() => {
+              if (time <= 0) {
+                clearInterval(timerRef.current);
+                span.innerText = "发送验证码";
+                setIsSendingCode(false);
+              } else {
+                time -= 1;
+                span.innerText = String(time);
+              }
+            }, 1000);
           }
-        }, 1000);
-      } catch (error) {
-        return;
-      }
-    },
+        } catch (error) {
+          const msg = error?.response?.data?.message;
+          if (message && msg) {
+            message.destroy();
+            message.error(msg);
+          }
+          return;
+        }
+      }),
     [form, isSendingCode]
   );
 
@@ -148,6 +167,7 @@ const SettingProfile: FC = () => {
 
   return (
     <DefaultWrapper>
+      <SEO title="修改个人资料" />
       <div className={styles.profile}>
         <h1 className={styles.title}>个人资料</h1>
         <Form
@@ -254,13 +274,6 @@ const SettingProfile: FC = () => {
             name="intro"
             key="intro"
             label="简介"
-            rules={[
-              {
-                required: true,
-                whitespace: true,
-                message: "请输入简介",
-              },
-            ]}
             style={{ width: "100%" }}
           >
             <Input placeholder="请输入简介" />

@@ -1,4 +1,4 @@
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import { useSelector } from "react-redux";
 import { ADMIN_NAME_KEY, WEBSITE_NAME_KEY } from "../../constants/configKey";
 import {
@@ -11,7 +11,7 @@ import Social from "../Social/Social";
 
 import styles from "./Footer.module.scss";
 
-const Footer: FC = () => {
+const Footer: FC = memo(() => {
   const websiteName = useSelector<StateType, ConfigItem>(
     (state) => state.configs[WEBSITE_NAME_KEY]
   );
@@ -28,6 +28,6 @@ const Footer: FC = () => {
       }. Made by ${adminName?.value ?? DEFAULT_ADMIN_NAME}.`}
     </div>
   );
-};
+});
 
 export default Footer;

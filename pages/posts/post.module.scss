@@ -83,6 +83,12 @@
     transition: all 0.5s ease;
     overflow-x: hidden;
     overflow-y: auto;
+
+    .no-title {
+      font-size: 14px;
+      color: var(--font-color-second);
+      text-align: center;
+    }
   }
 
   .title-menu-show {

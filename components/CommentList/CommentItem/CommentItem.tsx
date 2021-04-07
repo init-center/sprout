@@ -5,6 +5,7 @@ import React, {
   useCallback,
   useEffect,
   memo,
+  useMemo,
 } from "react";
 import { useRouter } from "next/router";
 import { message, Pagination } from "antd";
@@ -20,6 +21,7 @@ import {
   ReplyTargetInfo,
 } from "../../../types/comment";
 import { scrollToElement } from "../../../utils/scrollToElement";
+import { debounce } from "../../../utils/debounce/debounce";
 
 interface CommentItemProps {
   comment: ParentComment;
@@ -97,74 +99,82 @@ const CommentItem: FC<CommentItemProps> = memo(
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const submitHandle = useCallback(() => {
-      if (!replyTargetInfo) {
-        message.error("无回复目标，请重试！");
-        return;
-      }
+    const submitHandle = useMemo(
+      () =>
+        debounce(() => {
+          if (!replyTargetInfo) {
+            message.error("无回复目标，请重试！");
+            return;
+          }
 
-      const { parentCid, targetCid } = replyTargetInfo;
+          const { parentCid, targetCid } = replyTargetInfo;
 
-      const commentData: PostCommentParams = {
-        parentCid,
-        targetCid,
-        content: editorRef.current.getContent()[1],
-      };
-      http
-        .post(`/comments/posts/${replyTargetInfo.pid}`, commentData)
-        .then((res) => {
-          if (res.status === 201 && res.data.code === 2001) {
-            message.success("评论成功，等待管理员审核！");
-            editorRef.current && editorRef.current.clearValue();
-            setEditorShowCid("");
-          } else {
-            message.destroy();
-            res.data.message && message.warning(res.data.message);
-          }
-        })
-        .catch((err) => {
-          if (err?.request?.status === 401) {
-            router.push("/login");
-          }
-          if (err.response.message) {
-            message.destroy();
-            message.error(err.response.message);
-          }
-        });
-    }, [replyTargetInfo, router, setEditorShowCid]);
+          const commentData: PostCommentParams = {
+            parentCid,
+            targetCid,
+            content: editorRef.current.getContent()[1],
+          };
+          http
+            .post(`/comments/posts/${replyTargetInfo.pid}`, commentData)
+            .then((res) => {
+              if (res.status === 201 && res.data.code === 2001) {
+                message.success("评论成功，等待管理员审核！");
+                editorRef.current && editorRef.current.clearValue();
+                setEditorShowCid("");
+              } else {
+                message.destroy();
+                res.data.message && message.warning(res.data.message);
+              }
+            })
+            .catch((err) => {
+              if (err?.request?.status === 401) {
+                router.push("/login");
+              }
+              if (err.response.message) {
+                message.destroy();
+                message.error(err.response.message);
+              }
+            });
+        }),
+      [replyTargetInfo, router, setEditorShowCid]
+    );
 
     const cancelReply = useCallback(() => {
       setEditorShowCid("");
     }, [setEditorShowCid]);
 
-    const showMoreHandle = useCallback(async () => {
-      if (!showShowMore) {
-        return;
-      }
-
-      try {
-        const result = await http.get<ResponseData<CommentChildren>>(
-          `/comments/posts/${parentComment.pid}/comment/${parentComment.cid}/children?page=1&limit=5`
-        );
-        const statusCode = result.status;
-        if (statusCode === 200 && result.data.code === 2000) {
-          setShowShowMore(false);
-          const comment = { ...parentComment };
-          comment.page = result.data.data.page;
-          comment.children = result.data.data.list;
-          setParentComment(comment);
-          const commentItem = commentRef.current;
-          if (commentItem) {
-            scrollToElement(commentItem);
+    const showMoreHandle = useMemo(
+      () =>
+        debounce(async () => {
+          if (!showShowMore) {
+            return;
           }
-        }
-      } catch (error) {
-        if (error?.response.message) {
-          message.destroy();
-          message.error(error.response.message);
-        }
-      }
-    }, [parentComment, showShowMore]);
+
+          try {
+            const result = await http.get<ResponseData<CommentChildren>>(
+              `/comments/posts/${parentComment.pid}/comment/${parentComment.cid}/children?page=1&limit=5`
+            );
+            const statusCode = result.status;
+            if (statusCode === 200 && result.data.code === 2000) {
+              setShowShowMore(false);
+              const comment = { ...parentComment };
+              comment.page = result.data.data.page;
+              comment.children = result.data.data.list;
+              setParentComment(comment);
+              const commentItem = commentRef.current;
+              if (commentItem) {
+                scrollToElement(commentItem);
+              }
+            }
+          } catch (error) {
+            if (error?.response.message) {
+              message.destroy();
+              message.error(error.response.message);
+            }
+          }
+        }),
+      [parentComment, showShowMore]
+    );
 
     const pageChangeHandle = useCallback(
       async (page: number, pageSize: number) => {

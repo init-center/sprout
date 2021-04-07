@@ -21,7 +21,7 @@ import combineClassNames from "../../utils/combineClassNames";
 import styles from "./post.module.scss";
 import mdStyles from "../../styles/mdStyle.module.scss";
 import { GetServerSideProps, NextPage } from "next";
-import ErrorPage from "next/error";
+import { default as ErrorPage } from "../_error";
 import http, { Response, ResponseData } from "../../utils/http/http";
 import mermaid from "mermaid";
 import { percent } from "../../utils/percent";
@@ -347,18 +347,22 @@ const Post: NextPage<PostProps> = ({
             isTitleMenuShow ? styles["title-menu-show"] : ""
           )}
         >
-          {titles.map((item, idx) => {
-            return (
-              <MenuItem
-                index={`${idx + 1}.`}
-                title={item}
-                depth={1}
-                key={item.id}
-                activeTitleId={activeTitleId}
-                titleChildrenIdMap={titleChildrenIdMap}
-              />
-            );
-          })}
+          {titles.length > 0 ? (
+            titles.map((item, idx) => {
+              return (
+                <MenuItem
+                  index={`${idx + 1}.`}
+                  title={item}
+                  depth={1}
+                  key={item.id}
+                  activeTitleId={activeTitleId}
+                  titleChildrenIdMap={titleChildrenIdMap}
+                />
+              );
+            })
+          ) : (
+            <div className={styles["no-title"]}>这篇文章没有标题哦~</div>
+          )}
         </div>
       </div>
       <Footer />

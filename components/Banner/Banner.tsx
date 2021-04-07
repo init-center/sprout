@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useMemo, useRef } from "react";
+import React, { FC, memo, useEffect, useMemo, useRef } from "react";
 import Parallax from "parallax-js";
 import { defaultImg } from "../../utils/lazyLoad/imgUrl";
 import { useRouter } from "next/router";
@@ -11,7 +11,7 @@ interface BannerProps {
   post: PostItem;
 }
 
-const Banner: FC<BannerProps> = ({ post }) => {
+const Banner: FC<BannerProps> = memo(({ post }) => {
   const router = useRouter();
   const imageRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -75,6 +75,6 @@ const Banner: FC<BannerProps> = ({ post }) => {
       />
     </div>
   );
-};
+});
 
 export default Banner;

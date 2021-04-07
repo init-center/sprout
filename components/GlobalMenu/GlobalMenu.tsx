@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { StateType } from "../../store";
 import { setIsMenuShowAction } from "../../store/global/actionCreator";
@@ -35,7 +35,7 @@ const navList = [
   },
 ];
 
-const GlobalMenu = () => {
+const GlobalMenu = memo(() => {
   const router = useRouter();
   const dispatch = useDispatch();
   const isMenuShow = useSelector<StateType, boolean>(
@@ -138,6 +138,6 @@ const GlobalMenu = () => {
       </div>
     </div>
   );
-};
+});
 
 export default GlobalMenu;

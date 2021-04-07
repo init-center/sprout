@@ -1,5 +1,5 @@
 import Head from "next/head";
-import React, { FC } from "react";
+import React, { FC, memo } from "react";
 import { useSelector } from "react-redux";
 import { WEBSITE_NAME_KEY } from "../../constants/configKey";
 import { DEFAULT_WEBSITE_NAME } from "../../constants/defaultConfig";
@@ -11,7 +11,7 @@ interface SeoProps {
   iconUrl?: string;
 }
 
-export const SEO: FC<SeoProps> = ({ title, iconUrl }) => {
+export const SEO: FC<SeoProps> = memo(({ title, iconUrl }) => {
   const websiteName = useSelector<StateType, ConfigItem>(
     (state) => state.configs[WEBSITE_NAME_KEY]
   );
@@ -23,4 +23,4 @@ export const SEO: FC<SeoProps> = ({ title, iconUrl }) => {
       <link rel="icon" href={iconUrl ?? "/favicon.ico"} />
     </Head>
   );
-};
+});
