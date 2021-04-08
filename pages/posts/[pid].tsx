@@ -229,144 +229,148 @@ const Post: NextPage<PostProps> = ({
   }
 
   return (
-    <div className={styles["post-wrapper"]}>
+    <>
       <SEO title={post.title} />
-      <div className={styles["top-bar"]}>
-        <div className={styles["icon-box"]}>
-          <div
-            className={styles.icon}
-            onClick={() => {
-              router.push("/");
-            }}
-          >
-            <HomeOutlined />
-          </div>
-          <div
-            className={styles.icon}
-            onClick={() => {
-              const player = playerRef.current;
-              if (!player) return;
-              isPlaying ? player.pause() : player.play();
-            }}
-          >
-            {isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
-          </div>
-        </div>
-        <h3
-          className={combineClassNames(
-            styles.subtitle,
-            isSubTitleShow ? "" : styles.hidden
-          )}
-        >
-          {post.title}
-        </h3>
-        <div className={styles["icon-box"]}>
-          <div className={styles.icon} onClick={toggleFavorite}>
-            {isFavorite ? (
-              <HeartTwoTone twoToneColor=" #f62459" />
-            ) : (
-              <HeartOutlined />
-            )}
-          </div>
-          <div className={styles.icon} onClick={toggleMenuShow}>
-            <MenuOutlined />
-          </div>
-          <div className={styles.icon} onClick={toggleTitleMenuShow}>
-            {isTitleMenuShow ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-          </div>
-        </div>
-        <div
-          className={styles["music-progress"]}
-          style={{ width: `${playerProgressPercent}%` }}
-        ></div>
-        <div className={styles["view-progress"]} ref={viewProgressRef}></div>
-      </div>
-      <div className={styles.post}>
-        <article className={styles.article}>
-          <h1 className={styles.title} ref={titleRef}>
-            {post.title}
-          </h1>
-          <div className={styles.stuff}>
-            <span className={styles["stuff-item"]}>
-              {dayjs(new Date(post.createTime)).format("MMMM DD, YYYY")}
-            </span>
-            <span className={styles["stuff-item"]}>阅读 {post.views}</span>
-            <span className={styles["stuff-item"]}>
-              字数 {post.content.length}
-            </span>
-            <span className={styles["stuff-item"]}>
-              评论 {post.commentCount}
-            </span>
-            <span className={styles["stuff-item"]}>喜欢 {post.favorites}</span>
-          </div>
-          <div className={styles["category-bar"]}>
-            分类于{" "}
-            <span
-              className={styles.category}
+      <div className={styles["post-wrapper"]}>
+        <div className={styles["top-bar"]}>
+          <div className={styles["icon-box"]}>
+            <div
+              className={styles.icon}
               onClick={() => {
-                router.push(`/categories/${post.categoryName}`);
+                router.push("/");
               }}
             >
-              {post.categoryName}
-            </span>
+              <HomeOutlined />
+            </div>
+            <div
+              className={styles.icon}
+              onClick={() => {
+                const player = playerRef.current;
+                if (!player) return;
+                isPlaying ? player.pause() : player.play();
+              }}
+            >
+              {isPlaying ? <PauseCircleOutlined /> : <PlayCircleOutlined />}
+            </div>
+          </div>
+          <h3
+            className={combineClassNames(
+              styles.subtitle,
+              isSubTitleShow ? "" : styles.hidden
+            )}
+          >
+            {post.title}
+          </h3>
+          <div className={styles["icon-box"]}>
+            <div className={styles.icon} onClick={toggleFavorite}>
+              {isFavorite ? (
+                <HeartTwoTone twoToneColor=" #f62459" />
+              ) : (
+                <HeartOutlined />
+              )}
+            </div>
+            <div className={styles.icon} onClick={toggleMenuShow}>
+              <MenuOutlined />
+            </div>
+            <div className={styles.icon} onClick={toggleTitleMenuShow}>
+              {isTitleMenuShow ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
+            </div>
           </div>
           <div
-            className={combineClassNames(styles.content, mdStyles["md-box"])}
-            dangerouslySetInnerHTML={{ __html: article }}
+            className={styles["music-progress"]}
+            style={{ width: `${playerProgressPercent}%` }}
           ></div>
-          <audio ref={playerRef} loop preload="auto">
-            <source type="audio/mpeg" src={post.bgm}></source>
-          </audio>
-        </article>
-        <ul className={styles["tag-list"]}>
-          {post.tags.map((tag) => {
-            return (
-              <li
-                className={styles["tag-item"]}
-                key={tag.id}
+          <div className={styles["view-progress"]} ref={viewProgressRef}></div>
+        </div>
+        <div className={styles.post}>
+          <article className={styles.article}>
+            <h1 className={styles.title} ref={titleRef}>
+              {post.title}
+            </h1>
+            <div className={styles.stuff}>
+              <span className={styles["stuff-item"]}>
+                {dayjs(new Date(post.createTime)).format("MMMM DD, YYYY")}
+              </span>
+              <span className={styles["stuff-item"]}>阅读 {post.views}</span>
+              <span className={styles["stuff-item"]}>
+                字数 {post.content.length}
+              </span>
+              <span className={styles["stuff-item"]}>
+                评论 {post.commentCount}
+              </span>
+              <span className={styles["stuff-item"]}>
+                喜欢 {post.favorites}
+              </span>
+            </div>
+            <div className={styles["category-bar"]}>
+              分类于{" "}
+              <span
+                className={styles.category}
                 onClick={() => {
-                  router.push(`/tags/${tag.name}`);
+                  router.push(`/categories/${post.categoryName}`);
                 }}
               >
-                #{tag.name}
-              </li>
-            );
-          })}
-        </ul>
-        <CommentList
-          commentsData={parentComments}
-          commentCount={post.commentCount}
-          pid={post.pid}
-          postUid={post.uid}
-          willReplyCid={willReplyCid}
-        />
-
-        <div
-          className={combineClassNames(
-            styles["title-menu"],
-            isTitleMenuShow ? styles["title-menu-show"] : ""
-          )}
-        >
-          {titles.length > 0 ? (
-            titles.map((item, idx) => {
+                {post.categoryName}
+              </span>
+            </div>
+            <div
+              className={combineClassNames(styles.content, mdStyles["md-box"])}
+              dangerouslySetInnerHTML={{ __html: article }}
+            ></div>
+            <audio ref={playerRef} loop preload="auto">
+              <source type="audio/mpeg" src={post.bgm}></source>
+            </audio>
+          </article>
+          <ul className={styles["tag-list"]}>
+            {post.tags.map((tag) => {
               return (
-                <MenuItem
-                  index={`${idx + 1}.`}
-                  title={item}
-                  depth={1}
-                  key={item.id}
-                  activeTitleId={activeTitleId}
-                  titleChildrenIdMap={titleChildrenIdMap}
-                />
+                <li
+                  className={styles["tag-item"]}
+                  key={tag.id}
+                  onClick={() => {
+                    router.push(`/tags/${tag.name}`);
+                  }}
+                >
+                  #{tag.name}
+                </li>
               );
-            })
-          ) : (
-            <div className={styles["no-title"]}>这篇文章没有标题哦~</div>
-          )}
+            })}
+          </ul>
+          <CommentList
+            commentsData={parentComments}
+            commentCount={post.commentCount}
+            pid={post.pid}
+            postUid={post.uid}
+            willReplyCid={willReplyCid}
+          />
+
+          <div
+            className={combineClassNames(
+              styles["title-menu"],
+              isTitleMenuShow ? styles["title-menu-show"] : ""
+            )}
+          >
+            {titles.length > 0 ? (
+              titles.map((item, idx) => {
+                return (
+                  <MenuItem
+                    index={`${idx + 1}.`}
+                    title={item}
+                    depth={1}
+                    key={item.id}
+                    activeTitleId={activeTitleId}
+                    titleChildrenIdMap={titleChildrenIdMap}
+                  />
+                );
+              })
+            ) : (
+              <div className={styles["no-title"]}>这篇文章没有标题哦~</div>
+            )}
+          </div>
         </div>
+        <Footer />
       </div>
-      <Footer />
-    </div>
+    </>
   );
 };
 

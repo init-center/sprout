@@ -10,24 +10,28 @@ import { ArchiveList } from "../types/archive";
 import dayjs from "dayjs";
 import styles from "../styles/Archive.module.scss";
 import combineClassNames from "../utils/combineClassNames";
+import { useRouter } from "next/router";
 
 interface ArchiveProps {
   statusCode: number;
   postList: PostListType;
   archiveList: ArchiveList;
+  keyword: string;
 }
 
 const Archive: NextPage<ArchiveProps> = ({
   postList,
   archiveList,
   statusCode,
+  keyword,
 }) => {
+  const router = useRouter();
   const [isFetching, setIsFetching] = useState(false);
   const [posts, setPosts] = useState<PostListType>(postList);
   const [archives, setArchives] = useState<ArchiveList>(archiveList);
 
   const fetchPosts = useCallback(
-    async (page = 1, limit = 10) => {
+    async (page = 1, limit = 15) => {
       if (page < 1 || limit < 1 || posts.list.length >= posts.page.count) {
         return;
       }
@@ -35,7 +39,7 @@ const Archive: NextPage<ArchiveProps> = ({
       try {
         setIsFetching(true);
         const result = await http.get<ResponseData<PostListType>>(`/posts`, {
-          params: { page, limit },
+          params: { page, limit, keyword },
         });
         if (result.status === 200 && result.data.code === 2000) {
           const postList = result.data.data;
@@ -63,7 +67,7 @@ const Archive: NextPage<ArchiveProps> = ({
         }
       }
     },
-    [isFetching, posts.list, posts.page.count]
+    [isFetching, keyword, posts.list.length, posts.page.count]
   );
 
   if (statusCode >= 400) {
@@ -90,7 +94,12 @@ const Archive: NextPage<ArchiveProps> = ({
                         <span className={styles.date}>
                           {dayjs(item.createTime).format("MM-DD")}
                         </span>
-                        <p className={styles.title}>{item.title}</p>
+                        <p
+                          className={styles.title}
+                          onClick={() => router.push(`posts/${item.pid}`)}
+                        >
+                          {item.title}
+                        </p>
                       </li>
                     ))}
                   </ul>
@@ -133,8 +142,12 @@ const Archive: NextPage<ArchiveProps> = ({
 
 // fetch data
 export const getServerSideProps: GetServerSideProps<ArchiveProps> = async (
-  _context
+  context
 ) => {
+  let keyword = context.query.keyword as string;
+  if (!keyword) {
+    keyword = null;
+  }
   let postList: PostListType = {
     page: {
       currentPage: 0,
@@ -147,9 +160,13 @@ export const getServerSideProps: GetServerSideProps<ArchiveProps> = async (
   const archiveList: ArchiveList = {};
   let statusCode = 404;
   try {
-    const result = await http.get<ResponseData<PostListType>>(
-      "/posts?page=1&limit=15"
-    );
+    const result = await http.get<ResponseData<PostListType>>("/posts", {
+      params: {
+        limit: 15,
+        page: 1,
+        keyword,
+      },
+    });
     if (result.status === 200 && result.data.code === 2000) {
       postList = result.data.data;
 
@@ -170,6 +187,7 @@ export const getServerSideProps: GetServerSideProps<ArchiveProps> = async (
       postList,
       archiveList,
       statusCode,
+      keyword,
     },
   };
 };

@@ -1,0 +1,61 @@
+.mask {
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  background-color: transparent;
+  .theme-bar {
+    position: absolute;
+    top: 120px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    width: 90%;
+    background: var(--banner-font-color);
+    border-radius: 4px;
+    margin: 0 auto;
+    padding: 10px 0;
+
+    @media screen and (max-width: 780px) {
+      top: 90px;
+    }
+
+    .theme-item {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+      height: 48px;
+
+      .color-circle {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 24px;
+        height: 24px;
+        background-color: var(--theme-color);
+        border-radius: 50%;
+        cursor: pointer;
+
+        .selected {
+          width: 16px;
+          height: 16px;
+          fill: #fff;
+        }
+      }
+      .theme-img {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+.modal-show {
+  display: block;
+}

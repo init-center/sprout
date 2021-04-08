@@ -9,7 +9,7 @@ const initialState: HomeStateType = {
   isMenuShow: false,
 };
 
-export default {
+const reducers = {
   isMenuShow(
     state = initialState.isMenuShow,
     action: Action<boolean>
@@ -22,3 +22,5 @@ export default {
     return state;
   },
 };
+
+export default reducers;

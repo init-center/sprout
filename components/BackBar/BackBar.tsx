@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setIsMenuShowAction } from "../../store/global/actionCreator";
 import { StateType } from "../../store";
 
-export const BackBar: FC = memo(() => {
+const BackBar: FC = memo(() => {
   const router = useRouter();
   const dispatch = useDispatch();
   const isMenuShow = useSelector<StateType, boolean>(
@@ -33,3 +33,5 @@ export const BackBar: FC = memo(() => {
     </div>
   );
 });
+
+export default BackBar;

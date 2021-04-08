@@ -7,9 +7,14 @@ import BackTop from "../components/BackTop/BackTop";
 import styles from "./layout.module.scss";
 import GlobalMenu from "../components/GlobalMenu/GlobalMenu";
 import http, { ResponseData } from "../utils/http/http";
-import { SET_IS_DARK_MODE } from "../store/global/actionTypes";
-import { setIsDarkModeAction } from "../store/global/actionCreator";
+import {
+  setIsDarkModeAction,
+  setThemeAction,
+} from "../store/global/actionCreator";
 import { CursorSpecialEffects } from "../utils/clickEffect/clickEffect";
+import ThemeBar from "../components/ThemeModal/ThemeModal";
+import { THEME_KEY } from "../constants";
+import { Theme } from "../types/theme";
 
 const Layout: FC = ({ children }) => {
   const dispatch = useDispatch();
@@ -20,6 +25,12 @@ const Layout: FC = ({ children }) => {
 
   const isDarkMode = useSelector<StateType, boolean>(
     (state) => state.isDarkMode
+  );
+
+  const currentTheme = useSelector<StateType, Theme>((state) => state.theme);
+
+  const isThemeModalShow = useSelector<StateType, boolean>(
+    (state) => state.isThemeModalShow
   );
 
   useEffect(() => {
@@ -72,12 +83,34 @@ const Layout: FC = ({ children }) => {
   }, [dispatch]);
 
   useEffect(() => {
+    const themeString = localStorage.getItem(THEME_KEY);
+    if (!themeString) {
+      return;
+    }
+    const theme = JSON.parse(themeString) as Theme;
+    dispatch(setThemeAction(theme));
+  }, [dispatch]);
+
+  useEffect(() => {
     const bodyClassList = document.body.classList;
     isDarkMode ? bodyClassList.add("dark") : bodyClassList.remove("dark");
     return (): void => {
       bodyClassList.remove("dark");
     };
   }, [isDarkMode]);
+
+  useEffect(() => {
+    if (isThemeModalShow) {
+      document.body.style.setProperty("overflow-y", "hidden");
+    } else {
+      document.body.style.removeProperty("overflow-y");
+    }
+  }, [isThemeModalShow]);
+
+  useEffect(() => {
+    document.body.style.setProperty("--theme-color", currentTheme.color);
+    document.body.style.setProperty("--theme-color-rgb", currentTheme.colorRGB);
+  }, [currentTheme.color, currentTheme.colorRGB]);
 
   const createView = useCallback(async () => {
     try {
@@ -97,6 +130,7 @@ const Layout: FC = ({ children }) => {
         {children}
         <BackTop />
         <GlobalMenu />
+        <ThemeBar />
       </div>
     </ConfigProvider>
   );

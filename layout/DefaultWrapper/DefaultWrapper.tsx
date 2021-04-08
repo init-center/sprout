@@ -1,9 +1,9 @@
-import React, { FC } from "react";
-import { BackBar } from "../../components/BackBar/BackBar";
+import React, { FC, memo } from "react";
+import BackBar from "../../components/BackBar/BackBar";
 import Footer from "../../components/Footer/Footer";
 import styles from "./DefaultWrapper.module.scss";
 
-export const DefaultWrapper: FC = ({ children }) => {
+export const DefaultWrapper: FC = memo(({ children }) => {
   return (
     <div className={styles.container}>
       <BackBar />
@@ -13,4 +13,4 @@ export const DefaultWrapper: FC = ({ children }) => {
       </footer>
     </div>
   );
-};
+});

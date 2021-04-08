@@ -133,7 +133,7 @@ const GlobalMenu = memo(() => {
         ))}
       </ul>
 
-      <div className={styles.copyright}>
+      <div className={styles.foot}>
         <Footer />
       </div>
     </div>

@@ -7,3 +7,7 @@ export const SET_IS_DARK_MODE = "SET_IS_DARK_MODE";
 export const SET_CONFIGS = "SET_CONFIGS";
 
 export const SET_SHOULD_FETCH_CONFIGS = "SET_SHOULD_FETCH_CONFIGS";
+
+export const SET_THEME = "SET_THEME";
+
+export const SET_IS_THEME_MODAL_SHOW = "SET_IS_THEME_MODAL_SHOW";

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { CSSProperties, FC, memo, useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { BarsOutlined, CloseOutlined } from "@ant-design/icons";
+import { BarsOutlined, CloseOutlined, SearchOutlined } from "@ant-design/icons";
 import { WEBSITE_NAME_KEY } from "../../constants/configKey";
 import { DEFAULT_WEBSITE_NAME } from "../../constants/defaultConfig";
 import { StateType } from "../../store";
@@ -10,6 +10,7 @@ import styles from "./NavBar.module.scss";
 import {
   setIsDarkModeAction,
   setIsMenuShowAction,
+  setIsThemeModalShowAction,
 } from "../../store/global/actionCreator";
 import IconFont from "../IconFont/IconFont";
 
@@ -27,6 +28,10 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
   const isDarkMode = useSelector<StateType, boolean>(
     (state) => state.isDarkMode
   );
+
+  const isThemeModalShow = useSelector<StateType, boolean>(
+    (state) => state.isThemeModalShow
+  );
   const websiteName = useSelector<StateType, ConfigItem>(
     (state) => state.configs[WEBSITE_NAME_KEY]
   );
@@ -37,6 +42,14 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
       dispatch(setIsMenuShowAction(!isMenuShow));
     },
     [dispatch, isMenuShow]
+  );
+
+  const toggleIsThemeModalShow = useCallback(
+    (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+      e.stopPropagation();
+      dispatch(setIsThemeModalShowAction(!isThemeModalShow));
+    },
+    [dispatch, isThemeModalShow]
   );
 
   const toggleIsDarkMode = useCallback(
@@ -68,8 +81,29 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
       <div className={styles["control-bar"]}>
         <div
           className={styles["control-item"]}
+          style={{
+            ...controlItemStyles,
+
+            color: "var(--font-color-second)",
+          }}
+          title="搜索"
+          onClick={() => router.push("/search")}
+        >
+          <SearchOutlined />
+        </div>
+        <div
+          className={styles["control-item"]}
+          style={controlItemStyles}
+          onClick={toggleIsThemeModalShow}
+          title="主题"
+        >
+          <IconFont type="icon-zhuti" />
+        </div>
+        <div
+          className={styles["control-item"]}
           style={controlItemStyles}
           onClick={toggleIsDarkMode}
+          title={isDarkMode ? "夜" : "日"}
         >
           {isDarkMode ? (
             <IconFont type="icon-Moon3" />
@@ -81,6 +115,7 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
           className={styles["control-item"]}
           style={controlItemStyles}
           onClick={toggleIsMenuShow}
+          title={isMenuShow ? "关闭菜单" : "菜单"}
         >
           {isMenuShow ? <CloseOutlined /> : <BarsOutlined />}
         </div>

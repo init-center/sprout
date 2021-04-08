@@ -128,7 +128,7 @@ class Boom {
       }
       circle.move();
     });
-    if (this.circles.length == 0) {
+    if (this.circles.length === 0) {
       this.stop = true;
     }
   }
