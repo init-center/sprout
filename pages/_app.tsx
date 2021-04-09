@@ -92,6 +92,7 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
         for (const config of configList.list) {
           newConfigs[config.key] = config;
         }
+
         store.dispatch(setConfigsAction(newConfigs));
         store.dispatch(setShouldFetchConfigsAction(false));
       }

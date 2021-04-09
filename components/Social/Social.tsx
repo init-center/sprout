@@ -6,6 +6,7 @@ import {
   ZhihuOutlined,
 } from "@ant-design/icons";
 import styles from "./Social.module.scss";
+import IconFont from "../IconFont/IconFont";
 
 const Social = memo(() => {
   return (
@@ -40,6 +41,11 @@ const Social = memo(() => {
           rel="noreferrer"
         >
           <ZhihuOutlined />
+        </a>
+      </li>
+      <li className={styles["social-item"]}>
+        <a href="https://init.center/atom.xml" target="_blank" rel="noreferrer">
+          <IconFont type="icon-rss" />
         </a>
       </li>
     </ul>

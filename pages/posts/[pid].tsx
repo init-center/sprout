@@ -410,7 +410,9 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
   };
   let statusCode = 404;
   try {
-    const result = await http.get<ResponseData<PostDetail>>(`/posts/${pid}`);
+    const result = await http.get<ResponseData<PostDetail>>(
+      `/posts/detail/${pid}`
+    );
     statusCode = result.status;
     if (statusCode === 200 && result.data.code === 2000) {
       post = result.data.data;

@@ -87,7 +87,10 @@ const NavBar: FC<NavBarProps> = memo(({ logoStyles, controlItemStyles }) => {
             color: "var(--font-color-second)",
           }}
           title="搜索"
-          onClick={() => router.push("/search")}
+          onClick={() => {
+            router.push("/search");
+            dispatch(setIsMenuShowAction(false));
+          }}
         >
           <SearchOutlined />
         </div>

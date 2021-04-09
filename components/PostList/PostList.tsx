@@ -7,7 +7,7 @@ import styles from "./PostList.module.scss";
 import { PostListQueryFields, PostListType } from "../../types/post";
 import http, { ResponseData } from "../../utils/http/http";
 import { Empty, message } from "antd";
-import { BackBar } from "../BackBar/BackBar";
+import BackBar from "../BackBar/BackBar";
 import { scrollToElement } from "../../utils/scrollToElement";
 
 interface PostListProps {

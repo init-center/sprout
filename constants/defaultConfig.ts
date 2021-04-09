@@ -2,7 +2,12 @@ import { Theme } from "../types/theme";
 
 export const DEFAULT_WEBSITE_NAME = "Sprout";
 export const DEFAULT_ADMIN_NAME = "SUPER_AI";
+export const DEFAULT_ADMIN_EMAIL = "init_center@foxmail.com";
 export const DEFAULT_ABOUT = "你好！欢迎来到我的博客！";
+
+export const DEFAULT_WEBSITE_DESCRIPTION = `${DEFAULT_WEBSITE_NAME}是 ${DEFAULT_ADMIN_NAME}（https://github.com/init-center）的个人博客，主要内容为 Web 前端开发。 - ${DEFAULT_ADMIN_NAME} - ${DEFAULT_WEBSITE_NAME}`;
+
+export const DEFAULT_WEBSITE_KEYWORDS = `${DEFAULT_ADMIN_NAME}, ${DEFAULT_WEBSITE_NAME}, 博客, @${DEFAULT_ADMIN_NAME}, Web, blog, Front-End, 前端开发, Developer, JavaScript, TypeScript, Golang, Vue.js, 小程序, React.js, Webpack, Docker`;
 
 export const THEME_CONFIG: Theme[] = [
   {

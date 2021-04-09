@@ -31,9 +31,7 @@ const Tags: NextPage<TagsProps> = ({ tagList, statusCode }) => {
 };
 
 // fetch data
-export const getServerSideProps: GetServerSideProps<TagsProps> = async (
-  _context
-) => {
+export const getServerSideProps: GetServerSideProps<TagsProps> = async () => {
   let tagList: TagListType = {
     page: {
       currentPage: 0,

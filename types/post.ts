@@ -33,6 +33,11 @@ export type PostListType = {
   list: PostItem[];
 };
 
+export type PostDetailListType = {
+  page: Page;
+  list: PostDetail[];
+};
+
 export type FavoritePostList = {
   page: Page;
   list: FavoritePost[];

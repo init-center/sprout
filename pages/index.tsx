@@ -25,9 +25,7 @@ const Home: NextPage<HomeProps> = ({ postList, statusCode }) => {
 };
 
 // fetch data
-export const getServerSideProps: GetServerSideProps<HomeProps> = async (
-  _context
-) => {
+export const getServerSideProps: GetServerSideProps<HomeProps> = async () => {
   let postList: PostListType = {
     page: {
       currentPage: 0,
@@ -48,6 +46,7 @@ export const getServerSideProps: GetServerSideProps<HomeProps> = async (
   } catch (err) {
     statusCode = err?.response?.status ?? 404;
   }
+
   return {
     props: {
       postList,
