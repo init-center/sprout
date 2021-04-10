@@ -8,6 +8,11 @@ import { SEO } from "../components/SEO/SEO";
 import { FriendListType } from "../types/friends";
 import styles from "../styles/Friends.module.scss";
 import { Empty, Image } from "antd";
+import { useSelector } from "react-redux";
+import { StateType } from "../store";
+import { ConfigItem } from "../types/config";
+import { MAKE_FRIEND_DESCRIPTION_KEY } from "../constants/configKey";
+import { DEFAULT_MAKE_FRIEND_DESCRIPTION } from "../constants/defaultConfig";
 
 interface FriendsProps {
   statusCode: number;
@@ -15,6 +20,10 @@ interface FriendsProps {
 }
 
 const Friends: NextPage<FriendsProps> = ({ friendList, statusCode }) => {
+  const makeFriendDescription = useSelector<StateType, ConfigItem>(
+    (state) => state.configs[MAKE_FRIEND_DESCRIPTION_KEY]
+  );
+
   if (statusCode >= 400) {
     return <ErrorPage statusCode={statusCode} />;
   }
@@ -47,6 +56,16 @@ const Friends: NextPage<FriendsProps> = ({ friendList, statusCode }) => {
           ) : (
             <Empty className={styles.empty} description="暂无友链" />
           )}
+        </div>
+        <div className={styles["make-friend"]}>
+          <CustomDivider>交换友链</CustomDivider>
+          <div
+            className={styles["make-friend-description"]}
+            dangerouslySetInnerHTML={{
+              __html:
+                makeFriendDescription?.value ?? DEFAULT_MAKE_FRIEND_DESCRIPTION,
+            }}
+          ></div>
         </div>
       </DefaultWrapper>
     </>

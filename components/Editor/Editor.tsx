@@ -14,7 +14,7 @@ import emojiMap from "../../utils/md2html/extensions/emojiExtension/emojiMap";
 import { genEmojiRuleName } from "../../utils/md2html/extensions/emojiExtension/emojiExtension";
 import md2html, { Resolve } from "../../utils/md2html/md2html";
 import combineClassNames from "../../utils/combineClassNames";
-import { defaultImg } from "../../utils/lazyLoad/imgUrl";
+import { defaultImg2 } from "../../utils/lazyLoad/imgUrl";
 import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import "highlight.js/styles/monokai-sublime.css";
 import styles from "./Editor.module.scss";
@@ -235,7 +235,7 @@ const Editor = memo(
                   return (
                     <img
                       className={styles["emoji-item"]}
-                      src={defaultImg}
+                      src={defaultImg2}
                       data-src={emojiMap[activeEmojiClass].data[emojiName]}
                       alt={emojiName}
                       title={emojiName}
@@ -267,7 +267,7 @@ const Editor = memo(
                   >
                     <img
                       className={styles["emoji-tab-item-cover"]}
-                      src={defaultImg}
+                      src={defaultImg2}
                       data-src={emojiMap[emojiClass].cover}
                       alt={emojiClass}
                       title={emojiClass}

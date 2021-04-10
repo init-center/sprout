@@ -35,6 +35,14 @@ import { SEO } from "../../components/SEO/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMenuShowAction } from "../../store/global/actionCreator";
 import { StateType } from "../../store";
+import { genLicenceHTMLString } from "../../utils/genLicenceHTMLString/genLicenceHTMLString";
+import { AUTHOR_URL_KEY, WEBSITE_URL_KEY } from "../../constants/configKey";
+import { ConfigItem } from "../../types/config";
+import {
+  DEFAULT_AUTHOR_URL,
+  DEFAULT_WEBSITE_URL,
+} from "../../constants/defaultConfig";
+import { Donate } from "../../components/Donate/Donate";
 
 interface PostProps {
   post: PostDetail;
@@ -69,6 +77,12 @@ const Post: NextPage<PostProps> = ({
   const [activeTitleId, setActiveTitleId] = useState("");
   const isMenuShow = useSelector<StateType, boolean>(
     (state) => state.isMenuShow
+  );
+  const authorUrl = useSelector<StateType, ConfigItem>(
+    (state) => state.configs[AUTHOR_URL_KEY]
+  );
+  const websiteUrl = useSelector<StateType, ConfigItem>(
+    (state) => state.configs[WEBSITE_URL_KEY]
   );
 
   useImgLazyLoad();
@@ -137,8 +151,27 @@ const Post: NextPage<PostProps> = ({
     setTitles(result.titles);
     setAllTitlesId(result.titleIds);
     setTitleChildrenIdMap(result.titleChildrenIdMap);
-    setArticle(result.htmlContent);
-  }, [post.content]);
+    const htmlContent =
+      result.htmlContent +
+      genLicenceHTMLString({
+        title: post.title,
+        author: post.userName,
+        authorUrl: authorUrl?.value ?? DEFAULT_AUTHOR_URL,
+        postLink: `${websiteUrl?.value ?? DEFAULT_WEBSITE_URL}/posts/${
+          post.pid
+        }`,
+        createTime: post.createTime,
+      });
+    setArticle(htmlContent);
+  }, [
+    authorUrl?.value,
+    post.content,
+    post.createTime,
+    post.pid,
+    post.title,
+    post.userName,
+    websiteUrl?.value,
+  ]);
 
   useEffect(() => {
     const player = playerRef.current;
@@ -336,6 +369,7 @@ const Post: NextPage<PostProps> = ({
               );
             })}
           </ul>
+          <Donate />
           <CommentList
             commentsData={parentComments}
             commentCount={post.commentCount}

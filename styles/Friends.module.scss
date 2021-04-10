@@ -3,6 +3,7 @@
 
 .wrapper {
   width: 100%;
+  overflow: hidden;
 
   .friend-list {
     width: 100%;
@@ -10,15 +11,50 @@
     padding: 20px;
 
     .friend-item {
+      position: relative;
       width: calc(100% / 2 - 42px);
       box-sizing: border-box;
       float: left;
       list-style: none;
-      border: var(--default-border);
       margin: 10px;
 
       &:hover {
-        border-color: var(--theme-color);
+
+        .friend-item-link {
+          transform: translateY(10px);
+        }
+      }
+
+      &::before {
+        content: "";
+        position: absolute;
+        height: 3px;
+        left: 4px;
+        right: 8px;
+        bottom: -4px;
+        z-index: 2;
+        background-color: var(--background-color);
+        margin-left: auto;
+        margin-right: auto;
+        border: 1px solid var(--border-color-second);
+        border-top: none;
+        box-shadow: 0 4px 8px 0 rgb(7 17 27 / 10%);
+      }
+
+      &::after {
+        content: "";
+        background-color: var(--background-color);
+        margin-left: auto;
+        margin-right: auto;
+        position: absolute;
+        border: 1px solid var(--border-color-second);
+        border-top: none;
+        box-shadow: 0 4px 8px 0 rgb(7 17 27 / 10%);
+        height: 8px;
+        bottom: -8px;
+        left: 8px;
+        right: 4px;
+        z-index: 1;
       }
 
       @media screen and (max-width: 1000px) {
@@ -26,8 +62,14 @@
       }
 
       .friend-item-link {
+        position: relative;
         display: flex;
         flex-direction: row;
+        background-color: var(--background-color);
+        z-index: 5;
+        border: 1px solid var(--border-color-second);
+        transform: translateY(0);
+        transition: transform 0.26s, box-shadow 0.26s;
         .avatar {
           width: 80px;
           height: 100%;
@@ -63,4 +105,10 @@
     align-items: center;
     min-height: calc(100vh - #{$post-top-bar-height} - #{$footer-height} - 70px);
   }
+}
+
+.make-friend {
+  width: 100%;
+  color: var(--font-color-second);
+  margin: 20px 0;
 }

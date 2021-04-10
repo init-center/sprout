@@ -3,6 +3,7 @@ import { Tag } from "./tag";
 
 export interface PostItem {
   uid: string;
+  userName: string;
   pid: string;
   categoryId: number;
   categoryName: string;

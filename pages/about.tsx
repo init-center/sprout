@@ -22,7 +22,7 @@ const About: NextPage = () => {
         <div
           className={mdStyles["md-box"]}
           dangerouslySetInnerHTML={{
-            __html: md2html(about.value ?? DEFAULT_ABOUT).htmlContent,
+            __html: md2html(about?.value ?? DEFAULT_ABOUT).htmlContent,
           }}
         ></div>
       </DefaultWrapper>

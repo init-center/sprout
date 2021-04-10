@@ -8,5 +8,10 @@ export default function extractSummary(
   if (!retainTitle) {
     content = content.replace(/<[hH]([1-6])\s+.*?>.*?<\/[hH]\1>/gi, "");
   }
-  return (stripTags(content).slice(0, len) + "...").replace(/[\r\n]/g, "");
+
+  let result = stripTags(content).slice(0, len);
+  if (content.length > result.length) {
+    result += "...";
+  }
+  return result.replace(/[\r\n]/g, "");
 }

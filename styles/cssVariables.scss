@@ -8,6 +8,7 @@ body {
   --font-color: #0f1419;
   --font-color-second: #5b7083;
   --border-color: #dadada;
+  --border-color-second: #eaeaea;
   --default-border: 1px solid var(--border-color);
   --box-shadow: 0 1px 2px 0 rgb(0 0 0 / 5%);
   --error-color: #ff4c4c;
@@ -23,7 +24,8 @@ body.dark {
   --font-color: #ddd;
   --font-color-second: #6e767d;
   --border-color: #2f3336;
+  --border-color-second: #363636;
   --post-card-background: var(--background-color-second);
   --banner-font-color: var(--font-color);
-  --mermaid-background-color: #d9d9d9;
+  --mermaid-background-color: #999;
 }

@@ -9,31 +9,9 @@ import NavBar from "../NavBar/NavBar";
 import styles from "./GlobalMenu.module.scss";
 import { Dropdown, Menu } from "antd";
 import { UserPrivateInfo } from "../../types/users";
+import { GLOBAL_MENU_NAV_LIST } from "../../constants/defaultConfig";
 import http, { ResponseData } from "../../utils/http/http";
 import { TOKEN_KEY } from "../../constants";
-
-const navList = [
-  {
-    name: "标签",
-    path: "/tags",
-  },
-  {
-    name: "分类",
-    path: "/categories",
-  },
-  {
-    name: "归档",
-    path: "/archive",
-  },
-  {
-    name: "友链",
-    path: "/friends",
-  },
-  {
-    name: "关于",
-    path: "/about",
-  },
-];
 
 const GlobalMenu = memo(() => {
   const router = useRouter();
@@ -120,7 +98,7 @@ const GlobalMenu = memo(() => {
             </div>
           </div>
         </Dropdown>
-        {navList.map((nav) => (
+        {GLOBAL_MENU_NAV_LIST.map((nav) => (
           <li
             className={styles["nav-item"]}
             key={nav.name}
