@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import App from "next/app";
+import Head from "next/head";
 import type { AppProps, AppContext } from "next/app";
 import { useRouter } from "next/router";
 import Layout from "../layout/Layout";
@@ -57,12 +58,42 @@ function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
   }, [router.events]);
 
   return (
-    <Provider store={store}>
-      <Layout>
-        <Loading />
-        <Component {...pageProps} />
-      </Layout>
-    </Provider>
+    <>
+      <Head>
+        <meta charSet="utf-8" />
+        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
+        <meta
+          name="viewport"
+          content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no"
+        />
+        <link rel="icon" href="/favicon.ico" />
+        <link
+          rel="apple-touch-icon"
+          sizes="57x57"
+          href="/icons/icon-52x52.png"
+        />
+
+        <link
+          rel="apple-touch-icon"
+          sizes="72x72"
+          href="/icons/icon-72x72.png"
+        />
+
+        <link
+          rel="apple-touch-icon"
+          sizes="114x114"
+          href="/icons/icon-114x114.png"
+        />
+
+        <link rel="manifest" href="/manifest.json" />
+      </Head>
+      <Provider store={store}>
+        <Layout>
+          <Loading />
+          <Component {...pageProps} />
+        </Layout>
+      </Provider>
+    </>
   );
 }
 

@@ -418,6 +418,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
   let post: PostDetail = {
     uid: "",
     pid: "",
+    userName: "",
     categoryId: -1,
     categoryName: "",
     tags: [],
