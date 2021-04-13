@@ -26,6 +26,11 @@ body {
   transition: all 0.3s;
   cursor: url("../public/cursor.ico"), default;
 
+  *::selection {
+    color: #fff;
+    background-color: var(--theme-color);
+  }
+
   &::-webkit-scrollbar {
     width: 8px;
   }

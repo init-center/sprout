@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import App from "next/app";
 import Head from "next/head";
 import type { AppProps, AppContext } from "next/app";
@@ -21,12 +21,14 @@ import "highlight.js/styles/monokai-sublime.css";
 import "katex/dist/katex.min.css";
 import { ConfigList, Configs } from "../types/config";
 import http, { ResponseData } from "../utils/http/http";
+import { ADMIN_NAME_KEY } from "../constants/configKey";
+import { DEFAULT_ADMIN_NAME } from "../constants/defaultConfig";
 
 interface MyAppProps extends AppProps {
   // use the __NEXT_DATA carried by next.js to bring the configs data to the client
   configs: Configs;
 }
-function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
+function MyApp({ Component, pageProps, configs }: MyAppProps): JSX.Element {
   const router = useRouter();
 
   useEffect(() => {
@@ -56,6 +58,30 @@ function MyApp({ Component, pageProps }: MyAppProps): JSX.Element {
       router.events.off("routeChangeComplete", handleRouteChangeComplete);
     };
   }, [router.events]);
+
+  const onCopy = useCallback(
+    (e: ClipboardEvent) => {
+      const selectText = window?.getSelection()?.toString();
+      e.clipboardData.setData(
+        "text/plain",
+        `${selectText}
+---------------------
+本文采用 CC BY-NC-SA 4.0 许可协议，著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
+作者：${configs[ADMIN_NAME_KEY].value ?? DEFAULT_ADMIN_NAME}
+来源：${document.title}
+链接：${document.location.href}`
+      );
+      e.preventDefault(); // We want our data, not data from any selection, to be written to the clipboard
+    },
+    [configs]
+  );
+
+  useEffect(() => {
+    document.addEventListener("copy", onCopy);
+    return () => {
+      document.removeEventListener("copy", onCopy);
+    };
+  }, [onCopy]);
 
   return (
     <>
