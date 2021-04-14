@@ -4,7 +4,7 @@ import { StateType } from "../store";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/lib/locale/zh_CN";
 import BackTop from "../components/BackTop/BackTop";
-import styles from "./layout.module.scss";
+import styles from "./Layout.module.scss";
 import GlobalMenu from "../components/GlobalMenu/GlobalMenu";
 import http, { ResponseData } from "../utils/http/http";
 import {

@@ -8,7 +8,7 @@ WORKDIR /opt/sprout
 
 # Installing dependencies
 COPY package*.json /opt/sprout/
-RUN npm ci
+RUN npm install
 
 # Copying source files
 COPY . /opt/sprout
