@@ -8,4 +8,5 @@ services:
       context: ./
       dockerfile: Dockerfile
     volumes:
-      - ./:/opt/sprout
+      - .:/opt/sprout
+      - /opt/sprout/node_modules
