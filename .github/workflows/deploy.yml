@@ -22,4 +22,9 @@ jobs:
           TARGET: "/opt/sprout"
           EXCLUDE: "/dist/, /node_modules/"
       - name: run with docker-compose
-        run: "ssh ${{ secrets.ALIYUN_USER }}@${{ secrets.ALIYUN_HOST}} 'cd /opt/sprout && docker-compose up -d'"
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.ALIYUN_HOST }}
+          username: ${{ secrets.ALIYUN_USER }}
+          key: ${{ secrets.ALIYUN_SECRET_KEY }}
+          script: cd /opt/sprout && docker-compose up -d
