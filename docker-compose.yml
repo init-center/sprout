@@ -9,4 +9,3 @@ services:
       dockerfile: Dockerfile
     volumes:
       - .:/opt/sprout
-      - /opt/sprout/node_modules
