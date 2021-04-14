@@ -23,7 +23,6 @@ import mdStyles from "../../styles/mdStyle.module.scss";
 import { GetServerSideProps, NextPage } from "next";
 import { default as ErrorPage } from "../_error";
 import http, { Response, ResponseData } from "../../utils/http/http";
-import mermaid from "mermaid";
 import { percent } from "../../utils/percent";
 import throttle from "../../utils/throttle/throttle";
 import dayjs from "../../utils/dayjs/dayjs";
@@ -86,10 +85,6 @@ const Post: NextPage<PostProps> = ({
   );
 
   useImgLazyLoad();
-
-  useEffect(() => {
-    mermaid.initialize({ startOnLoad: true });
-  }, []);
 
   const handleViewProgress = useCallback(() => {
     const scrollTop =
