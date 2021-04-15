@@ -13,6 +13,8 @@ RUN npm install
 # Copying source files
 COPY . /opt/sprout
 
+ENV NODE_ENV production
+
 # Building app
 RUN npm run build
 EXPOSE 3000
