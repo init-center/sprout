@@ -11,3 +11,7 @@ services:
       - ./:/opt/sprout
       - /opt/sprout/node_modules
       - /opt/sprout/.next
+networks:
+  default:
+    external:
+      name: mybridge
