@@ -39,12 +39,14 @@ export const SEO: FC<SeoProps> = memo(({ title, iconUrl }) => {
   const [themeColor, setThemeColor] = useState("#fff");
 
   useIsomorphicLayoutEffect(() => {
-    const backgroundColor = window
-      .getComputedStyle(document.body)
-      .getPropertyValue("--background-color");
-    if (backgroundColor) {
-      setThemeColor(backgroundColor);
-    }
+    setTimeout(() => {
+      const backgroundColor = window
+        .getComputedStyle(document.body)
+        .getPropertyValue("--background-color");
+      if (backgroundColor) {
+        setThemeColor(backgroundColor);
+      }
+    });
   }, [isDarkMode]);
 
   return (
