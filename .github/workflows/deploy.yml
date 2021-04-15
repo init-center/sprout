@@ -27,4 +27,4 @@ jobs:
           host: ${{ secrets.ALIYUN_HOST }}
           username: ${{ secrets.ALIYUN_USER }}
           key: ${{ secrets.ALIYUN_SECRET_KEY }}
-          script: cd /opt/sprout && echo "${{ secrets.ENV_LOCAL }}" && docker-compose build --no-cache && docker-compose up -d
+          script: cd /opt/sprout && echo "${{ secrets.ENV_LOCAL }}" > env.local && docker-compose build --no-cache && docker-compose up -d
