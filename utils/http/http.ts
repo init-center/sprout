@@ -11,7 +11,7 @@ export interface ResponseData<T = unknown> {
 
 // create axios instance
 const axiosInstance = axios.create({
-  baseURL: process.env.DEFAULT_SERVER_HOST,
+  baseURL: process.env.NEXT_PUBLIC_SERVER_HOST,
   timeout: 20000,
   withCredentials: true,
 });
