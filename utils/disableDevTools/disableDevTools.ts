@@ -1,4 +1,9 @@
+import { isClient } from "../isClient";
+
 export const disableReactDevTools = (): void => {
+  if (!isClient) {
+    return;
+  }
   const noop = (): void => undefined;
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const DEV_TOOLS = (window as any).__REACT_DEVTOOLS_GLOBAL_HOOK__;
