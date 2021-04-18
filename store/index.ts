@@ -14,7 +14,8 @@ declare global {
 }
 
 const composeEnhancers =
-  (typeof window !== "undefined" &&
+  (process?.env?.NEXT_PUBLIC_ENV !== "production" &&
+    typeof window !== "undefined" &&
     window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 

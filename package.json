@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "format": "eslint ./**/*.{ts,tsx,js,jsx} --fix",
-    "commit": "cz",
-    "postinstall": "patch-package"
+    "commit": "cz"
   },
   "config": {
     "commitizen": {
