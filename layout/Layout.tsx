@@ -76,11 +76,11 @@ const Layout: FC = ({ children }) => {
       return;
     }
     if (dark === "true") {
-      dispatch(setIsDarkModeAction(true));
+      !isDarkMode && dispatch(setIsDarkModeAction(true));
     } else {
-      dispatch(setIsDarkModeAction(false));
+      isDarkMode && dispatch(setIsDarkModeAction(false));
     }
-  }, [dispatch]);
+  }, [dispatch, isDarkMode]);
 
   useEffect(() => {
     const themeString = localStorage.getItem(THEME_KEY);

@@ -9,6 +9,7 @@ import http, { ResponseData } from "../../utils/http/http";
 import { Empty, message } from "antd";
 import BackBar from "../BackBar/BackBar";
 import { scrollToElement } from "../../utils/scrollToElement";
+import combineClassNames from "../../utils/combineClassNames";
 
 interface PostListProps {
   postList: PostListType;
@@ -63,7 +64,12 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
   useImgLazyLoad();
 
   return (
-    <div className={styles.container}>
+    <div
+      className={combineClassNames(
+        styles.container,
+        posts.list.length > 0 ? styles["has-post"] : ""
+      )}
+    >
       {posts.list.length > 0 ? (
         <div>
           <header className={styles.header}>

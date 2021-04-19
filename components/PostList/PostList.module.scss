@@ -5,7 +5,7 @@
   width: 100vw;
   overflow: hidden;
 
-  &::before {
+  &.has-post::before {
     content: '';
     position: absolute;
     display: block;

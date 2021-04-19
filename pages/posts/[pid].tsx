@@ -72,8 +72,8 @@ const Post: NextPage<PostProps> = ({
   const playerRef = useRef<HTMLAudioElement>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [isFavorite, setIsFavorite] = useState(false);
-  const [playerProgressPercent, setPlayerProgressPercent] = useState(0);
-  const [activeTitleId, setActiveTitleId] = useState("");
+  const playProgressBarRef = useRef<HTMLDivElement>(null);
+  const [activeTitleId, setActiveTitleId] = useState(allTitlesId[0]);
   const isMenuShow = useSelector<StateType, boolean>(
     (state) => state.isMenuShow
   );
@@ -106,25 +106,28 @@ const Post: NextPage<PostProps> = ({
     const title = titleRef.current;
     const titleTop = title.getBoundingClientRect().top;
     if (titleTop <= 50) {
-      setIsSubTitleShow(true);
+      !isSubTitleShow && setIsSubTitleShow(true);
     } else {
-      setIsSubTitleShow(false);
+      isSubTitleShow && setIsSubTitleShow(false);
     }
-  }, []);
+  }, [isSubTitleShow]);
 
   const handleActiveTitle = useCallback(() => {
-    let activeTitleId = "";
+    let nowActiveTitleId = allTitlesId[0];
     let lastActiveTitleTop = -999999;
     for (let i = 0; i < allTitlesId.length; i++) {
       const title = document.getElementById(allTitlesId[i]);
       const top = title.getBoundingClientRect().top;
-      if (top <= 28 && top > lastActiveTitleTop) {
-        activeTitleId = allTitlesId[i];
+      if (top > 50) {
+        break;
+      }
+      if (top < 50 && top > lastActiveTitleTop) {
+        nowActiveTitleId = allTitlesId[i];
         lastActiveTitleTop = top;
       }
     }
-    setActiveTitleId(activeTitleId);
-  }, [allTitlesId]);
+    activeTitleId !== nowActiveTitleId && setActiveTitleId(nowActiveTitleId);
+  }, [activeTitleId, allTitlesId]);
 
   const handleScroll = useCallback(() => {
     handleViewProgress();
@@ -145,6 +148,7 @@ const Post: NextPage<PostProps> = ({
     const result = md2html(post.content, true);
     setTitles(result.titles);
     setAllTitlesId(result.titleIds);
+    setActiveTitleId(result.titleIds[0]);
     setTitleChildrenIdMap(result.titleChildrenIdMap);
     const htmlContent =
       result.htmlContent +
@@ -171,9 +175,13 @@ const Post: NextPage<PostProps> = ({
   useEffect(() => {
     const player = playerRef.current;
     if (!player) return;
-    player.ontimeupdate = () => {
-      setPlayerProgressPercent(percent(player.currentTime, player.duration));
-    };
+    player.ontimeupdate = throttle(() => {
+      playProgressBarRef.current &&
+        (playProgressBarRef.current.style.width = `${percent(
+          player.currentTime,
+          player.duration
+        )}%`);
+    }, 1000);
     player.onplay = () => {
       setIsPlaying(true);
     };
@@ -188,11 +196,9 @@ const Post: NextPage<PostProps> = ({
     };
 
     return () => {
-      const player = playerRef.current;
       if (player) {
         player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
       }
-      playerRef.current = null;
     };
   }, []);
 
@@ -306,7 +312,7 @@ const Post: NextPage<PostProps> = ({
           </div>
           <div
             className={styles["music-progress"]}
-            style={{ width: `${playerProgressPercent}%` }}
+            ref={playProgressBarRef}
           ></div>
           <div className={styles["view-progress"]} ref={viewProgressRef}></div>
         </div>
