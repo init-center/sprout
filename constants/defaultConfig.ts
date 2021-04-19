@@ -23,7 +23,7 @@ export const DEFAULT_MAKE_FRIEND_DESCRIPTION = `
   <li><strong>博客名称:</strong> ${DEFAULT_WEBSITE_NAME}</li>
   <li><strong>博客地址:</strong> ${DEFAULT_WEBSITE_URL}</li>
   <li><strong>博客简介:</strong> 人生百年，吾道不孤。</li>
-  <li><strong>博客头像:</strong> ${DEFAULT_WEBSITE_URL}/favicon.ico</li>
+  <li><strong>博客头像:</strong> https:static.init.center/sprout/avatar/my/avatar.jpeg</li>
 </ul>
 <div>然后按照以上格式将你的站点信息发送到 ${DEFAULT_ADMIN_EMAIL}，我会尽快添加！</div>
 `;
