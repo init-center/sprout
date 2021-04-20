@@ -19,10 +19,8 @@ ENV NODE_ENV production
 RUN npm run build
 EXPOSE 3000
 
-ENV TZ=Asia/Shanghai
-
-RUN apk add tzdata && cp /usr/share/zoneinfo/$TZ /etc/localtime \
-  && echo $TZ > /etc/timezone \
+RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+  && echo "Asia/Shanghai" > /etc/timezone \
   && apk del tzdata
 
 # Running the app
