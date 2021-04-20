@@ -16,8 +16,8 @@
     .image-box {
       //如果不设置子元素会自动缩小，设置为0表示子元素不缩小
       flex-shrink: 0;
-      height: 110%;
-      width: 110%;
+      height: 120%;
+      width: 120%;
 
       .image {
         width: 100%;

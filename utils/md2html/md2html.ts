@@ -130,7 +130,9 @@ export default function md2html(
       }
       return `<pre><code class="hljs-${language}">${
         getLanguage(language)
-          ? highlight(language, code).value
+          ? highlight(code, {
+              language,
+            }).value
           : highlightAuto
           ? highlightAuto(code).value
           : code

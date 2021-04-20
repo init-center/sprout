@@ -71,7 +71,7 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
       )}
     >
       {posts.list.length > 0 ? (
-        <div>
+        <>
           <header className={styles.header}>
             <Banner post={posts.list[0]} />
           </header>
@@ -98,7 +98,7 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
                 : "没有更多了"}
             </div>
           </main>
-        </div>
+        </>
       ) : (
         <div className={styles["no-post"]}>
           <BackBar />

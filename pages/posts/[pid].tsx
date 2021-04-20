@@ -58,7 +58,6 @@ const Post: NextPage<PostProps> = ({
 }) => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [article, setArticle] = useState("");
   const [titles, setTitles] = useState<Title[]>([]);
   const [allTitlesId, setAllTitlesId] = useState<string[]>([]);
   const [
@@ -117,13 +116,15 @@ const Post: NextPage<PostProps> = ({
     let lastActiveTitleTop = -999999;
     for (let i = 0; i < allTitlesId.length; i++) {
       const title = document.getElementById(allTitlesId[i]);
-      const top = title.getBoundingClientRect().top;
-      if (top > 50) {
-        break;
-      }
-      if (top < 50 && top > lastActiveTitleTop) {
-        nowActiveTitleId = allTitlesId[i];
-        lastActiveTitleTop = top;
+      if (title) {
+        const top = title.getBoundingClientRect().top;
+        if (top > 50) {
+          break;
+        }
+        if (top < 50 && top > lastActiveTitleTop) {
+          nowActiveTitleId = allTitlesId[i];
+          lastActiveTitleTop = top;
+        }
       }
     }
     activeTitleId !== nowActiveTitleId && setActiveTitleId(nowActiveTitleId);
@@ -150,18 +151,6 @@ const Post: NextPage<PostProps> = ({
     setAllTitlesId(result.titleIds);
     setActiveTitleId(result.titleIds[0]);
     setTitleChildrenIdMap(result.titleChildrenIdMap);
-    const htmlContent =
-      result.htmlContent +
-      genLicenceHTMLString({
-        title: post.title,
-        author: post.userName,
-        authorUrl: authorUrl?.value ?? DEFAULT_AUTHOR_URL,
-        postLink: `${websiteUrl?.value ?? DEFAULT_WEBSITE_URL}/posts/${
-          post.pid
-        }`,
-        createTime: post.createTime,
-      });
-    setArticle(htmlContent);
   }, [
     authorUrl?.value,
     post.content,
@@ -349,7 +338,19 @@ const Post: NextPage<PostProps> = ({
             </div>
             <div
               className={combineClassNames(styles.content, mdStyles["md-box"])}
-              dangerouslySetInnerHTML={{ __html: article }}
+              dangerouslySetInnerHTML={{
+                __html:
+                  md2html(post.content, true).htmlContent +
+                  genLicenceHTMLString({
+                    title: post.title,
+                    author: post.userName,
+                    authorUrl: authorUrl?.value ?? DEFAULT_AUTHOR_URL,
+                    postLink: `${
+                      websiteUrl?.value ?? DEFAULT_WEBSITE_URL
+                    }/posts/${post.pid}`,
+                    createTime: post.createTime,
+                  }),
+              }}
             ></div>
             <audio ref={playerRef} loop preload="auto">
               <source type="audio/mpeg" src={post.bgm}></source>
