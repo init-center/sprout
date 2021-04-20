@@ -20,8 +20,7 @@ RUN npm run build
 EXPOSE 3000
 
 RUN apk add tzdata && cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-  && echo "Asia/Shanghai" > /etc/timezone \
-  && apk del tzdata
+  && echo "Asia/Shanghai" > /etc/timezone
 
 # Running the app
 CMD "npm" "start"
