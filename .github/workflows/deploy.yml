@@ -31,8 +31,8 @@ jobs:
             docker-compose down
             docker-compose build --no-cache
             docker-compose up -d
-            docker exec -it sprout sh -c "apk add tzdata"
-            docker exec -it sprout sh -c "cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime"
-            docker exec -it sprout sh -c 'echo "Asia/Shanghai" > /etc/timezone'
-            docker exec -it sprout sh -c "apk del tzdata"
-            docker exec -it sprout sh -c "date"
+            docker exec -i sprout sh -c "apk add tzdata"
+            docker exec -i sprout sh -c "cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime"
+            docker exec -i sprout sh -c 'echo "Asia/Shanghai" > /etc/timezone'
+            docker exec -i sprout sh -c "apk del tzdata"
+            docker exec -i sprout sh -c "date"
