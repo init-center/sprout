@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   sprout:
+    container_name: sprout
     ports:
       - 3000:3000
     build:
