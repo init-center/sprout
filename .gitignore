@@ -12,6 +12,11 @@
 /.next/
 /out/
 
+# sw build file
+sw.js
+workbox-*.js
+fallback-*-*.js
+
 # production
 /build
 
