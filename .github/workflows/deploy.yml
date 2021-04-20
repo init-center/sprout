@@ -20,7 +20,6 @@ jobs:
           REMOTE_HOST: ${{ secrets.ALIYUN_HOST }}
           REMOTE_USER: ${{ secrets.ALIYUN_USER }}
           TARGET: "/opt/sprout"
-          EXCLUDE: "/dist/, /node_modules/"
       - name: run with docker-compose
         uses: appleboy/ssh-action@master
         with:
