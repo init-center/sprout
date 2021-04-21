@@ -11,20 +11,22 @@ export const DEFAULT_WEBSITE_DESCRIPTION = `${DEFAULT_WEBSITE_NAME}是 ${DEFAULT
 
 export const DEFAULT_WEBSITE_KEYWORDS = `${DEFAULT_ADMIN_NAME}, ${DEFAULT_WEBSITE_NAME}, 博客, @${DEFAULT_ADMIN_NAME}, Web, blog, Front-End, 前端开发, Developer, JavaScript, TypeScript, Golang, Vue.js, 小程序, React.js, Webpack, Docker`;
 
+export const DEFAULT_ADMIN_AVATAR = `https://static.init.center/sprout/avatar/my/avatar.jpeg`;
+
 export const DEFAULT_MAKE_FRIEND_DESCRIPTION = `
 <div>如需交换友链，请查看是否符合以下要求：</div>
-<ul>
-  <li>你的网站不是采集、完全非原创、无实质内容的网站，且至少在半年内有一次更新。</li>
-  <li>希望你的网站是主技术类网站。</li>
-  <li>你的网站不包含违法国家法律或不健康的内容。</li>
-</ul>
-<div>如符合要求，请基于以下信息将本站添加至你的友链：</div>
-<ul>
-  <li><strong>博客名称:</strong> ${DEFAULT_WEBSITE_NAME}</li>
-  <li><strong>博客地址:</strong> ${DEFAULT_WEBSITE_URL}</li>
-  <li><strong>博客简介:</strong> 人生百年，吾道不孤。</li>
-  <li><strong>博客头像:</strong> https:static.init.center/sprout/avatar/my/avatar.jpeg</li>
-</ul>
+  <ul>
+    <li>你的网站不是采集、完全非原创、无实质内容的网站，且至少在半年内有一次更新。</li>
+    <li>希望你的网站是主技术类网站。</li>
+    <li>你的网站不包含违反国家法律或不健康的内容。</li>
+  </ul>
+  <div>如符合要求，请基于以下信息将本站添加至你的友链：</div>
+  <ul>
+    <li><strong>博客名称:</strong> ${DEFAULT_WEBSITE_NAME}</li>
+    <li><strong>博客地址:</strong> ${DEFAULT_WEBSITE_URL}</li>
+    <li><strong>博客简介:</strong> 人生百年，吾道不孤。</li>
+    <li><strong>博客头像:</strong> ${DEFAULT_ADMIN_AVATAR}</li>
+  </ul>
 <div>然后按照以上格式将你的站点信息发送到 ${DEFAULT_ADMIN_EMAIL}，我会尽快添加！</div>
 `;
 

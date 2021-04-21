@@ -111,4 +111,10 @@
   color: var(--font-color-second);
   margin: 20px 0;
   padding: 20px 10px;
+
+  .make-friend-description {
+    width: 100%;
+    overflow: hidden;
+    word-break: break-all;
+  }
 }
