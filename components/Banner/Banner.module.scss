@@ -10,14 +10,14 @@
     justify-content: center;
     align-items: center;
     height: 100%;
-    width: 100%;
+    width: 100vw;
     transform-style: preserve-3d;
 
     .image-box {
       //如果不设置子元素会自动缩小，设置为0表示子元素不缩小
       flex-shrink: 0;
-      height: 120%;
-      width: 120%;
+      height: 125%;
+      width: 125%;
 
       .image {
         width: 100%;

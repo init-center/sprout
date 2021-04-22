@@ -2,6 +2,11 @@ import { Feed } from "feed";
 import md2html from "../md2html/md2html";
 import http, { ResponseData } from "../http/http";
 import { PostDetail, PostDetailListType } from "../../types/post";
+import { genLicenceHTMLString } from "../genLicenceHTMLString/genLicenceHTMLString";
+import {
+  DEFAULT_AUTHOR_URL,
+  DEFAULT_WEBSITE_URL,
+} from "../../constants/defaultConfig";
 
 export interface RssOptions {
   websiteName: string;
@@ -57,15 +62,32 @@ async function generateAtomFeed(options: RssOptions) {
 
   posts.forEach((post) => {
     const url = `${options.websiteUrl}/posts/${post.pid}`;
+    const copyright = genLicenceHTMLString({
+      title: post.title,
+      author: post.userName,
+      authorUrl: DEFAULT_AUTHOR_URL,
+      postLink: `${DEFAULT_WEBSITE_URL}/posts/${post.pid}`,
+      createTime: post.createTime,
+    });
     feed.addItem({
       title: post.title,
-      id: url,
+      id: post.pid,
       link: url,
+      category: [
+        {
+          term: post.categoryName,
+          scheme: `${options.websiteUrl}/categories/${post.categoryName}`,
+        },
+      ],
       description: post.summary,
-      content: md2html(post.content, false, false).htmlContent,
+      content: md2html(post.content, false, false).htmlContent + copyright,
       author: [author],
       contributor: [author],
-      date: new Date(post.createTime),
+      image: post.cover,
+      audio: post.bgm,
+      published: new Date(post.createTime),
+      date: new Date(post.updateTime),
+      copyright,
     });
   });
 

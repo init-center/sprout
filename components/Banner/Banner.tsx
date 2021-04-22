@@ -34,7 +34,7 @@ const Banner: FC<BannerProps> = memo(({ post }) => {
   return (
     <div className={styles.banner}>
       <div className={styles["parallax-box"]} ref={imageRef}>
-        <div className={styles["image-box"]} data-depth="0.4">
+        <div className={styles["image-box"]} data-depth="0.3">
           <img
             alt="cover"
             src={defaultImg}

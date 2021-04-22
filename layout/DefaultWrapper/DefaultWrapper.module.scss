@@ -2,8 +2,10 @@
 
 .container {
   width: 100%;
+  overflow-x: hidden;
   .main {
     max-width: 700px;
+    overflow-x: hidden;
     margin: 0 auto;
     color: var(--font-color);
     min-height: calc(100vh - #{$footer-height});
