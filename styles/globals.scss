@@ -22,7 +22,6 @@ body {
   background-color: var(--background-color);
   color: var(--font-color);
   overflow-y: auto;
-  overflow-y: overlay;
   overflow-x: hidden;
   transition: all 0.3s;
   cursor: url("../public/cursor.ico"), default;
