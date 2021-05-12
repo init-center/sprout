@@ -72,7 +72,7 @@ function MyApp({ Component, pageProps, configs }: MyAppProps): JSX.Element {
         `${selectText}
 ---------------------
 本文采用 CC BY-NC-SA 4.0 许可协议，著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
-作者：${configs[ADMIN_NAME_KEY].value ?? DEFAULT_ADMIN_NAME}
+作者：${configs[ADMIN_NAME_KEY]?.value ?? DEFAULT_ADMIN_NAME}
 来源：${document.title}
 链接：${document.location.href}`
       );
