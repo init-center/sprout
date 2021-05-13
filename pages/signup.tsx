@@ -23,6 +23,7 @@ const SignUp: FC = () => {
   const router = useRouter();
 
   const [isSendingCode, setIsSendingCode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const sendCodeBtnRef = useRef<HTMLButtonElement>(null);
   const timerRef = useRef(null);
   const [form] = Form.useForm();
@@ -39,18 +40,20 @@ const SignUp: FC = () => {
     () =>
       debounce(async () => {
         if (isSendingCode) return;
+        const sendCodeBtn = sendCodeBtnRef.current;
+        const span = sendCodeBtn && sendCodeBtn.querySelector("span");
         try {
           const validResult = await form.validateFields(["email"]);
           const email = validResult.email;
+          setIsSendingCode(true);
+          span.innerText = "发送中...";
           const result = await http.post<ResponseData>("/vcode/ecode", {
             email,
             type: 1,
           });
           if (result.status === 200) {
             let time = 120;
-            setIsSendingCode(true);
-            const sendCodeBtn = sendCodeBtnRef.current;
-            const span = sendCodeBtn && sendCodeBtn.querySelector("span");
+
             span.innerText = String(time);
             timerRef.current = setInterval(() => {
               if (time <= 0) {
@@ -69,6 +72,8 @@ const SignUp: FC = () => {
             message.destroy();
             message.error(msg);
           }
+          setIsSendingCode(false);
+          span.innerText = "发送验证码";
           return;
         }
       }),
@@ -78,6 +83,7 @@ const SignUp: FC = () => {
   const signUp = useMemo(
     () =>
       debounce(async (values) => {
+        setIsSubmitting(true);
         try {
           const result = await http.post<ResponseData>("/users", values);
           if (result.status === 201 && result.data.code === 2001) {
@@ -91,6 +97,8 @@ const SignUp: FC = () => {
             message.error(msg);
           }
           return;
+        } finally {
+          setIsSubmitting(false);
         }
       }),
     [router]
@@ -233,7 +241,7 @@ const SignUp: FC = () => {
               htmlType="submit"
               className={styles["sign-up-button"]}
             >
-              注册
+              {isSubmitting ? "注册中..." : "注册"}
             </Button>
           </Form>
           <p className={styles["login-tip"]}>

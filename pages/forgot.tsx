@@ -12,6 +12,7 @@ import { debounce } from "../utils/debounce/debounce";
 const Forgot: FC = () => {
   const router = useRouter();
   const [isSendingCode, setIsSendingCode] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const sendCodeBtnRef = useRef<HTMLButtonElement>(null);
   const timerRef = useRef(null);
   const [form] = Form.useForm<UpdatePassword>();
@@ -20,18 +21,20 @@ const Forgot: FC = () => {
     () =>
       debounce(async () => {
         if (isSendingCode) return;
+        const sendCodeBtn = sendCodeBtnRef.current;
+        const span = sendCodeBtn && sendCodeBtn.querySelector("span");
         try {
           const validResult = await form.validateFields(["email"]);
           const email = validResult.email;
+          setIsSendingCode(true);
+          span.innerText = "发送中...";
           const result = await http.post<ResponseData>("/vcode/ecode", {
             email,
             type: 3,
           });
           if (result.status === 200) {
             let time = 120;
-            setIsSendingCode(true);
-            const sendCodeBtn = sendCodeBtnRef.current;
-            const span = sendCodeBtn && sendCodeBtn.querySelector("span");
+
             span.innerText = String(time);
             timerRef.current = setInterval(() => {
               if (time <= 0) {
@@ -50,6 +53,8 @@ const Forgot: FC = () => {
             message.destroy();
             message.error(msg);
           }
+          setIsSendingCode(false);
+          span.innerText = "发送验证码";
           return;
         }
       }, 500),
@@ -59,19 +64,22 @@ const Forgot: FC = () => {
   const onFinish = useMemo(
     () =>
       debounce(async (form) => {
+        setIsSubmitting(true);
         try {
           const result = await http.put("users/password", form);
           if (result.status === 200 && result.data.code === 2000) {
             message.destroy();
             message.success("修改成功！");
+            setIsSubmitting(false);
             router.push("/login");
           }
         } catch (error) {
           const msg = error?.response?.data?.message;
-          if (msg) {
+          if (message && msg) {
             message.destroy();
             message.error(msg);
           }
+          setIsSubmitting(false);
         }
       }),
     [router]
@@ -181,9 +189,10 @@ const Forgot: FC = () => {
               type="primary"
               size="large"
               htmlType="submit"
+              disabled={isSubmitting}
               className={styles["submit-button"]}
             >
-              修改
+              {isSubmitting ? "修改中..." : "修改"}
             </Button>
           </Form>
         </div>

@@ -23,6 +23,9 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
   const fetchPosts = useCallback(
     (queryFields: PostListQueryFields) => {
       (async () => {
+        if (isFetching) {
+          return;
+        }
         const { page = 1, limit = 5 } = queryFields;
         if (page < 1 || limit < 1 || posts.list.length >= posts.page.count) {
           return;

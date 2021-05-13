@@ -1,4 +1,4 @@
-import React, { FC, useMemo } from "react";
+import React, { FC, useMemo, useState } from "react";
 import { Form, Input, Button, message } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { validIdAndEmail, validPassword } from "../utils/valid/valid_rules";
@@ -12,11 +12,13 @@ import { SEO } from "../components/SEO/SEO";
 
 const Login: FC = () => {
   const router = useRouter();
+  const [isLogin, setIsLogin] = useState(false);
 
   const login = useMemo(
     () =>
       debounce(async (values) => {
         try {
+          setIsLogin(true);
           const result = await http.post("/session", values);
           if (result.status === 201 && result.data.code === 2001) {
             const token = result.data.data.token;
@@ -30,6 +32,8 @@ const Login: FC = () => {
             message.destroy();
             message.error(msg);
           }
+        } finally {
+          setIsLogin(false);
         }
       }),
     []
@@ -85,9 +89,10 @@ const Login: FC = () => {
               type="primary"
               size="large"
               htmlType="submit"
+              disabled={isLogin}
               className={styles["login-button"]}
             >
-              登录
+              {isLogin ? "登录中..." : "登录"}
             </Button>
           </Form>
           <p className={styles["sign-up-tip"]}>
