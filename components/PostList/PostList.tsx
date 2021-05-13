@@ -34,7 +34,7 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
         try {
           setIsFetching(true);
           const result = await http.get<ResponseData<PostListType>>(`/posts`, {
-            params: { ...queryFields, page, limit },
+            params: { page, limit, ...queryFields },
           });
           if (result.status === 200 && result.data.code === 2000) {
             const postList = result.data.data;
@@ -88,9 +88,9 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
               className={styles.more}
               onClick={() => {
                 fetchPosts({
-                  ...queryFields,
                   page: posts.page.currentPage + 1,
                   limit: posts.page.size,
+                  ...queryFields,
                 });
               }}
             >
