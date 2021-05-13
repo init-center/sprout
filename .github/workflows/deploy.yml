@@ -28,6 +28,7 @@ jobs:
           key: ${{ secrets.ALIYUN_SECRET_KEY }}
           script: |
             cd /opt/sprout && echo "${{ secrets.ENV_LOCAL }}" > .env.local 
+            docker system prune -af
             docker-compose down
             docker-compose build --no-cache
             docker-compose up -d
