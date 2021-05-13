@@ -19,7 +19,7 @@ const Home: NextPage<HomeProps> = ({ postList, statusCode }) => {
   return (
     <>
       <SEO />
-      <PostList postList={postList} />
+      <PostList postList={postList} queryFields={{ firstPageGetTop: 1 }} />
     </>
   );
 };

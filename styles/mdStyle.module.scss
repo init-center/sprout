@@ -63,7 +63,8 @@
 
   h1 {
     font-size: 30px;
-    padding-bottom: 0.4rem;
+    padding-bottom: 0.4em;
+    margin-top: -$fixed-height + 40px;
 
     @media screen and (max-width: 780px) {
       font-size: 24px;
@@ -74,7 +75,7 @@
     font-size: 24px;
     line-height: 1.225;
     padding-bottom: 0.5em;
-    margin-top: -15px;
+    margin-top: -$fixed-height + 35px;
     margin-bottom: 15px;
 
     @media screen and (max-width: 780px) {
@@ -85,7 +86,7 @@
   h3 {
     font-size: 22px;
     line-height: 1.43;
-    margin-top: -30px;
+    margin-top: -$fixed-height + 20px;
     margin-bottom: 7px;
 
     @media screen and (max-width: 780px) {
@@ -95,6 +96,7 @@
 
   h4 {
     font-size: 20px;
+    margin-top: -$fixed-height + 15px;
 
     @media screen and (max-width: 780px) {
       font-size: 18px;
@@ -103,11 +105,13 @@
 
   h5 {
     font-size: 16px;
+    margin-top: -$fixed-height + 10px;
   }
 
   h6 {
     font-size: 15px;
     color: var(--font-color-second);
+    margin-top: -$fixed-height + 5px;
   }
 
   p {
