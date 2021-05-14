@@ -372,13 +372,15 @@ const Post: NextPage<PostProps> = ({
             })}
           </ul>
           <Donate />
-          <CommentList
-            commentsData={parentComments}
-            commentCount={post.commentCount}
-            pid={post.pid}
-            postUid={post.uid}
-            willReplyCid={willReplyCid}
-          />
+          {post.commentOpen === 1 && (
+            <CommentList
+              commentsData={parentComments}
+              commentCount={post.commentCount}
+              pid={post.pid}
+              postUid={post.uid}
+              willReplyCid={willReplyCid}
+            />
+          )}
 
           <div
             className={combineClassNames(
