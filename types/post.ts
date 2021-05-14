@@ -25,7 +25,7 @@ export interface FavoritePost extends PostItem {
 export interface PostDetail extends PostItem {
   bgm: string;
   content: string;
-  commentOpen: number;
+  isCommentOpen: number;
   updateTime: string;
 }
 

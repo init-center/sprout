@@ -372,7 +372,7 @@ const Post: NextPage<PostProps> = ({
             })}
           </ul>
           <Donate />
-          {post.commentOpen === 1 && (
+          {post.isCommentOpen === 1 && (
             <CommentList
               commentsData={parentComments}
               commentCount={post.commentCount}
@@ -435,7 +435,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
     commentCount: 0,
     bgm: "",
     content: "",
-    commentOpen: 0,
+    isCommentOpen: 0,
     updateTime: "",
     favorites: 0,
   };
