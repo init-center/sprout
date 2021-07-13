@@ -1,6 +1,6 @@
 import { renderToString } from "katex";
 import mdStyles from "../../../../styles/mdStyle.module.scss";
-const inlineKatexRegex = /\$(.*?)\$.*\n/gi;
+const inlineKatexRegex = /\$(.*?)\$.*?\n/gi;
 const blockKatexRegex = /\$\$(\s*.*\s*?)\$\$/gi;
 
 const katexExtension = (content: string): string => {
