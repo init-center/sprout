@@ -3,7 +3,7 @@ import emojiExtension from "./extensions/emojiExtension/emojiExtension";
 import { addLazyLoadAttrToMdImg } from "../lazyLoad/lazyLoad";
 import { getLanguage, highlight, highlightAuto } from "highlight.js";
 import striptags from "striptags";
-import katexExtension from "./extensions/katexExtension/katexExtension";
+//import katexExtension from "./extensions/katexExtension/katexExtension";
 import mdStyles from "../../styles/mdStyle.module.scss";
 
 type TitleLevel = 1 | 2 | 3 | 4 | 5 | 6;
@@ -190,13 +190,13 @@ export default function md2html(
   return {
     htmlContent: lazyLoad
       ? addLazyLoadAttrToMdImg(
-          katexExtension(
-            emojiExtension(marked(mdString, { renderer: renderer }))
-          )
-        )
-      : katexExtension(
+          //katexExtension(
           emojiExtension(marked(mdString, { renderer: renderer }))
-        ),
+          //)
+        )
+      : //katexExtension(
+        emojiExtension(marked(mdString, { renderer: renderer })),
+    //),
     titles: titleArr,
     titleIds: Array.from(new Set(titleIds)),
     titleChildrenIdMap: getTitle ? genTitleChildrenIdMap(titleArr) : {},
