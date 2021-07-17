@@ -18,7 +18,6 @@ import "../styles/globals.scss";
 import "../styles/cssVariables.scss";
 import "../styles/reset-antd.scss";
 import "highlight.js/styles/monokai-sublime.css";
-import "katex/dist/katex.min.css";
 import { ConfigList, Configs } from "../types/config";
 import http, { ResponseData } from "../utils/http/http";
 import { ADMIN_NAME_KEY } from "../constants/configKey";

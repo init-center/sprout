@@ -19,7 +19,6 @@ import md2html, {
 } from "../../utils/md2html/md2html";
 import combineClassNames from "../../utils/combineClassNames";
 import styles from "./post.module.scss";
-import mdStyles from "../../styles/mdStyle.module.scss";
 import { GetServerSideProps, NextPage } from "next";
 import { default as ErrorPage } from "../_error";
 import http, { Response, ResponseData } from "../../utils/http/http";
@@ -34,14 +33,10 @@ import { SEO } from "../../components/SEO/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMenuShowAction } from "../../store/global/actionCreator";
 import { StateType } from "../../store";
-import { genLicenceHTMLString } from "../../utils/genLicenceHTMLString/genLicenceHTMLString";
 import { AUTHOR_URL_KEY, WEBSITE_URL_KEY } from "../../constants/configKey";
 import { ConfigItem } from "../../types/config";
-import {
-  DEFAULT_AUTHOR_URL,
-  DEFAULT_WEBSITE_URL,
-} from "../../constants/defaultConfig";
 import { Donate } from "../../components/Donate/Donate";
+import PostContent from "../../components/PostContent/PostContent";
 
 interface PostProps {
   post: PostDetail;
@@ -60,10 +55,8 @@ const Post: NextPage<PostProps> = ({
   const dispatch = useDispatch();
   const [titles, setTitles] = useState<Title[]>([]);
   const [allTitlesId, setAllTitlesId] = useState<string[]>([]);
-  const [
-    titleChildrenIdMap,
-    setTitleChildrenIdMap,
-  ] = useState<TitleChildrenIdMap>({});
+  const [titleChildrenIdMap, setTitleChildrenIdMap] =
+    useState<TitleChildrenIdMap>({});
   const [isTitleMenuShow, setIsTitleMenuShow] = useState(false);
   const titleRef = useRef<HTMLHeadingElement>(null);
   const [isSubTitleShow, setIsSubTitleShow] = useState(false);
@@ -186,7 +179,12 @@ const Post: NextPage<PostProps> = ({
 
     return () => {
       if (player) {
-        player.ontimeupdate = player.onplay = player.onpause = player.onended = player.onerror = null;
+        player.ontimeupdate =
+          player.onplay =
+          player.onpause =
+          player.onended =
+          player.onerror =
+            null;
       }
     };
   }, []);
@@ -336,22 +334,7 @@ const Post: NextPage<PostProps> = ({
                 {post.categoryName}
               </span>
             </div>
-            <div
-              className={combineClassNames(styles.content, mdStyles["md-box"])}
-              dangerouslySetInnerHTML={{
-                __html:
-                  md2html(post.content, true).htmlContent +
-                  genLicenceHTMLString({
-                    title: post.title,
-                    author: post.userName,
-                    authorUrl: authorUrl?.value ?? DEFAULT_AUTHOR_URL,
-                    postLink: `${
-                      websiteUrl?.value ?? DEFAULT_WEBSITE_URL
-                    }/posts/${post.pid}`,
-                    createTime: post.createTime,
-                  }),
-              }}
-            ></div>
+            <PostContent post={post} />
             <audio ref={playerRef} loop preload="auto">
               <source type="audio/mpeg" src={post.bgm}></source>
             </audio>

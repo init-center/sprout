@@ -148,23 +148,6 @@
           }
         }
       }
-
-      .content {
-        min-height: 220px;
-        font-size: 14px;
-        line-height: 2;
-        color: var(--font-color);
-        overflow-x: hidden;
-
-        &::before {
-          content: '';
-          height: 1px;
-          width: 100px;
-          background: var(--border-color);
-          display: block;
-          margin: 10px auto;
-        }
-      }
     }
 
     .tag-list {
