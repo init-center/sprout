@@ -3,13 +3,15 @@
 
 .md-box {
   font-family: "Ubuntu", "Source Sans Pro", sans-serif !important;
-  font-size: 14px;
+  font-size: 16px;
   color: var(--font-color);
   -webkit-font-smoothing: antialiased;
   line-height: 1.6rem;
   letter-spacing: 0;
   padding: 8px;
+  text-align: justify;
   max-width: 100%;
+  content-visibility: auto;
 
   p,
   blockquote,
@@ -107,20 +109,20 @@
   }
 
   h5 {
-    font-size: 16px;
+    font-size: 18px;
     margin-top: 10px - $post-top-bar-height;
     margin-bottom: 5px;
   }
 
   h6 {
-    font-size: 15px;
+    font-size: 16px;
     color: var(--font-color-second);
     margin-top: 5px - $post-top-bar-height;
     margin-bottom: 4px;
   }
 
   p {
-    font-size: 14px;
+    font-size: 16px;
     line-height: 2;
     font-weight: 400;
     color: var(--font-color);
@@ -179,7 +181,7 @@
     margin: 6px 0;
   }
 
-  input[type=checkbox] {
+  input[type="checkbox"] {
     position: relative;
     margin-right: 5px;
     font-size: 12px;
@@ -187,7 +189,7 @@
     height: 13px;
   }
 
-  input[type=checkbox]::after {
+  input[type="checkbox"]::after {
     position: absolute;
     display: flex;
     justify-content: center;
@@ -203,7 +205,7 @@
     border-radius: 3px;
   }
 
-  input[type=checkbox]:checked::after {
+  input[type="checkbox"]:checked::after {
     content: "✓";
     background-color: var(--theme-color);
     font-size: 12px;
@@ -296,9 +298,33 @@
     }
   }
 
+  @media screen and (min-width: 500px) {
+    :global(.md-table-wrapper),
+    pre {
+      &::-webkit-scrollbar {
+        background-color: #eee;
+        width: 8px;
+        height: 8px;
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background-color: #c1c1c1;
+
+        &:hover {
+          background-color: #a8a8a8;
+        }
+
+        &:active {
+          background-color: #787878;
+        }
+      }
+    }
+  }
+
   table {
     padding: 0;
     word-break: initial;
+    text-align: center;
 
     tr {
       border-top: var(--default-border);
@@ -309,14 +335,14 @@
         font-weight: bold;
         border: var(--default-border);
         border-bottom: 0;
-        text-align: left;
+        text-align: center;
         margin: 0;
         padding: 6px 13px;
       }
 
       td {
         border: var(--default-border);
-        text-align: left;
+        text-align: center;
         margin: 0;
         padding: 6px 13px;
       }

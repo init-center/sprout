@@ -140,10 +140,24 @@ export default function md2html(
     }
   };
 
+  renderer.table = function (header, body) {
+    if (body) body = "<tbody>" + body + "</tbody>";
+
+    return (
+      "<div class='md-table-wrapper' style='width:100%; max-width: 100%; overflow-x: auto;'><table>\n" +
+      "<thead>\n" +
+      header +
+      "</thead>\n" +
+      body +
+      "</table></div>\n"
+    );
+  };
+
   const supportFootnote = (mdString: string) => {
     const footnoteRefReg = /\[\^ *?([^\[^\]^\n^\s]{1}[^\[^\]^\n]*?)\]/gi;
 
-    const footnoteReg = /^\[\^ *?([^\[^\]^\n^\s]{1}[^\[^\]^\n]*?)\]: *?(.+)$/gim;
+    const footnoteReg =
+      /^\[\^ *?([^\[^\]^\n^\s]{1}[^\[^\]^\n]*?)\]: *?(.+)$/gim;
 
     interface Footnote {
       index: number;
