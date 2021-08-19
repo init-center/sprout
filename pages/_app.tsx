@@ -10,6 +10,7 @@ import store from "../store";
 import {
   setConfigsAction,
   setIsLoadingAction,
+  setIsMenuShowAction,
   setShouldFetchConfigsAction,
 } from "../store/global/actionCreator";
 
@@ -23,7 +24,6 @@ import http, { ResponseData } from "../utils/http/http";
 import { ADMIN_NAME_KEY } from "../constants/configKey";
 import { DEFAULT_ADMIN_NAME } from "../constants/defaultConfig";
 import { disableReactDevTools } from "../utils/disableDevTools/disableDevTools";
-
 interface MyAppProps extends AppProps {
   // use the __NEXT_DATA carried by next.js to bring the configs data to the client
   configs: Configs;
@@ -38,6 +38,7 @@ function MyApp({ Component, pageProps, configs }: MyAppProps): JSX.Element {
   useEffect(() => {
     const handleRouteChange = () => {
       store.dispatch(setIsLoadingAction(true));
+      store.dispatch(setIsMenuShowAction(false));
     };
 
     const handleRouteChangeError = () => {
@@ -46,11 +47,14 @@ function MyApp({ Component, pageProps, configs }: MyAppProps): JSX.Element {
 
     const handleRouteChangeComplete = () => {
       store.dispatch(setIsLoadingAction(false));
-      window.scrollTo({
-        left: 0,
-        top: 0,
-        behavior: "auto",
-      });
+
+      // now next.js always scroll to top when route change by default
+      // so no need to scroll manually
+      // window.scrollTo({
+      //   left: 0,
+      //   top: 0,
+      //   behavior: "auto",
+      // });
     };
 
     router.events.on("routeChangeStart", handleRouteChange);

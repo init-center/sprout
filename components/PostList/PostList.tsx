@@ -2,7 +2,6 @@ import React, { FC, useCallback, useState, memo } from "react";
 import Banner from "../Banner/Banner";
 import Footer from "../Footer/Footer";
 import PostCard from "../PostCard/PostCard";
-import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import styles from "./PostList.module.scss";
 import { PostListQueryFields, PostListType } from "../../types/post";
 import http, { ResponseData } from "../../utils/http/http";
@@ -60,8 +59,6 @@ const PostList: FC<PostListProps> = memo(({ postList, queryFields = {} }) => {
     },
     [isFetching, posts.list, posts.page.count]
   );
-
-  useImgLazyLoad();
 
   return (
     <div

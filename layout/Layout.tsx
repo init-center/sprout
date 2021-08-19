@@ -15,6 +15,7 @@ import { CursorSpecialEffects } from "../utils/clickEffect/clickEffect";
 import ThemeBar from "../components/ThemeModal/ThemeModal";
 import { THEME_KEY } from "../constants";
 import { Theme } from "../types/theme";
+import { useImgLazyLoad } from "../utils/lazyLoad/lazyLoad";
 
 const Layout: FC = ({ children }) => {
   const dispatch = useDispatch();
@@ -32,6 +33,8 @@ const Layout: FC = ({ children }) => {
   const isThemeModalShow = useSelector<StateType, boolean>(
     (state) => state.isThemeModalShow
   );
+
+  useImgLazyLoad();
 
   useEffect(() => {
     console.log(

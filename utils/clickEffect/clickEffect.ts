@@ -187,11 +187,17 @@ export class CursorSpecialEffects {
     const style = this.renderCanvas.style;
     style.position = "fixed";
     style.top = style.left = "0";
-    style.zIndex = "999999999999999999999999999999999999999999";
+    style.zIndex = "99";
     style.pointerEvents = "none";
 
-    const width = (this.renderCanvas.width = this.computerCanvas.width = this.globalWidth);
-    const height = (this.renderCanvas.height = this.computerCanvas.height = this.globalHeight);
+    const width =
+      (this.renderCanvas.width =
+      this.computerCanvas.width =
+        this.globalWidth);
+    const height =
+      (this.renderCanvas.height =
+      this.computerCanvas.height =
+        this.globalHeight);
     style.width = String(width);
     style.height = String(height);
 

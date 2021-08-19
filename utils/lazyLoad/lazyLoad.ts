@@ -65,9 +65,13 @@ export function useImgLazyLoad(
     (triggerWrapperElements: (Element | Document | null)[] = []) => {
       for (let i = 0; i < triggerWrapperElements.length; i++) {
         const triggerElement = triggerWrapperElements[i];
-        triggerElement?.addEventListener("scroll", lazyLoad, false);
-        triggerElement?.addEventListener("resize", lazyLoad, false);
-        triggerElement?.addEventListener("orientationChange", lazyLoad, false);
+        triggerElement?.removeEventListener("scroll", lazyLoad, false);
+        triggerElement?.removeEventListener("resize", lazyLoad, false);
+        triggerElement?.removeEventListener(
+          "orientationChange",
+          lazyLoad,
+          false
+        );
       }
     },
     [lazyLoad]

@@ -1,8 +1,7 @@
-import { useRouter } from "next/router";
+import Link from "next/link";
 import React, { memo, useCallback, useEffect, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { StateType } from "../../store";
-import { setIsMenuShowAction } from "../../store/global/actionCreator";
 import combineClassNames from "../../utils/combineClassNames";
 import Footer from "../Footer/Footer";
 import NavBar from "../NavBar/NavBar";
@@ -14,20 +13,10 @@ import http, { ResponseData } from "../../utils/http/http";
 import { TOKEN_KEY } from "../../constants";
 
 const GlobalMenu = memo(() => {
-  const router = useRouter();
-  const dispatch = useDispatch();
   const isMenuShow = useSelector<StateType, boolean>(
     (state) => state.isMenuShow
   );
   const [userInfo, setUserInfo] = useState<UserPrivateInfo>(null);
-
-  const navTo = useCallback(
-    (path: string) => {
-      router.push(path);
-      dispatch(setIsMenuShowAction(false));
-    },
-    [dispatch, router]
-  );
 
   const getUserInfo = useCallback(async () => {
     try {
@@ -54,23 +43,13 @@ const GlobalMenu = memo(() => {
     return (
       <Menu className={styles["dropdown-menu"]}>
         {userInfo ? (
-          <Menu.Item
-            className={styles["dropdown-item"]}
-            onClick={() => {
-              navTo("/users");
-            }}
-          >
-            个人中心
-          </Menu.Item>
+          <Link href="/users">
+            <Menu.Item className={styles["dropdown-item"]}>个人中心</Menu.Item>
+          </Link>
         ) : (
-          <Menu.Item
-            className={styles["dropdown-item"]}
-            onClick={() => {
-              navTo("/login");
-            }}
-          >
-            登录
-          </Menu.Item>
+          <Link href="/login">
+            <Menu.Item className={styles["dropdown-item"]}>登录</Menu.Item>
+          </Link>
         )}
         {userInfo ? (
           <Menu.Item className={styles["dropdown-item"]} onClick={logout}>
@@ -79,7 +58,7 @@ const GlobalMenu = memo(() => {
         ) : null}
       </Menu>
     );
-  }, [logout, navTo, userInfo]);
+  }, [logout, userInfo]);
 
   return (
     <div
@@ -99,15 +78,11 @@ const GlobalMenu = memo(() => {
           </div>
         </Dropdown>
         {GLOBAL_MENU_NAV_LIST.map((nav) => (
-          <li
-            className={styles["nav-item"]}
-            key={nav.name}
-            onClick={() => {
-              navTo(nav.path);
-            }}
-          >
-            {nav.name}
-          </li>
+          <Link href={nav.path}>
+            <li className={styles["nav-item"]} key={nav.name}>
+              {nav.name}
+            </li>
+          </Link>
         ))}
       </ul>
 

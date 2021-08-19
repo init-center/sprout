@@ -25,7 +25,6 @@ import http, { Response, ResponseData } from "../../utils/http/http";
 import { percent } from "../../utils/percent";
 import throttle from "../../utils/throttle/throttle";
 import dayjs from "../../utils/dayjs/dayjs";
-import { useImgLazyLoad } from "../../utils/lazyLoad/lazyLoad";
 import Footer from "../../components/Footer/Footer";
 import { PostDetail } from "../../types/post";
 import { ParentComments } from "../../types/comment";
@@ -33,8 +32,6 @@ import { SEO } from "../../components/SEO/SEO";
 import { useDispatch, useSelector } from "react-redux";
 import { setIsMenuShowAction } from "../../store/global/actionCreator";
 import { StateType } from "../../store";
-import { AUTHOR_URL_KEY, WEBSITE_URL_KEY } from "../../constants/configKey";
-import { ConfigItem } from "../../types/config";
 import { Donate } from "../../components/Donate/Donate";
 import PostContent from "../../components/PostContent/PostContent";
 
@@ -69,14 +66,6 @@ const Post: NextPage<PostProps> = ({
   const isMenuShow = useSelector<StateType, boolean>(
     (state) => state.isMenuShow
   );
-  const authorUrl = useSelector<StateType, ConfigItem>(
-    (state) => state.configs[AUTHOR_URL_KEY]
-  );
-  const websiteUrl = useSelector<StateType, ConfigItem>(
-    (state) => state.configs[WEBSITE_URL_KEY]
-  );
-
-  useImgLazyLoad();
 
   const handleViewProgress = useCallback(() => {
     const scrollTop =
@@ -144,15 +133,14 @@ const Post: NextPage<PostProps> = ({
     setAllTitlesId(result.titleIds);
     setActiveTitleId(result.titleIds[0]);
     setTitleChildrenIdMap(result.titleChildrenIdMap);
-  }, [
-    authorUrl?.value,
-    post.content,
-    post.createTime,
-    post.pid,
-    post.title,
-    post.userName,
-    websiteUrl?.value,
-  ]);
+  }, [post.content]);
+
+  useEffect(() => {
+    // Prefetch some pages
+    router.prefetch("/");
+    router.prefetch("/login");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     const player = playerRef.current;
@@ -258,7 +246,10 @@ const Post: NextPage<PostProps> = ({
             <div
               className={styles.icon}
               onClick={() => {
-                router.push("/");
+                router.push("/", undefined, {
+                  // disable scroll to top
+                  scroll: false,
+                });
               }}
             >
               <HomeOutlined />
@@ -443,7 +434,7 @@ export const getServerSideProps: GetServerSideProps<PostProps> = async (
     statusCode = error?.response?.status ?? 404;
   }
 
-  if (statusCode === 200) {
+  if (statusCode === 200 && post.isCommentOpen) {
     try {
       const result = await http.get<ResponseData<ParentComments>>(
         `/comments/posts/${pid}`,

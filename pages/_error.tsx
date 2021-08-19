@@ -12,7 +12,7 @@ const statusCodes: { [code: number]: string } = {
 };
 
 export type ErrorProps = {
-  statusCode: number;
+  statusCode?: number;
   title?: string;
 };
 
@@ -47,7 +47,7 @@ export default class Error<P = {}> extends React.Component<P & ErrorProps> {
       <div style={styles.error}>
         <Head>
           <title>
-            {statusCode}: {title}
+            {statusCode ?? 400}: {title}
           </title>
         </Head>
         <div>
